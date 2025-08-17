@@ -107,7 +107,7 @@ function create_bullet(x, y, spr)
     bul.w = 1
     bul.h = 1
     bul.spr = spr
-    bul.muz_x = x + 1
+    bul.muz_x = x + 2
     bul.muz_y = y
     bul.muz_flash = 4
     bul.dmg = 1

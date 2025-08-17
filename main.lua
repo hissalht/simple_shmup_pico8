@@ -5,8 +5,7 @@ function _init()
     -- see https://nerdyteachers.com/PICO-8/Guide/?HIDDEN_PALETTE
     -- and https://www.lexaloffle.com/bbs/?tid=35462
     poke(0x5f2e, 1)
-    -- pal({[0]=0,7,10,133,134,138,139,135,8,140,12,1,9,14,136},1)
-    pal({ [0] = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 141 }, 1)
+    pal({ [0] = 0, 133, 134, 135, 7, 14, 8, 136, 9, 10, 138, 139, 140, 12, 1 }, 1)
 
     create_stars()
     mode = "start"

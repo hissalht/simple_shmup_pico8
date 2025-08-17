@@ -2,8 +2,8 @@ function draw_start()
     cls(0)
     starfield()
 
-    print("bark bark", 50, 40, 10)
-    print("press action button to start", 15, 60, 5)
+    print("bark bark", 50, 40, 3)
+    print("press action button to start", 15, 60, 10)
 end
 
 function draw_over()
@@ -15,12 +15,12 @@ end
 
 function draw_wave_text()
     draw_game()
-    print("wave "..wave, 54, 40, blink())
+    print("wave " .. wave, 54, 40, blink())
 end
 
 function draw_win()
     cls(2)
-    print("victiore ", 54, 40, 15 )
+    print("victiore ", 54, 40, 15)
 end
 
 function draw_game()
@@ -31,23 +31,23 @@ function draw_game()
 
     if invul <= 0 then
         draw_obj(ship)
-        spr(flr(ship.flame), ship.x + ship.spx + 2, ship.y + ship.spy + 10)
+        spr(flr(ship.flame), ship.x + ship.spx + 3, ship.y + ship.spy + 10)
     else
         if sin(t / 10) < -0.2 then
             draw_obj(ship)
-            spr(flr(ship.flame), ship.x + ship.spx + 2, ship.y + ship.spy + 10)
+            spr(flr(ship.flame), ship.x + ship.spx + 3, ship.y + ship.spy + 10)
         end
     end
 
     for en in all(enemies) do
         if en.flash > 0 then
             en.flash -= 1
-            pal(2,8)
-            pal(3,1)
-            pal(5,14)
+            pal(7, 6)
+            pal(11, 12)
+            pal(10, 13)
         end
         draw_obj(en)
-        pal()
+        pal(0)
     end
 
     draw_array(bullets)
@@ -59,7 +59,7 @@ function draw_game()
     for bul in all(bullets) do
         draw_obj(bul)
         if bul.muz_flash > 0 then
-            circfill(bul.muz_x, bul.muz_y, bul.muz_flash, 13)
+            circfill(bul.muz_x, bul.muz_y, bul.muz_flash, 8)
         end
         bul.muz_flash -= 1
     end
@@ -69,7 +69,7 @@ function draw_game()
         circfill(p.x, p.y, p.size, p.color)
     end
     for s in all(shocks) do
-        circ(s.x, s.y, s.size, 7)
+        circ(s.x, s.y, s.size, 4)
         s.size += s.rate
         s.age += 1
         if s.age >= s.maxage then
@@ -89,7 +89,7 @@ function draw_game()
     end
 
     for sp in all(sparks) do
-        pset(sp.x, sp.y, 7)
+        pset(sp.x, sp.y, 4)
         sp.x += sp.sx
         sp.y += sp.sy
         sp.age += 1
@@ -147,9 +147,9 @@ function create_stars()
             color = 1
         end
         if star.speed > 0.3 and star.speed < 1 then
-            color = 6
+            color = 2
         elseif star.speed >= 1 then
-            color = 7
+            color = 4
         end
         star.color = color
         add(stars, star)
@@ -167,90 +167,89 @@ function draw_hitb()
 end
 
 function animate_stars()
-	for star in all(stars) do
-		star.y = (star.y + star.speed) % 127
-	end
+    for star in all(stars) do
+        star.y = (star.y + star.speed) % 127
+    end
 end
 
 function update_asteroids()
-	for asteroid in all(asteroids) do
-		asteroid.y = asteroid.y + asteroid.speed
-		if asteroid.y > 127 then
-			asteroid.y = rnd(40) - 40
-			asteroid.speed = rnd(0.5)
-			asteroid.x = rnd(127)
-		end
-	end
+    for asteroid in all(asteroids) do
+        asteroid.y = asteroid.y + asteroid.speed
+        if asteroid.y > 127 then
+            asteroid.y = rnd(40) - 40
+            asteroid.speed = rnd(0.5)
+            asteroid.x = rnd(127)
+        end
+    end
 end
 
-
 function update_expl()
-	for p in all(particles) do
-		p.x += p.sx
-		p.y += p.sy
-		p.age += 1
+    for p in all(particles) do
+        p.x += p.sx
+        p.y += p.sy
+        p.age += 1
 
-		local newsize = p.size - p.rate
-		if p.fission>=3 and p.size >= p.fission and newsize <= p.fission then
-			for i=1,8 do
-				local pc = create_p(p.x, p.y)
-				pc.size = rnd(p.size)
-				pc.rate = 0.1 + rnd(0.4)
-				pc.fission = pc.size / 1.5
-				pc.color = 5
-				add(particles, pc)
-			end
-		end
+        local newsize = p.size - p.rate
+        if p.fission >= 3 and p.size >= p.fission and newsize <= p.fission then
+            for i = 1, 8 do
+                local pc = create_p(p.x, p.y)
+                pc.size = rnd(p.size)
+                pc.rate = 0.1 + rnd(0.4)
+                pc.fission = pc.size / 1.5
+                pc.color = 1
+                add(particles, pc)
+            end
+        end
 
-		p.size = newsize
-		if p.age > p.maxage or p.size < 1 then
-			del(particles,p)
-		end
-	end
+        p.size = newsize
+        if p.age > p.maxage or p.size < 1 then
+            del(particles, p)
+        end
+    end
 end
 
 function create_p(x, y)
-	local p={}
-	p.x = x + rnd(10) - 5
-	p.y = y + rnd(10) - 5
-	p.sx = rnd(1) - 0.5
-	p.sy = rnd(1) - 0.5
-	p.size = 5 + rnd(10)
-	p.rate = 0.3+ rnd(0.5)
-	p.age = 0
-	p.maxage = 10 + rnd(30)
-	p.fission = p.size / 2
-	rndc = rnd(2)
-	if rndc < 1 then
-		p.color = 10
-	else
-		p.color = 9
-	end
+    local p = {}
+    p.x = x + rnd(10) - 5
+    p.y = y + rnd(10) - 5
+    p.sx = rnd(1) - 0.5
+    p.sy = rnd(1) - 0.5
+    p.size = 5 + rnd(10)
+    p.rate = 0.3 + rnd(0.5)
+    p.age = 0
+    p.maxage = 10 + rnd(30)
+    p.fission = p.size / 2
+    rndc = rnd(2)
+    if rndc < 1 then
+        p.color = 9
+    else
+        p.color = 8
+    end
 
-	return p
+    return p
 end
 
-function explode(x,y)
-	for i=1,4 do
-			add(particles,create_p(x,y))
-	end
-	for i=1,20 do
-		local p = {}
-		p.x = x
-		p.y = y
-		p.sx = rnd(4) - 2
-		p.sy = rnd(4) - 2
-		p.age = 0
-		p.maxage = 5 + rnd(20)
-		add(sparks,p)
-	end
+function explode(x, y)
+    for i = 1, 4 do
+        add(particles, create_p(x, y))
+    end
+    for i = 1, 20 do
+        local p = {}
+        p.x = x
+        p.y = y
+        p.sx = rnd(4) - 2
+        p.sy = rnd(4) - 2
+        p.age = 0
+        p.maxage = 5 + rnd(20)
+        add(sparks, p)
+    end
 
-	local s={}
-	s.x = x
-	s.y = y
-	s.size = 0
-	s.age = 0
-	s.maxage = 10 + rnd(20)
-	s.rate = 0.5 + rnd(0.5)
-	add(shocks, s)
+    local s = {}
+    s.x = x
+    s.y = y
+    s.size = 0
+    s.age = 0
+    s.maxage = 10 + rnd(20)
+    s.rate = 0.5 + rnd(0.5)
+    add(shocks, s)
 end
