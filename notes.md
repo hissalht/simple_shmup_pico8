@@ -4,15 +4,18 @@
     - remaining space on top of the bar for the rest of infos
         - score
         - wave counter
+    - [ ] implement ui prototype (functionnal)
+    - [ ] implement ui skin
 - [ ] integrate new enemies types
 - [ ] quick fix collision between ship and border of screen
 - [ ] laser shot
-- [ ] introduce weapon damage
-- [ ] introduce weapon type
+- [x] introduce weapon damage
 - [x] win screen
     - button lockout to avoid skipping it
 - change hit impact
 - [ ] program particles for engine
+- [ ] hit impact stop animating on wave screen
+- [ ] recheck hitbox matching
 
 
 - [x] fix lag shot button
@@ -120,4 +123,5 @@ characters are `3x5` pixels
 - implement game flow
     - wave management
     - win screen
-- [ ] send pico8 to lizenn
+- [x] send pico8 to lizenn
+- implement new palette

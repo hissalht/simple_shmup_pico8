@@ -38,7 +38,7 @@ function col(a,b)
 end
 
 function blink()
-    local banim={5,5,5,5,5,5,5,5,5,5,5,6,6,7,7,6,6,5}
+    local banim={3,3,3,3,3,3,3,3,3,3,3,2,2,1,1,2,2,3}
     if blinkt>#banim then
         blinkt=1
     end
