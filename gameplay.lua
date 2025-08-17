@@ -1,5 +1,6 @@
 function update_game()
     t += 1
+    blinkt += 1
 
     ship.xspeed = 0
     ship.yspeed = 0
@@ -23,7 +24,10 @@ function update_game()
 
     update_collisions_edges()
     update_collision_ship()
-    update_collision_bullets()
+
+    if mode == "game" then
+        update_collision_bullets()
+    end
 
     update_expl()
 
@@ -36,6 +40,32 @@ end
 
 function update_wave_text()
     update_game()
+    wave_time -= 1
+    if wave_time <= 0 then
+        mode = "game"
+        spawn_wave()
+    end
+end
+
+function update_win()
+    if btn(4) == false and btn(5) == false then
+        btn_release = true
+    end
+    if btn_release then
+        if btnp(4) or btnp(5) then
+            mode = "start"
+        end
+    end
+end
+
+function next_wave()
+    wave += 1
+    wave_time = 30
+    mode = "wave_text"
+
+    if wave == 4 then
+        mode = "win"
+    end
 end
 
 function update_controls()
@@ -58,7 +88,7 @@ function update_controls()
     end
     if btn(5) then
         if delay_next_shot == 0 then
-            add(bullets, create_bullet(ship.x + ship.spx+ 1, ship.y + ship.spy - 3, 0))
+            add(bullets, create_bullet(ship.x + ship.spx + 1, ship.y + ship.spy - 3, 0))
             add(bullets, create_bullet(ship.x + ship.spx + 6, ship.y + ship.spy - 3, 1))
             sfx(0)
             delay_next_shot = fire_rate
@@ -77,9 +107,10 @@ function create_bullet(x, y, spr)
     bul.w = 1
     bul.h = 1
     bul.spr = spr
-    bul.muz_x = x+1
+    bul.muz_x = x + 1
     bul.muz_y = y
     bul.muz_flash = 4
+    bul.dmg = 1
     return bul
 end
 
@@ -131,21 +162,23 @@ function update_collision_ship()
 end
 
 function update_collision_bullets()
-    for bullet in all(bullets) do
+    for bul in all(bullets) do
         for en in all(enemies) do
-            if col(bullet, en) then
-                en.hp -= 1
+            if col(bul, en) then
+                en.hp -= bul.dmg
+
+                en.flash = 5
                 local imp = {}
-                imp.x = bullet.x
-                imp.y = bullet.y
+                imp.x = bul.x
+                imp.y = bul.y
                 imp.x1 = imp.x + 5
                 imp.y1 = imp.y + 2
                 imp.age = 0
                 add(impacts, imp)
 
                 local p = {}
-                p.x = bullet.x
-                p.y = bullet.y
+                p.x = bul.x
+                p.y = bul.y
                 p.sx = rnd(3) - 1.5
                 p.sy = rnd(3) - 3
                 p.age = 0
@@ -160,14 +193,37 @@ function update_collision_bullets()
                     sfx(2)
                     sfx(3)
                 end
-                del(bullets, bullet)
+                del(bullets, bul)
             end
         end
     end
+
+    if #enemies == 0 then
+        next_wave()
+    end
+
     for imp in all(impacts) do
         imp.age += 1
         if imp.age > 10 then
             del(impacts, imp)
         end
+    end
+end
+
+function spawn_wave()
+    for i = 1, 8 do
+        local en = {}
+        en.x = i * 10 + 5
+        en.y = 20
+        en.spx = 0
+        en.spy = 0
+        en.spr = 35 + flr(rnd(2))
+        en.w = 1
+        en.h = 1
+        en.hp = 10
+        en.xb = 8
+        en.yb = 8
+        en.flash = 0
+        add(enemies, en)
     end
 end
