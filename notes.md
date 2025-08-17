@@ -12,6 +12,7 @@
 - [x] win screen
     - button lockout to avoid skipping it
 - change hit impact
+- [ ] program particles for engine
 
 
 - [x] fix lag shot button
@@ -119,3 +120,4 @@ characters are `3x5` pixels
 - implement game flow
     - wave management
     - win screen
+- [ ] send pico8 to lizenn

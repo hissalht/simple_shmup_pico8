@@ -42,12 +42,15 @@ function draw_game()
     for en in all(enemies) do
         if en.flash > 0 then
             en.flash -= 1
-            pal(2,8)
-            pal(3,1)
-            pal(5,14)
+            -- pal(7,6)
+            -- pal(11,12)
+            -- pal(10,13)
         end
         draw_obj(en)
-        pal()
+        -- pal()
+        -- pal({[0]=0,133,134,135,7,14,8,136,9,10,138,139,140,12},0)
+
+
     end
 
     draw_array(bullets)
