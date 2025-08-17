@@ -42,13 +42,14 @@ function draw_game()
     for en in all(enemies) do
         if en.flash > 0 then
             en.flash -= 1
-            -- pal(7,6)
-            -- pal(11,12)
-            -- pal(10,13)
+            pal(7,6)
+            pal(11,12)
+            pal(10,13)
         end
         draw_obj(en)
+        pal(0)
         -- pal()
-        -- pal({[0]=0,133,134,135,7,14,8,136,9,10,138,139,140,12},0)
+        -- pal({[0]=0,133,134,135,7,14,8,136,9,10,138,139,140,12},1)
 
 
     end
