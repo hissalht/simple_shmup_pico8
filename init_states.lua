@@ -4,18 +4,16 @@ function update_over()
     end
 end
 
-
-
 function update_start()
+    animate_stars()
     if btnp(4) or btnp(5) then
         start_game()
     end
 end
 
 function start_game()
-    mode = "wave_text"
-
-    wave = 1
+    wave = 0
+    next_wave()
 
     ship = {}
     ship.x = 64
@@ -40,31 +38,13 @@ function start_game()
     invul = 0
 
     t = 0
+    blinkt = 0
 
-    stars = {}
-    for i = 0, 80 do
-        local star = {}
-        local color
-
-        star.x = flr(rnd(128))
-        star.y = flr(rnd(128))
-        star.speed = rnd(2)
-
-        if star.speed <= 0.3 then
-            color = 1
-        end
-        if star.speed > 0.3 and star.speed < 1 then
-            color = 6
-        elseif star.speed >= 1 then
-            color = 7
-        end
-        star.color = color
-        add(stars, star)
-    end
+    create_stars()
 
     asteroids = {}
     for i = 1, 3 do
-        local asteroid = { x = rnd(127), y = -30, spx = 0, spy = 0, w = 1, h = 1, speed = rnd(0.5)+0.05, spr = 48 }
+        local asteroid = { x = rnd(127), y = -30, spx = 0, spy = 0, w = 1, h = 1, speed = rnd(0.5) + 0.05, spr = 48 }
         add(asteroids, asteroid)
     end
 
@@ -73,20 +53,6 @@ function start_game()
     delay_next_shot = 0
 
     enemies = {}
-    for i = 1, 9 do
-        local en = {}
-        en.x = i * 10 + 5
-        en.y = 20
-        en.spx = 0
-        en.spy = 0
-        en.spr = 35 + flr(rnd(2))
-        en.w = 1
-        en.h = 1
-        en.hp = 10
-        en.xb = 8
-        en.yb = 8
-        add(enemies, en)
-    end
 
     particles = {}
     shocks = {}

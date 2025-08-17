@@ -1,17 +1,27 @@
 # todo
-- [x] fix lag shot button
-- [x] broken asteroid
-- [x] implement better explosions
-- [x] improve basic bullet cause it sux rn
-- [x] fix invul drawing
-- [x] give health to ennemies
-    - [x] add some hit effect
-    - [ ] add blink when ennemy get hit
 - [ ] vertical UI
     - [x] ui feedback : I feel health is not legible
     - remaining space on top of the bar for the rest of infos
         - score
         - wave counter
+- [ ] integrate new enemies types
+- [ ] quick fix collision between ship and border of screen
+- [ ] laser shot
+- [ ] introduce weapon damage
+- [ ] introduce weapon type
+- [x] win screen
+    - button lockout to avoid skipping it
+- change hit impact
+
+
+- [x] fix lag shot button
+- [x] broken asteroid
+- [x] implement better explosions
+- [x] improve basic bullet cause it sux rn
+- [x] fix invul drawing
+- [x] give health to enemies
+    - [x] add some hit effect
+    - [x] add blink when enemy get hit
 - [x] polish hit effect
     - [x] add sparks (ep 16 on shockwaves) / hit + destruction
 - [x] make the explosion bigger
@@ -20,15 +30,15 @@
 - [x] postion hit boxes properly
     - [x] size adjust
     - [x] update collision code
-- [ ] integrate new ennemies types
-- [ ] quick fix collision between ship and border of screen
 - [x] improve main shot
     - it's too small
 - [x] decide on a color palette with lizenn
 - [x] get lizenn to design a player shot
 - [x] teach lizenn git
-- [ ] introduce weapon damage
-- [ ] introduce weapon type
+
+## polish
+- [ ] 2 frames turn animation for the ship
+- [ ] animate flame for backward and forward motions (longer and shorter)
 
 # implementation information
 ## conventions
@@ -45,13 +55,12 @@ characters are `3x5` pixels
 
 # ideas
 - vertical hud
-- animate flame for backward and forward motions (longer and shorter)
 
 ## explosions
 - varied particles in size colors
 - big center explosion ball that pops and shrinks ?
-- particles spawning smaller particles ?
-- particles type based on their speed ?
+- [x] particles spawning smaller particles
+- particles type based on their speed
 - shockwave effect (circle)
 ### DOJ
 - 2 phases
@@ -61,18 +70,18 @@ characters are `3x5` pixels
 
 ## hit effect
 - small oval shape where the bullet hits and disappears
-    - this is read as a shielding effect and actually could mean big ennemies in doj shield the smaller side shots which could make sense
+    - this is read as a shielding effect and actually could mean big enemies in doj shield the smaller side shots which could make sense
 - color can be as bold as the shot itself
-- ennemies blink in a colored state, quite bold color again(blue in DOJ)
-    - big ennemies have fire sprites spawning on them
+- enemies blink in a colored state, quite bold color again(blue in DOJ)
+    - big enemies have fire sprites spawning on them
 - x shape ?
-- [x] I need to know the impact bullet ennemy position to place properly my hit effect wrt to the bullet
+- [x] I need to know the impact bullet enemy position to place properly my hit effect wrt to the bullet
 
 ## I just want a big laser shot mannnn
 - hit effect for laser shot ==> becomes huge/concentrated(bright, even white) at the impact point
 
 
-## since the bar is the same color as the ennemy could we design a system where you go and collect sth on them ?
+## since the bar is the same color as the enemy could we design a system where you go and collect sth on them ?
 
 ## moonshot (next game/out of scope)
 ### memorable character integration
@@ -90,9 +99,9 @@ characters are `3x5` pixels
 ## 03/08/2025
 - finish explosions + shockwave
 ## 04/08/2025
-- give health to ennemies
+- give health to enemies
 - wip hit effect
-- have lizenn draw ennemies (3 to 4, varied sizes)
+- have lizenn draw enemies (3 to 4, varied sizes)
 - improve sfx
 ## 05/08/2025
 - fix hitbox
@@ -104,5 +113,9 @@ characters are `3x5` pixels
 - take ui and palette decisions w/ Lizenn
 - rework bullet system and improve it
 - shmup tutorial ep17
-    - implement game flow
 - in ep14 palette trick to make flash hit impact
+## 18/08/2025
+- implement hit impact
+- implement game flow
+    - wave management
+    - win screen

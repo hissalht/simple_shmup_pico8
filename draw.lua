@@ -1,8 +1,9 @@
 function draw_start()
     cls(0)
+    starfield()
 
-    print("shmup 1", 20, 40, 2)
-    print("press any button to start", 15, 60, 5)
+    print("bark bark", 50, 40, 10)
+    print("press action button to start", 15, 60, 5)
 end
 
 function draw_over()
@@ -14,7 +15,12 @@ end
 
 function draw_wave_text()
     draw_game()
-    print("wave "..wave, 44, 40, 7)
+    print("wave "..wave, 54, 40, blink())
+end
+
+function draw_win()
+    cls(2)
+    print("victiore ", 54, 40, 15 )
 end
 
 function draw_game()
@@ -33,7 +39,16 @@ function draw_game()
         end
     end
 
-    draw_array(enemies)
+    for en in all(enemies) do
+        if en.flash > 0 then
+            en.flash -= 1
+            pal(2,8)
+            pal(3,1)
+            pal(5,14)
+        end
+        draw_obj(en)
+        pal()
+    end
 
     draw_array(bullets)
 
@@ -115,6 +130,29 @@ function starfield()
         else
             line(star.x, star.y, star.x, star.y - 2, star.color)
         end
+    end
+end
+
+function create_stars()
+    stars = {}
+    for i = 0, 80 do
+        local star = {}
+        local color
+
+        star.x = flr(rnd(128))
+        star.y = flr(rnd(128))
+        star.speed = rnd(2)
+
+        if star.speed <= 0.3 then
+            color = 1
+        end
+        if star.speed > 0.3 and star.speed < 1 then
+            color = 6
+        elseif star.speed >= 1 then
+            color = 7
+        end
+        star.color = color
+        add(stars, star)
     end
 end
 

@@ -36,3 +36,11 @@ function col(a,b)
 
     return true
 end
+
+function blink()
+    local banim={5,5,5,5,5,5,5,5,5,5,5,6,6,7,7,6,6,5}
+    if blinkt>#banim then
+        blinkt=1
+    end
+    return banim[blinkt]
+end
