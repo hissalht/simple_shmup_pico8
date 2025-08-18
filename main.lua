@@ -1,4 +1,4 @@
-draw_hitbox = false
+show_hb_flag = true
 
 function _init()
     -- code to change palette

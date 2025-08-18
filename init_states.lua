@@ -21,13 +21,15 @@ function start_game()
     ship.xspeed = 0
     ship.yspeed = 0
     ship.spr = 64
-    ship.spx = -4
+    ship.spx = -6
     ship.spy = -5
     ship.w = 2
     ship.h = 2
     ship.flame = 6
     ship.xb = 2
     ship.yb = 2
+
+    laser = { on = false, x = 0, y = 0, xb = 0, yb = 0, dmg = 0.5 }
 
     speed_bul = 5
 

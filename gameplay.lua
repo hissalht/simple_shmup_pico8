@@ -9,6 +9,8 @@ function update_game()
     if delay_next_shot > 0 then
         delay_next_shot -= 1
     end
+
+    laser.on = false
     update_controls()
 
     update_ship_position()
@@ -21,6 +23,7 @@ function update_game()
     update_enemies()
 
     update_bullets()
+    update_collision_laser()
 
     update_collisions_edges()
     update_collision_ship()
@@ -83,8 +86,12 @@ function update_controls()
     if btn(3) then
         ship.yspeed = 2
     end
-    if btnp(4) then
-        mode = "over"
+    if btn(4) then
+        laser.on = true
+        laser.x = ship.x - 3
+        laser.y = ship.y - 40
+        laser.xb = 6
+        laser.yb = 35
     end
     if btn(5) then
         if delay_next_shot == 0 then
@@ -157,6 +164,26 @@ function update_collision_ship()
             lives -= 1
             invul = 60
             del(enemies, enemy)
+        end
+    end
+end
+
+function update_collision_laser()
+    if laser.on then
+        for en in all(enemies) do
+            if col(laser, en) then
+                en.hp -= laser.dmg
+                en.flash = 2
+
+                if en.hp <= 0 then
+                    del(enemies, en)
+                    explode(en.x, en.y)
+                    score += 1
+                    sfx(1)
+                    sfx(2)
+                    sfx(3)
+                end
+            end
         end
     end
 end

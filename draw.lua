@@ -31,11 +31,11 @@ function draw_game()
 
     if invul <= 0 then
         draw_obj(ship)
-        spr(flr(ship.flame), ship.x + ship.spx + 3, ship.y + ship.spy + 10)
+        spr(flr(ship.flame), ship.x + ship.spx + 4, ship.y + ship.spy + 10)
     else
         if sin(t / 10) < -0.2 then
             draw_obj(ship)
-            spr(flr(ship.flame), ship.x + ship.spx + 3, ship.y + ship.spy + 10)
+            spr(flr(ship.flame), ship.x + ship.spx + 4, ship.y + ship.spy + 10)
         end
     end
 
@@ -52,10 +52,6 @@ function draw_game()
 
     draw_array(bullets)
 
-    if draw_hitbox then
-        draw_hitb()
-    end
-
     for bul in all(bullets) do
         draw_obj(bul)
         if bul.muz_flash > 0 then
@@ -63,6 +59,8 @@ function draw_game()
         end
         bul.muz_flash -= 1
     end
+
+    draw_laser()
 
     -- draw particles
     for p in all(particles) do
@@ -115,6 +113,9 @@ function draw_game()
             spr(26, 101 + i * 9, 1)
         end
     end
+
+    draw_all_hitbox()
+
 end
 
 function draw_asteroids()
@@ -156,13 +157,20 @@ function create_stars()
     end
 end
 
-function draw_hitb()
-    draw_hb(ship)
-    for en in all(enemies) do
-        draw_hb(en)
-    end
-    for b in all(bullets) do
-        draw_hb(b)
+function draw_all_hitbox()
+    if show_hb_flag then
+        draw_hb(ship)
+
+        if laser.on then
+            draw_hb(laser)
+        end
+
+        for en in all(enemies) do
+            draw_hb(en)
+        end
+        for b in all(bullets) do
+            draw_hb(b)
+        end
     end
 end
 
@@ -252,4 +260,16 @@ function explode(x, y)
     s.maxage = 10 + rnd(20)
     s.rate = 0.5 + rnd(0.5)
     add(shocks, s)
+end
+
+function draw_laser()
+    if laser.on then
+        line(laser.x, laser.y, laser.x, laser.y + laser.yb, 7)
+        line(laser.x + 1, laser.y, laser.x + 1, laser.y + laser.yb, 8)
+        line(laser.x + 2, laser.y, laser.x + 2, laser.y + laser.yb, 9)
+        line(laser.x + 3, laser.y, laser.x + 3, laser.y + laser.yb, 4)
+        line(laser.x + 4, laser.y, laser.x + 4, laser.y + laser.yb, 9)
+        line(laser.x + 5, laser.y, laser.x + 5, laser.y + laser.yb, 8)
+        line(laser.x + 6, laser.y, laser.x + 6, laser.y + laser.yb, 7)
+    end
 end

@@ -8,14 +8,21 @@
     - [ ] implement ui skin
 - [ ] integrate new enemies types
 - [ ] quick fix collision between ship and border of screen
-- [ ] laser shot
+- [x] laser shot v1
+- [ ] laser improvements
+    - [ ] build up in size
+    - [ ] stop on enemies
+    - [ ] concentrated laser at origin
+        - [ ] and end
+    - [ ] particle effect to give movement to the chunk of the laser
 - [x] introduce weapon damage
 - [x] win screen
     - button lockout to avoid skipping it
 - change hit impact
-- [ ] program particles for engine
-- [ ] hit impact stop animating on wave screen
-- [ ] recheck hitbox matching
+- [ ] program particles for ship engine
+- [ ] fix : hit impact stop animating on wave screen
+- [x] recheck hitbox matching
+- [x] update ship sprite
 
 
 - [x] fix lag shot button
@@ -118,10 +125,13 @@ characters are `3x5` pixels
 - rework bullet system and improve it
 - shmup tutorial ep17
 - in ep14 palette trick to make flash hit impact
-## 18/08/2025
+## 17/08/2025
 - implement hit impact
 - implement game flow
     - wave management
     - win screen
 - [x] send pico8 to lizenn
 - implement new palette
+## 18/08/2025
+- v1 laser
+- fix hitboxes
