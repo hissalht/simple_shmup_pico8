@@ -115,7 +115,6 @@ function draw_game()
     end
 
     draw_all_hitbox()
-
 end
 
 function draw_asteroids()
@@ -264,14 +263,21 @@ end
 
 function draw_laser()
     if laser.on then
-        line(laser.x, laser.y, laser.x, laser.y + laser.yb, 14)
-        line(laser.x + 1, laser.y, laser.x + 1, laser.y + laser.yb, 12)
-        line(laser.x + 2, laser.y, laser.x + 2, laser.y + laser.yb, 13)
-        line(laser.x + 3, laser.y, laser.x + 3, laser.y + laser.yb, 4)
-        line(laser.x + 4, laser.y, laser.x + 4, laser.y + laser.yb, 13)
-        line(laser.x + 5, laser.y, laser.x + 5, laser.y + laser.yb, 12)
-        line(laser.x + 6, laser.y, laser.x + 6, laser.y + laser.yb, 14)
-        spr(11,laser.x-2,laser.y+laser.yb-5,2,1)
-        spr(27,laser.x-2,laser.y-1, 2,1)
+        laser_spr_ind = mod(laser_spr_ind + 0.5, 4, 1)
+        local floored = flr(laser_spr_ind)
+        spr(laser_spr_num[floored], laser.x - 3, laser.y, 2, 1)
+        spr(laser_spr_num[mod(floored + 1, 4, 1)], laser.x - 3, laser.y + 8, 2, 1)
+        spr(laser_spr_num[mod(floored + 2, 4, 1)], laser.x - 3, laser.y + 16, 2, 1)
+        spr(laser_spr_num[mod(floored + 3, 4, 1)], laser.x - 3, laser.y + 24, 2, 1)
+
+        -- line(laser.x, laser.y, laser.x, laser.y + laser.yb, 14)
+        -- line(laser.x + 1, laser.y, laser.x + 1, laser.y + laser.yb, 12)
+        -- line(laser.x + 2, laser.y, laser.x + 2, laser.y + laser.yb, 13)
+        -- line(laser.x + 3, laser.y, laser.x + 3, laser.y + laser.yb, 4)
+        -- line(laser.x + 4, laser.y, laser.x + 4, laser.y + laser.yb, 13)
+        -- line(laser.x + 5, laser.y, laser.x + 5, laser.y + laser.yb, 12)
+        -- line(laser.x + 6, laser.y, laser.x + 6, laser.y + laser.yb, 14)
+        -- spr(11,laser.x-2,laser.y+laser.yb-5,2,1)
+        -- spr(27,laser.x-2,laser.y-1, 2,1)
     end
 end

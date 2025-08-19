@@ -30,6 +30,9 @@ function start_game()
     ship.yb = 2
 
     laser = { on = false, x = 0, y = ship.y, xb = 0, yb = 0, dmg = 0.5, height = 0, off_timer = 0, collide = false }
+    laser_spr_ind = 0
+    laser_spr_num = { 128, 144, 160, 176 }
+
 
     speed_bul = 5
 
