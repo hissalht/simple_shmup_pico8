@@ -29,7 +29,7 @@ function start_game()
     ship.xb = 2
     ship.yb = 2
 
-    laser = { on = false, x = 0, y = 0, xb = 0, yb = 0, dmg = 0.5 }
+    laser = { on = false, x = 0, y = ship.y, xb = 0, yb = 0, dmg = 0.5, height = 0, off_timer = 0, collide = false }
 
     speed_bul = 5
 

@@ -10,11 +10,12 @@
 - [ ] quick fix collision between ship and border of screen
 - [x] laser shot v1
 - [ ] laser improvements
-    - [ ] build up in size
-    - [ ] stop on enemies
-    - [ ] concentrated laser at origin
-        - [ ] and end
+    - [x] build up in size
+    - [x] stop on enemies
+    - [x] concentrated laser at origin
+        - [x] and end
     - [ ] particle effect to give movement to the chunk of the laser
+    - [ ] particles at begining and end
 - [x] introduce weapon damage
 - [x] win screen
     - button lockout to avoid skipping it
@@ -23,6 +24,8 @@
 - [ ] fix : hit impact stop animating on wave screen
 - [x] recheck hitbox matching
 - [x] update ship sprite
+- [ ] improve muzzle flash
+    - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
 
 
 - [x] fix lag shot button
@@ -135,3 +138,5 @@ characters are `3x5` pixels
 ## 18/08/2025
 - v1 laser
 - fix hitboxes
+## 19/08/2025
+- laser update

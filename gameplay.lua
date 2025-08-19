@@ -1,6 +1,7 @@
 function update_game()
     t += 1
     blinkt += 1
+    laser.off_timer -= 1
 
     ship.xspeed = 0
     ship.yspeed = 0
@@ -10,7 +11,10 @@ function update_game()
         delay_next_shot -= 1
     end
 
-    laser.on = false
+    if laser.off_timer <= 0 then
+        laser.height = 0
+        laser.on = false
+    end
     update_controls()
 
     update_ship_position()
@@ -88,10 +92,15 @@ function update_controls()
     end
     if btn(4) then
         laser.on = true
-        laser.x = ship.x - 3
-        laser.y = ship.y - 40
+        laser.x = ship.x - 2
         laser.xb = 6
-        laser.yb = 35
+        if laser.collide == false then
+            laser.height += 7
+        end
+        laser.yb = laser.height
+        laser.y = ship.y - 8 - laser.height
+        laser.off_timer = 2
+        sfx(4)
     end
     if btn(5) then
         if delay_next_shot == 0 then
@@ -169,11 +178,15 @@ function update_collision_ship()
 end
 
 function update_collision_laser()
+    laser.collide = false
     if laser.on then
         for en in all(enemies) do
             if col(laser, en) then
                 en.hp -= laser.dmg
                 en.flash = 2
+
+                laser.collide = true
+                laser.height = ship.y - 8 - (en.y + en.yb)
 
                 if en.hp <= 0 then
                     del(enemies, en)
