@@ -13,6 +13,7 @@ end
 
 function start_game()
     wave = 0
+    max_num_wave = 4
     next_wave()
 
     ship = {}

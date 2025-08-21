@@ -97,7 +97,9 @@ function draw_game()
     end
 
     -- UI
-    print("score=" .. score, 30, 1, 12)
+    print(score, 5 , 5, 3)
+
+    print(wave.."/"..max_num_wave-1,5,15,11)
 
     for i = 0, 2 do
         if lives > 2 - i then

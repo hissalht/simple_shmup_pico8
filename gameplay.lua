@@ -70,7 +70,7 @@ function next_wave()
     wave_time = 30
     mode = "wave_text"
 
-    if wave == 4 then
+    if wave == max_num_wave then
         mode = "win"
     end
 end
