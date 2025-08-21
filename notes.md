@@ -26,6 +26,7 @@
 - [x] update ship sprite
 - [ ] improve muzzle flash
     - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
+- [ ] manage ship states with a state machine
 
 
 - [x] fix lag shot button
@@ -140,3 +141,5 @@ characters are `3x5` pixels
 - fix hitboxes
 ## 19/08/2025
 - laser update
+## 21/08/2025
+- laser height animation adjustment

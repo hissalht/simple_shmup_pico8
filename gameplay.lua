@@ -95,9 +95,9 @@ function update_controls()
         laser.x = ship.x - 2
         laser.xb = 6
         if laser.collide == false then
-            -- laser.height += 7
+            laser.height += 7
         end
-        laser.height = 32
+        -- laser.height = 64
         laser.yb = laser.height
         laser.y = ship.y - 8 - laser.height
         laser.off_timer = 2

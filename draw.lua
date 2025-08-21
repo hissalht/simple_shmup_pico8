@@ -263,12 +263,26 @@ end
 
 function draw_laser()
     if laser.on then
+        max_num_sprite = flr(laser.height / 8) - 1
+        incomplete_sprite = laser.height % 8
+
         laser_spr_ind = mod(laser_spr_ind + 0.5, 4, 1)
         local floored = flr(laser_spr_ind)
-        spr(laser_spr_num[floored], laser.x - 3, laser.y, 2, 1)
-        spr(laser_spr_num[mod(floored + 1, 4, 1)], laser.x - 3, laser.y + 8, 2, 1)
-        spr(laser_spr_num[mod(floored + 2, 4, 1)], laser.x - 3, laser.y + 16, 2, 1)
-        spr(laser_spr_num[mod(floored + 3, 4, 1)], laser.x - 3, laser.y + 24, 2, 1)
+
+        print(max_num_sprite, 20, 80)
+
+        for i = 0, max_num_sprite do
+            spr(laser_spr_num[mod(floored + i, 4, 1)], laser.x - 3, laser.y + 8 * i, 2, 1)
+        end
+        sprite_crop_index = max_num_sprite + 1
+        print(sprite_crop_index,40,80)
+        clip(laser.x - 3, laser.y + 8 * sprite_crop_index, 30, incomplete_sprite)
+        spr(laser_spr_num[mod(floored + sprite_crop_index, 4, 1)], laser.x - 3, laser.y + 8 * sprite_crop_index, 2, 1)
+        clip()
+        -- spr(laser_spr_num[floored], laser.x - 3, laser.y, 2, 1)
+        -- spr(laser_spr_num[mod(floored + 1, 4, 1)], laser.x - 3, laser.y + 8, 2, 1)
+        -- spr(laser_spr_num[mod(floored + 2, 4, 1)], laser.x - 3, laser.y + 16, 2, 1)
+        -- spr(laser_spr_num[mod(floored + 3, 4, 1)], laser.x - 3, laser.y + 24, 2, 1)
 
         -- line(laser.x, laser.y, laser.x, laser.y + laser.yb, 14)
         -- line(laser.x + 1, laser.y, laser.x + 1, laser.y + laser.yb, 12)
