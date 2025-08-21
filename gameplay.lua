@@ -91,17 +91,19 @@ function update_controls()
         ship.yspeed = 2
     end
     if btn(4) then
-        laser.on = true
-        laser.x = ship.x - 2
-        laser.xb = 6
-        if laser.collide == false then
-            laser.height += 7
+        if laser.meter >= 0 then
+            laser.on = true
+            laser.meter -= 1
+            laser.x = ship.x - 2
+            laser.xb = 6
+            if laser.collide == false then
+                laser.height += 7
+            end
+            laser.yb = laser.height
+            laser.y = ship.y - 8 - laser.height
+            laser.off_timer = 2
+            sfx(4)
         end
-        -- laser.height = 64
-        laser.yb = laser.height
-        laser.y = ship.y - 8 - laser.height
-        laser.off_timer = 2
-        sfx(4)
     end
     if btn(5) then
         if delay_next_shot == 0 then
@@ -196,6 +198,8 @@ function update_collision_laser()
                     sfx(1)
                     sfx(2)
                     sfx(3)
+                    laser.meter += 10
+                    laser.meter = min(laser.meter,100)
                 end
             end
         end
@@ -229,6 +233,8 @@ function update_collision_bullets()
                 if en.hp <= 0 then
                     del(enemies, en)
                     explode(en.x, en.y)
+                    laser.meter += 10
+                    laser.meter = min(laser.meter,100)
                     score += 1
                     sfx(1)
                     sfx(2)

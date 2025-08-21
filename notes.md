@@ -14,7 +14,8 @@
     - [x] stop on enemies
     - [x] concentrated laser at origin
         - [x] and end
-    - [ ] particle effect to give movement to the chunk of the laser
+    - [x] particle effect to give movement to the chunk of the laser
+        - did an animated moving sprite column
     - [ ] particles at begining and end
 - [x] introduce weapon damage
 - [x] win screen
@@ -27,6 +28,10 @@
 - [ ] improve muzzle flash
     - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
 - [ ] manage ship states with a state machine
+- [ ] laser meter system
+- [ ] lock main shot when laser
+- [ ] reduce ship speed when laser
+    - may be incompatible with a meter/resource gated laser
 
 
 - [x] fix lag shot button
@@ -143,3 +148,5 @@ characters are `3x5` pixels
 - laser update
 ## 21/08/2025
 - laser height animation adjustment
+- proto laser meter
+- proto ui

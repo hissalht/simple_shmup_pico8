@@ -100,19 +100,20 @@ function draw_game()
     print("score=" .. score, 30, 1, 12)
 
     for i = 0, 2 do
-        if lives > i then
-            spr(10, i * 9 + 1, 1)
+        if lives > 2 - i then
+            pal(1,10)
+            spr(9, 5, i * 6 + 105)
+            pal(0)
         else
-            spr(9, i * 9 + 1, 1)
+            spr(9, 5, i * 6 + 105)
         end
     end
-    for i = 0, 2 do
-        if bombs > i then
-            spr(25, 101 + i * 9, 1)
-        else
-            spr(26, 101 + i * 9, 1)
-        end
+
+    if bombs==1 then
+        spr(25,12, 110)
     end
+
+    draw_laser_meter()
 
     draw_all_hitbox()
 end
@@ -263,35 +264,22 @@ end
 
 function draw_laser()
     if laser.on then
-        max_num_sprite = flr(laser.height / 8) - 1
+        max_num_sprite = flr(laser.height / 8)
         incomplete_sprite = laser.height % 8
 
         laser_spr_ind = mod(laser_spr_ind + 0.5, 4, 1)
         local floored = flr(laser_spr_ind)
-
-        print(max_num_sprite, 20, 80)
-
-        for i = 0, max_num_sprite do
+        for i = 0, max_num_sprite - 1 do
             spr(laser_spr_num[mod(floored + i, 4, 1)], laser.x - 3, laser.y + 8 * i, 2, 1)
         end
-        sprite_crop_index = max_num_sprite + 1
-        print(sprite_crop_index,40,80)
-        clip(laser.x - 3, laser.y + 8 * sprite_crop_index, 30, incomplete_sprite)
-        spr(laser_spr_num[mod(floored + sprite_crop_index, 4, 1)], laser.x - 3, laser.y + 8 * sprite_crop_index, 2, 1)
+        clip(laser.x - 3, laser.y + 8 * max_num_sprite, 30, incomplete_sprite)
+        spr(laser_spr_num[mod(floored + max_num_sprite, 4, 1)], laser.x - 3, laser.y + 8 * max_num_sprite, 2, 1)
         clip()
-        -- spr(laser_spr_num[floored], laser.x - 3, laser.y, 2, 1)
-        -- spr(laser_spr_num[mod(floored + 1, 4, 1)], laser.x - 3, laser.y + 8, 2, 1)
-        -- spr(laser_spr_num[mod(floored + 2, 4, 1)], laser.x - 3, laser.y + 16, 2, 1)
-        -- spr(laser_spr_num[mod(floored + 3, 4, 1)], laser.x - 3, laser.y + 24, 2, 1)
-
-        -- line(laser.x, laser.y, laser.x, laser.y + laser.yb, 14)
-        -- line(laser.x + 1, laser.y, laser.x + 1, laser.y + laser.yb, 12)
-        -- line(laser.x + 2, laser.y, laser.x + 2, laser.y + laser.yb, 13)
-        -- line(laser.x + 3, laser.y, laser.x + 3, laser.y + laser.yb, 4)
-        -- line(laser.x + 4, laser.y, laser.x + 4, laser.y + laser.yb, 13)
-        -- line(laser.x + 5, laser.y, laser.x + 5, laser.y + laser.yb, 12)
-        -- line(laser.x + 6, laser.y, laser.x + 6, laser.y + laser.yb, 14)
-        -- spr(11,laser.x-2,laser.y+laser.yb-5,2,1)
-        -- spr(27,laser.x-2,laser.y-1, 2,1)
     end
+end
+
+function draw_laser_meter()
+    print(laser.meter, 12, 95, 13)
+    local norm_meter = laser.meter / 100
+    rectfill(5, 100 - norm_meter * 60, 10, 100, 13)
 end
