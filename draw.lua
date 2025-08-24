@@ -29,6 +29,8 @@ function draw_game()
     draw_asteroids()
     starfield()
 
+    draw_ui()
+
     if invul <= 0 then
         draw_obj(ship)
         spr(flr(ship.flame), ship.x + ship.spx + 4, ship.y + ship.spy + 10)
@@ -76,14 +78,7 @@ function draw_game()
     end
 
     for imp in all(impacts) do
-        if imp.age < 3 then
-            oval(imp.x, imp.y, imp.x1, imp.y1, 9)
-        elseif imp.age < 4 then
-            oval(imp.x, imp.y, imp.x1, imp.y1, 9)
-            oval(imp.x - 1, imp.y - 1, imp.x1 + 1, imp.y1 - 1, 10)
-        else
-            oval(imp.x - 1, imp.y - 1, imp.x1 + 1, imp.y1 - 1, 10)
-        end
+        circ(imp.x, imp.y, imp.rad - 1, 3)
     end
 
     for sp in all(sparks) do
@@ -96,14 +91,19 @@ function draw_game()
         end
     end
 
-    -- UI
-    print(score, 5 , 5, 3)
+    draw_all_hitbox()
 
-    print(wave.."/"..max_num_wave-1,5,15,11)
+    -- print(,100,100)
+end
+
+function draw_ui()
+    print(score, 5, 5, 3)
+
+    print(wave .. "/" .. max_num_wave - 1, 5, 15, 11)
 
     for i = 0, 2 do
         if lives > 2 - i then
-            pal(1,10)
+            pal(1, 10)
             spr(9, 5, i * 6 + 105)
             pal(0)
         else
@@ -111,13 +111,13 @@ function draw_game()
         end
     end
 
-    if bombs==1 then
-        spr(25,12, 110)
+    if bombs == 1 then
+        spr(25, 12, 110)
     end
 
     draw_laser_meter()
 
-    draw_all_hitbox()
+    print(t,5,26,4)
 end
 
 function draw_asteroids()

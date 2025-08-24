@@ -4,11 +4,14 @@
     - remaining space on top of the bar for the rest of infos
         - score
         - wave counter
-    - [ ] implement ui prototype (functionnal)
+    - [x] implement ui prototype (functionnal)
     - [ ] implement ui skin
+- [ ] conceive enemy management system
+    - first draft done
+    - [ ] ease the spawn of a formation of enemy maybe ?
 - [ ] integrate new enemies types
-- [ ] quick fix collision between ship and border of screen
-- [x] laser shot v1
+- [ ] make enemy sprite shake when they get hit
+
 - [ ] laser improvements
     - [x] build up in size
     - [x] stop on enemies
@@ -17,23 +20,26 @@
     - [x] particle effect to give movement to the chunk of the laser
         - did an animated moving sprite column
     - [ ] particles at begining and end
-- [x] introduce weapon damage
-- [x] win screen
-    - button lockout to avoid skipping it
-- change hit impact
+
+- [x] change hit impact
 - [ ] program particles for ship engine
 - [ ] fix : hit impact stop animating on wave screen
-- [x] recheck hitbox matching
-- [x] update ship sprite
 - [ ] improve muzzle flash
     - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
 - [ ] manage ship states with a state machine
-- [ ] laser meter system
-- [ ] lock main shot when laser
-- [ ] reduce ship speed when laser
+    - [ ] lock main shot when laser
+    - [ ] normalize diagonal ship speed
+- [ ] reduce ship speed when laser ??
     - may be incompatible with a meter/resource gated laser
 
-
+- [x] recheck hitbox matching
+- [x] update ship sprite
+- [x] laser meter system
+- [x] introduce weapon damage
+- [x] win screen
+    - button lockout to avoid skipping it
+- [x] quick fix collision between ship and border of screen
+- [x] laser shot v1
 - [x] fix lag shot button
 - [x] broken asteroid
 - [x] implement better explosions
@@ -59,6 +65,8 @@
 ## polish
 - [ ] 2 frames turn animation for the ship
 - [ ] animate flame for backward and forward motions (longer and shorter)
+- [ ] flame tweak ?
+    - https://saint11.art/img/pixel-tutorials/RocketTrail.gif
 
 # implementation information
 ## conventions
@@ -108,6 +116,12 @@ characters are `3x5` pixels
 - get a cool pilot view on screen that is animated and cool
 - characters are grabbing us to games
 
+# concepts
+## easing function to smooth out movement (variable evolution)
+- `x+=(x-target_x)/n`
+    - some number n (2 is fast)
+    - this does not attain the exact target
+    - snap them in position when they get close !
 # log
 ## 31/07/2025
 - implem lizenn sprite
@@ -150,3 +164,12 @@ characters are `3x5` pixels
 - laser height animation adjustment
 - proto laser meter
 - proto ui
+## 22/08/2025
+- shmup tutorial ep 18
+    - enemy types
+- shmup tutorial ep 19/20
+    - skipped most of it cause already done or my enemies needs are more complex
+- think about enemy design on paper
+## 23/08/2025
+- shmup tutorial ep 21 on enemy movement
+
