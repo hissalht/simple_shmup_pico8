@@ -26,13 +26,20 @@ function spawn_wave()
 end
 
 -- new enemy system
-smart_enemies = {
-    { { "popcorn,90,50,30" }, { "mv,40,40,100", "st,90" } }
-}
 
-function spawn_enemy(type, x, y,seq)
+function load_enemy(enemy_table)
     local en = {}
-    if type == "popcorn" then
+    local spawn = split(enemy_table[1])
+
+    en.type = spawn[1]
+    en.x = spawn[2]
+    en.y = spawn[3]
+    en.spawn_timer = spawn[4]
+    en.flash = 0
+    en.i = 1
+    en.seq_len = #enemy_table - 1
+
+    if en.type == "popcorn" then
         en.spr = 35
         en.spx = 0
         en.spy = 0
@@ -43,40 +50,50 @@ function spawn_enemy(type, x, y,seq)
         en.yb = 8
     end
 
-    en.flash = 0
-    en.x = x
-    en.y = y
+    local seq = {}
+    for i = 2, #enemy_table do
+        print(i)
+        local action = split(enemy_table[i])
+        if action[1] == "mv" then
+            local spx = (action[2] - en.x) / action[4]
+            local spy = (action[3] - en.y) / action[4]
+            add(seq, { type = "move", dest_x = action[2], dest_y = action[3], spx = spx, spy = spy })
+        elseif action[1] == "st" then
+            add(seq, { type = "standby", t = action[2] })
+        end
+    end
     en.seq = seq
-    en.i = 1
-
-    add(enemies, en)
+    add(spawn_list, en)
 end
 
 function check_spawns()
-    for en in all(smart_enemies) do
-        local spawn = split(en[1][1])
-        if t >= spawn[4] then
-            spawn_enemy(spawn[1], spawn[2], spawn[3], en[2])
-            del(smart_enemies, en)
+    for en in all(spawn_list) do
+        if t >= en.spawn_timer then
+            add(enemies, en)
+            del(spawn_list, en)
         end
     end
 end
 
 function update_enemy()
-
     for en in all(enemies) do
         -- filter out old enemies for now
         if en.seq then
-            cmd = split(en.seq[en.i])
-            if cmd[1] == "mv" then
-                if en.x == cmd[2] and en.y == cmd[3] then
-                    en.i += 1
-                else
-                    en.spx = (cmd[2]- en.x) / cmd[4]
-                    en.spy = (cmd[3]- en.y) / cmd[4]
-                    en.i +=1
-                    -- en.x+= 2
-                    -- en.y+= 2
+            if en.i > en.seq_len then
+                del(enemies, en)
+            else
+                action = en.seq[en.i]
+                if action.type == "move" then
+                    if abs(en.x - action.dest_x) < 0.05 and abs(en.y - action.dest_y) < 0.05 then
+                        en.i += 1
+                    else
+                        en.x += action.spx
+                        en.y += action.spy
+                    end
+                elseif action.type == "standby" then
+                    if t >= action.t then
+                        en.i += 1
+                    end
                 end
             end
         end

@@ -92,7 +92,13 @@ function draw_game()
     end
 
     draw_all_hitbox()
-
+    if enemies[1] then
+        print(enemies[1].i)
+        print(enemies[1].x)
+        print(enemies[1].y)
+        print(enemies[1].seq[1].spx)
+        print(enemies[1].seq[1].spy)
+    end
     -- print(,100,100)
 end
 
@@ -128,7 +134,7 @@ end
 
 function starfield()
     for star in all(stars) do
-        if star.speed < 1.8 then
+        if star.speed < 0.9 then
             pset(star.x, star.y, star.color)
         else
             line(star.x, star.y, star.x, star.y - 2, star.color)
@@ -144,14 +150,14 @@ function create_stars()
 
         star.x = flr(rnd(128))
         star.y = flr(rnd(128))
-        star.speed = rnd(2)
+        star.speed = rnd(1)
 
-        if star.speed <= 0.3 then
+        if star.speed <= 0.15 then
             color = 1
         end
-        if star.speed > 0.3 and star.speed < 1 then
+        if star.speed > 0.15 and star.speed < 0.5 then
             color = 2
-        elseif star.speed >= 1 then
+        elseif star.speed >= 0.5 then
             color = 4
         end
         star.color = color
@@ -204,7 +210,7 @@ function update_expl()
             for i = 1, 8 do
                 local pc = create_p(p.x, p.y)
                 pc.size = rnd(p.size)
-                pc.rate = 0.1 + rnd(0.4)
+                pc.rate = 0.05 + rnd(0.2)
                 pc.fission = pc.size / 1.5
                 pc.color = 1
                 add(particles, pc)
@@ -225,9 +231,9 @@ function create_p(x, y)
     p.sx = rnd(1) - 0.5
     p.sy = rnd(1) - 0.5
     p.size = 5 + rnd(10)
-    p.rate = 0.3 + rnd(0.5)
+    p.rate = 0.15 + rnd(0.25)
     p.age = 0
-    p.maxage = 10 + rnd(30)
+    p.maxage = 20 + rnd(60)
     p.fission = p.size / 2
     rndc = rnd(2)
     if rndc < 1 then
@@ -250,7 +256,7 @@ function explode(x, y)
         p.sx = rnd(4) - 2
         p.sy = rnd(4) - 2
         p.age = 0
-        p.maxage = 5 + rnd(20)
+        p.maxage = 10 + rnd(40)
         add(sparks, p)
     end
 
@@ -260,7 +266,7 @@ function explode(x, y)
     s.size = 0
     s.age = 0
     s.maxage = 10 + rnd(20)
-    s.rate = 0.5 + rnd(0.5)
+    s.rate = 0.25 + rnd(0.25)
     add(shocks, s)
 end
 
@@ -269,7 +275,7 @@ function draw_laser()
         max_num_sprite = flr(laser.height / 8)
         incomplete_sprite = laser.height % 8
 
-        laser_spr_ind = mod(laser_spr_ind + 0.5, 4, 1)
+        laser_spr_ind = mod(laser_spr_ind + 0.25, 4, 1)
         local floored = flr(laser_spr_ind)
         for i = 0, max_num_sprite - 1 do
             spr(laser_spr_num[mod(floored + i, 4, 1)], laser.x - 3, laser.y + 8 * i, 2, 1)

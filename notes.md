@@ -11,6 +11,7 @@
     - [ ] ease the spawn of a formation of enemy maybe ?
 - [ ] integrate new enemies types
 - [ ] make enemy sprite shake when they get hit
+- [ ] prevent enemies from dying off screen where I spawn them
 
 - [ ] laser improvements
     - [x] build up in size
@@ -67,6 +68,7 @@
 - [ ] animate flame for backward and forward motions (longer and shorter)
 - [ ] flame tweak ?
     - https://saint11.art/img/pixel-tutorials/RocketTrail.gif
+- [ ] awkward flame on turns
 
 # implementation information
 ## conventions

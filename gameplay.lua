@@ -18,7 +18,7 @@ function update_game()
     update_controls()
 
     update_ship_position()
-    ship.flame = mod(ship.flame + 0.35, 3, 6)
+    ship.flame = mod(ship.flame + 0.12, 3, 6)
 
     if invul > 0 then
         invul -= 1
@@ -52,7 +52,7 @@ function update_wave_text()
     if wave_time <= 0 then
         mode = "game"
         t = 0
-        spawn_wave()
+        -- spawn_wave()
     end
 end
 
@@ -79,18 +79,18 @@ end
 
 function update_controls()
     if btn(0) then
-        ship.xspeed = -2
+        ship.xspeed = -1
         ship.spr = 68
     end
     if btn(1) then
-        ship.xspeed = 2
+        ship.xspeed = 1
         ship.spr = 66
     end
     if btn(2) then
-        ship.yspeed = -2
+        ship.yspeed = -1
     end
     if btn(3) then
-        ship.yspeed = 2
+        ship.yspeed = 1
     end
     if btn(4) then
         if laser.meter >= 0 then
@@ -99,11 +99,11 @@ function update_controls()
             laser.x = ship.x - 2
             laser.xb = 6
             if laser.collide == false then
-                laser.height += 7
+                laser.height += 3
             end
             laser.yb = laser.height
             laser.y = ship.y - 8 - laser.height
-            laser.off_timer = 2
+            laser.off_timer = 8
             sfx(4)
         end
     end

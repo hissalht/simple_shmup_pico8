@@ -11,7 +11,7 @@ function create_bullet(x, y, spr)
     bul.spr = spr
     bul.muz_x = x + 2
     bul.muz_y = y
-    bul.muz_flash = 4
+    bul.muz_flash = 8
     bul.dmg = 1
     return bul
 end
@@ -62,7 +62,7 @@ function update_collision_laser()
         for en in all(enemies) do
             if col(laser, en) then
                 en.hp -= laser.dmg
-                en.flash = 2
+                en.flash = 4
 
                 laser.collide = true
                 laser.height = ship.y - 8 - (en.y + en.yb)
@@ -88,7 +88,7 @@ function update_collision_bullets()
             if col(bul, en) then
                 en.hp -= bul.dmg
 
-                en.flash = 5
+                en.flash = 10
                 local imp = {}
                 imp.x = bul.x
                 imp.y = bul.y
@@ -122,7 +122,7 @@ function update_collision_bullets()
         end
     end
 
-    if #enemies == 0 then
+    if t == 600 then
         next_wave()
     end
 
@@ -151,7 +151,7 @@ function update_collision_laser()
         for en in all(enemies) do
             if col(laser, en) then
                 en.hp -= laser.dmg
-                en.flash = 2
+                en.flash = 4
 
                 laser.collide = true
                 laser.height = ship.y - 8 - (en.y + en.yb)

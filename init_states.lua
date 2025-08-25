@@ -22,18 +22,17 @@ function start_game()
     ship.xspeed = 0
     ship.yspeed = 0
     ship.spr = 64
-    ship.spx = -6
-    ship.spy = -5
+    ship.spx = -3
+    ship.spy = -2.5
     ship.w = 2
     ship.h = 2
     ship.flame = 6
     ship.xb = 2
     ship.yb = 2
 
-    laser = { on = false, x = 0, y = ship.y, xb = 0, yb = 0, dmg = 0.4, height = 0, off_timer = 0, collide = false, meter=100}
+    laser = { on = false, x = 0, y = ship.y, xb = 0, yb = 0, dmg = 0.4, height = 0, off_timer = 0, collide = false, meter = 100 }
     laser_spr_ind = 0
     laser_spr_num = { 128, 144, 160, 176 }
-
 
     speed_bul = 5
 
@@ -55,10 +54,23 @@ function start_game()
     end
 
     bullets = {}
-    fire_rate = 3
+    fire_rate = 6
     delay_next_shot = 0
 
     enemies = {}
+
+    smart_enemies = {
+        { "popcorn, 10,-20,20", "mv,10,40,30", "st,300" },
+        { "popcorn, 20,-40,20", "mv,20,40,30", "st,300" },
+        { "popcorn, 30,-50,20", "mv,30,40,30", "st,300" },
+        { "popcorn, 20,-60,20", "mv,20,40,30", "st,300" },
+        { "popcorn, 10,-70,20", "mv,10,40,30", "st,300" },
+        { "popcorn, 5,-80,20", "mv,5,40,30", "st,300" },
+    }
+    spawn_list = {}
+    for en_descr in all(smart_enemies) do
+        load_enemy(en_descr)
+    end
 
     particles = {}
     shocks = {}
