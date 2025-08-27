@@ -59,7 +59,7 @@ function draw_game()
         if bul.muz_flash > 0 then
             circfill(bul.muz_x, bul.muz_y, bul.muz_flash, 8)
         end
-        bul.muz_flash -= 1
+        bul.muz_flash -= 1.4
     end
 
     draw_laser()
@@ -92,14 +92,6 @@ function draw_game()
     end
 
     draw_all_hitbox()
-    if enemies[1] then
-        print(enemies[1].i)
-        print(enemies[1].x)
-        print(enemies[1].y)
-        print(enemies[1].seq[1].spx)
-        print(enemies[1].seq[1].spy)
-    end
-    -- print(,100,100)
 end
 
 function draw_ui()

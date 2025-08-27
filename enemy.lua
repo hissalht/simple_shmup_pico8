@@ -55,9 +55,21 @@ function load_enemy(enemy_table)
         print(i)
         local action = split(enemy_table[i])
         if action[1] == "mv" then
-            local spx = (action[2] - en.x) / action[4]
-            local spy = (action[3] - en.y) / action[4]
-            add(seq, { type = "move", dest_x = action[2], dest_y = action[3], spx = spx, spy = spy })
+            local spx = (action[2] - en.x)
+            local spy = (action[3] - en.y)
+            n_frame = flr(sqrt(spx * spx + spy + spy) / action[4])
+            add(
+                seq, {
+                    type = "move",
+                    start_x = en.x,
+                    start_y = en.y,
+                    dest_x = action[2],
+                    dest_y = action[3],
+                    t = linspace(n_frame),
+                    index_t = 1,
+                    end_index = n_frame + 1
+                }
+            )
         elseif action[1] == "st" then
             add(seq, { type = "standby", t = action[2] })
         end
@@ -84,11 +96,20 @@ function update_enemy()
             else
                 action = en.seq[en.i]
                 if action.type == "move" then
-                    if abs(en.x - action.dest_x) < 0.05 and abs(en.y - action.dest_y) < 0.05 then
+                    if action.index_t == action.end_index then
                         en.i += 1
                     else
-                        en.x += action.spx
-                        en.y += action.spy
+                        en.x = lerp(
+                            action.start_x,
+                            action.dest_x,
+                            action.t[action.index_t]
+                        )
+                        en.y = lerp(
+                            action.start_y,
+                            action.dest_y,
+                            action.t[action.index_t]
+                        )
+                        action.index_t += 1
                     end
                 elseif action.type == "standby" then
                     if t >= action.t then

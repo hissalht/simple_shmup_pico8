@@ -54,18 +54,19 @@ function start_game()
     end
 
     bullets = {}
-    fire_rate = 6
+    fire_rate = 3
     delay_next_shot = 0
 
     enemies = {}
 
     smart_enemies = {
-        { "popcorn, 10,-20,20", "mv,10,40,30", "st,300" },
-        { "popcorn, 20,-40,20", "mv,20,40,30", "st,300" },
-        { "popcorn, 30,-50,20", "mv,30,40,30", "st,300" },
-        { "popcorn, 20,-60,20", "mv,20,40,30", "st,300" },
-        { "popcorn, 10,-70,20", "mv,10,40,30", "st,300" },
-        { "popcorn, 5,-80,20", "mv,5,40,30", "st,300" },
+        { "popcorn, 20,-40,30", "mv,25,30,0.4", "st,300" },
+        { "popcorn, 40,-30,30", "mv,35,40,0.4", "st,300" },
+        { "popcorn, 60,-20,30", "mv,65,50,0.4", "st,300" },
+        { "popcorn, 80,-10,30", "mv,85,60,0.4", "st,300" },
+        { "popcorn, 40,-20,30", "mv,45,50,0.4", "st,300" },
+        { "popcorn, 30,-30,30", "mv,35,40,0.4", "st,300" },
+        { "popcorn, 20,-40,30", "mv,25,30,0.4", "st,300" },
     }
     spawn_list = {}
     for en_descr in all(smart_enemies) do

@@ -174,4 +174,9 @@ characters are `3x5` pixels
 - think about enemy design on paper
 ## 23/08/2025
 - shmup tutorial ep 21 on enemy movement
+## 26/08/2025
+- still working on enemy spawn system
+    - specify speed of enemy instead of arrival timer for moves
+    -
+
 

@@ -108,7 +108,7 @@ function update_controls()
         end
     end
     if btn(5) then
-        if delay_next_shot == 0 then
+        if delay_next_shot <= 0 then
             add(bullets, create_bullet(ship.x + ship.spx + 2, ship.y + ship.spy - 3, 0))
             add(bullets, create_bullet(ship.x + ship.spx + 8, ship.y + ship.spy - 3, 1))
             sfx(0)
