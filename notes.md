@@ -6,12 +6,17 @@
         - wave counter
     - [x] implement ui prototype (functionnal)
     - [ ] implement ui skin
-- [ ] conceive enemy management system
+- [x] conceive enemy management system
     - first draft done
     - [ ] ease the spawn of a formation of enemy maybe ?
-- [ ] integrate new enemies types
-- [ ] make enemy sprite shake when they get hit
+    - to be improved after enemies attacks
+    - [ ] enemy types system
+- [ ] enemy attacks
+- [x] make enemy sprite shake when they get hit
 - [ ] prevent enemies from dying off screen where I spawn them
+- [ ] fix diagonal movement of the ship
+    - https://www.youtube.com/watch?v=oBjZ1W50brM&list=PLea8cjCua_P1o-xiQRf_QzqS2pMVlGnse&index=5
+
 
 - [ ] laser improvements
     - [x] build up in size
@@ -20,19 +25,21 @@
         - [x] and end
     - [x] particle effect to give movement to the chunk of the laser
         - did an animated moving sprite column
-    - [ ] particles at begining and end
-
-- [x] change hit impact
-- [ ] program particles for ship engine
+    - tested lizenn ring laser and spiral, doesnt work in our technical limits
+    - [ ] particles/sprite at begining and end
 - [ ] fix : hit impact stop animating on wave screen
 - [ ] improve muzzle flash
     - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
 - [ ] manage ship states with a state machine
     - [ ] lock main shot when laser
-    - [ ] normalize diagonal ship speed
+    - [x] normalize diagonal ship speed
+
+## probably not ?
 - [ ] reduce ship speed when laser ??
     - may be incompatible with a meter/resource gated laser
 
+## done
+- [x] change hit impact
 - [x] recheck hitbox matching
 - [x] update ship sprite
 - [x] laser meter system
@@ -69,6 +76,8 @@
 - [ ] flame tweak ?
     - https://saint11.art/img/pixel-tutorials/RocketTrail.gif
 - [ ] awkward flame on turns
+- [ ] program particles for ship engine
+
 
 # implementation information
 ## conventions
@@ -84,7 +93,7 @@ the size is specified by `thing.xb` `thing.yb`
 characters are `3x5` pixels
 
 # ideas
-- vertical hud
+- vertical hud DONE
 
 ## enemy system
 - spawn 2 enemy type multiple time
@@ -95,7 +104,7 @@ characters are `3x5` pixels
     - attack type
     - movement speed
 
-## explosions
+## explosions DONE
 - varied particles in size colors
 - big center explosion ball that pops and shrinks ?
 - [x] particles spawning smaller particles
@@ -107,7 +116,7 @@ characters are `3x5` pixels
     - after bigs depop multiple orange to yellow blasts
     - fades to grey
 
-## hit effect
+## hit effect DONE
 - small oval shape where the bullet hits and disappears
     - this is read as a shielding effect and actually could mean big enemies in doj shield the smaller side shots which could make sense
 - color can be as bold as the shot itself
@@ -116,7 +125,7 @@ characters are `3x5` pixels
 - x shape ?
 - [x] I need to know the impact bullet enemy position to place properly my hit effect wrt to the bullet
 
-## I just want a big laser shot mannnn
+## I just want a big laser shot mannnn WIP
 - hit effect for laser shot ==> becomes huge/concentrated(bright, even white) at the impact point
 
 
@@ -188,5 +197,6 @@ characters are `3x5` pixels
     - specify speed of enemy instead of arrival timer for moves
 ## 27/08/2205
 - finish lerp implementation
-
-
+## 07/09/2025
+- enemy shake
+- uncover movement problem with float speed (diagonal normalization !)

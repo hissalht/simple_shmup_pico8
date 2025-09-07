@@ -45,7 +45,7 @@ function load_enemy(enemy_table)
         en.spy = 0
         en.w = 1
         en.h = 1
-        en.hp = 3
+        en.hp = 20
         en.xb = 8
         en.yb = 8
     end

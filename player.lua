@@ -26,8 +26,11 @@ function update_bullets()
 end
 
 function update_ship_position()
-    ship.x = ship.x + ship.xspeed
-    ship.y = ship.y + ship.yspeed
+    local norm_speed = sqrt(ship.xspeed * ship.xspeed + ship.yspeed * ship.yspeed)
+    if norm_speed != 0 then
+        ship.x = ship.x + ship.xspeed / norm_speed
+        ship.y = ship.y + ship.yspeed / norm_speed
+    end
 end
 
 function update_collisions_edges()
@@ -75,7 +78,7 @@ function update_collision_laser()
                     sfx(2)
                     sfx(3)
                     laser.meter += 10
-                    laser.meter = min(laser.meter,100)
+                    laser.meter = min(laser.meter, 100)
                 end
             end
         end
@@ -111,7 +114,7 @@ function update_collision_bullets()
                     del(enemies, en)
                     explode(en.x, en.y)
                     laser.meter += 10
-                    laser.meter = min(laser.meter,100)
+                    laser.meter = min(laser.meter, 100)
                     score += 1
                     sfx(1)
                     sfx(2)

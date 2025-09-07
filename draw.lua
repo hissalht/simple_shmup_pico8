@@ -42,13 +42,18 @@ function draw_game()
     end
 
     for en in all(enemies) do
+        local shakx = 0
+        local shaky = 0
         if en.flash > 0 then
+            shakx = rnd(2) - 1
+            shaky = rnd(2) - 1
             en.flash -= 1
             pal(7, 6)
             pal(11, 12)
             pal(10, 13)
         end
-        draw_obj(en)
+        spr(en.spr, en.x + en.spx +shakx, en.y + en.spy + shaky, en.w, en.h)
+        -- draw_obj(en)
         pal(0)
     end
 
@@ -160,6 +165,7 @@ end
 function draw_all_hitbox()
     if show_hb_flag then
         draw_hb(ship)
+        print(ship.x.."  "..ship.y, 60,100)
 
         if laser.on then
             draw_hb(laser)
@@ -270,7 +276,7 @@ function draw_laser()
         laser_spr_ind = mod(laser_spr_ind + 0.25, 4, 1)
         local floored = flr(laser_spr_ind)
         for i = 0, max_num_sprite - 1 do
-            spr(laser_spr_num[mod(floored + i, 4, 1)], laser.x - 3, laser.y + 8 * i, 2, 1)
+            spr(laser_spr_num[mod(floored + i, 4, 1)], laser.x - 3, laser.y + 8 * i, 3, 1)
         end
         clip(laser.x - 3, laser.y + 8 * max_num_sprite, 30, incomplete_sprite)
         spr(laser_spr_num[mod(floored + max_num_sprite, 4, 1)], laser.x - 3, laser.y + 8 * max_num_sprite, 2, 1)
