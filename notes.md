@@ -86,6 +86,15 @@ characters are `3x5` pixels
 # ideas
 - vertical hud
 
+## enemy system
+- spawn 2 enemy type multiple time
+- information for position idea from A.
+    - give an array of offsets from 1 enemy to the next
+- enemy type should contain
+    - hp
+    - attack type
+    - movement speed
+
 ## explosions
 - varied particles in size colors
 - big center explosion ball that pops and shrinks ?
@@ -177,6 +186,7 @@ characters are `3x5` pixels
 ## 26/08/2025
 - still working on enemy spawn system
     - specify speed of enemy instead of arrival timer for moves
-    -
+## 27/08/2205
+- finish lerp implementation
 
 
