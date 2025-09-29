@@ -26,11 +26,13 @@ function update_game()
 
     check_spawns()
     update_enemy()
+    update_enemy_fire()
+    update_enemy_bullets()
 
     update_bullets()
     update_collision_laser()
 
-    update_collisions_edges()
+    -- update_collisions_edges()
     update_collision_ship()
 
     if mode == "game" then
@@ -78,19 +80,25 @@ function next_wave()
 end
 
 function update_controls()
+    local dir_button = btn() & 0b1111
+    if (dir_button & 0b0011) * (dir_button & 0b1100) != 0 and last_dir_button != dir_button then
+        ship.x = flr(ship.x)
+        ship.y = flr(ship.y)
+    end
+
     if btn(0) then
-        ship.xspeed = -1
+        ship.xspeed = -1.41
         ship.spr = 68
     end
     if btn(1) then
-        ship.xspeed = 1
+        ship.xspeed = 1.41
         ship.spr = 66
     end
     if btn(2) then
-        ship.yspeed = -1
+        ship.yspeed = -1.41
     end
     if btn(3) then
-        ship.yspeed = 1
+        ship.yspeed = 1.41
     end
     if btn(4) then
         if laser.meter >= 0 then
@@ -115,4 +123,6 @@ function update_controls()
             delay_next_shot = fire_rate
         end
     end
+
+    last_dir_button = dir_button
 end

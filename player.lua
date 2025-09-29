@@ -19,14 +19,14 @@ end
 function update_bullets()
     for bullet in all(bullets) do
         bullet.y = bullet.y - speed_bul
-        if bullet.y < -20 then
+        if bullet.y < -5 then
             del(bullets, bullet)
         end
     end
 end
 
 function update_ship_position()
-    local norm_speed = sqrt(ship.xspeed * ship.xspeed + ship.yspeed * ship.yspeed)
+    norm_speed = sqrt(ship.xspeed * ship.xspeed + ship.yspeed * ship.yspeed)
     if norm_speed != 0 then
         ship.x = ship.x + ship.xspeed / norm_speed
         ship.y = ship.y + ship.yspeed / norm_speed

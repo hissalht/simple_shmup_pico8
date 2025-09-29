@@ -16,14 +16,16 @@ function start_game()
     max_num_wave = 4
     next_wave()
 
+    ang = 0
+
     ship = {}
-    ship.x = 64
-    ship.y = 64
+    ship.x = 50
+    ship.y = 50
     ship.xspeed = 0
     ship.yspeed = 0
     ship.spr = 64
     ship.spx = -3
-    ship.spy = -2.5
+    ship.spy = -2
     ship.w = 2
     ship.h = 2
     ship.flame = 6
@@ -58,6 +60,7 @@ function start_game()
     delay_next_shot = 0
 
     enemies = {}
+    enemy_bullets = {}
 
     smart_enemies = {
         { "popcorn, 20,-40,30", "mv,25,30,0.4", "st,1000" },

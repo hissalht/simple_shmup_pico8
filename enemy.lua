@@ -1,12 +1,3 @@
--- old system
-
--- function update_enemies()
---     for enemy in all(enemies) do
---         enemy.y += 0.4
---         enemy.spr = mod(enemy.spr + 0.1, 3, 32)
---     end
--- end
-
 function spawn_wave()
     for i = 1, 8 do
         local en = {}
@@ -25,8 +16,6 @@ function spawn_wave()
     end
 end
 
--- new enemy system
-
 function load_enemy(enemy_table)
     local en = {}
     local spawn = split(enemy_table[1])
@@ -38,6 +27,23 @@ function load_enemy(enemy_table)
     en.flash = 0
     en.i = 1
     en.seq_len = #enemy_table - 1
+
+    -- attack state
+    local fire_prop = {}
+    fire_prop.state = "fire"
+    fire_prop.fire_rate = 30
+    fire_prop.delay_shot = en.fire_rate
+    fire_prop.x_spawn = -2
+    fire_prop.y_spawn = 4
+    fire_prop.xb = 2
+    fire_prop.yb = 2
+    fire_prop.dmg = 1
+    fire_prop.spx = 1
+    fire_prop.spy = -1
+    fire_prop.spr = 0
+    fire_prop.w = 1
+    fire_prop.h = 1
+    en.fire_prop = fire_prop
 
     if en.type == "popcorn" then
         en.spr = 35
@@ -90,33 +96,62 @@ end
 function update_enemy()
     for en in all(enemies) do
         -- filter out old enemies for now
-        if en.seq then
-            if en.i > en.seq_len then
-                del(enemies, en)
-            else
-                action = en.seq[en.i]
-                if action.type == "move" then
-                    if action.index_t == action.end_index then
-                        en.i += 1
-                    else
-                        en.x = lerp(
-                            action.start_x,
-                            action.dest_x,
-                            action.t[action.index_t]
-                        )
-                        en.y = lerp(
-                            action.start_y,
-                            action.dest_y,
-                            action.t[action.index_t]
-                        )
-                        action.index_t += 1
-                    end
-                elseif action.type == "standby" then
-                    if t >= action.t then
-                        en.i += 1
-                    end
+        if en.i > en.seq_len then
+            del(enemies, en)
+        else
+            action = en.seq[en.i]
+            if action.type == "move" then
+                if action.index_t == action.end_index then
+                    en.i += 1
+                else
+                    en.x = lerp(
+                        action.start_x,
+                        action.dest_x,
+                        action.t[action.index_t]
+                    )
+                    en.y = lerp(
+                        action.start_y,
+                        action.dest_y,
+                        action.t[action.index_t]
+                    )
+                    action.index_t += 1
+                end
+            elseif action.type == "standby" then
+                if t >= action.t then
+                    en.i += 1
                 end
             end
         end
+    end
+end
+
+function update_enemy_fire()
+    for en in all(enemies) do
+        local prop = en.fire_prop
+        if prop.state == "fire" then
+            if prop.delay_shot <= 0 then
+                local bul = {}
+                bul.x = prop.x_spawn
+                bul.y = prop.y_spawn
+                bul.xb = prop.xb
+                bul.yb = prop.yb
+                bul.spx = prop.spx
+                bul.spy = prop.spy
+                bul.dmg = prop.dmg
+                bul.spr = prop.spr
+                bul.w = prop.w
+                bul.h = prop.h
+                prop.delay_shot = prop.fire_rate
+            else
+                prop.delay_shot -= 1
+            end
+        end
+    end
+end
+
+function update_enemy_bullets()
+    for en_bul in all(enemy_bullets) do
+        en_bul.x += en_bul.spx
+        en_bul.y += en_bul.spy
     end
 end

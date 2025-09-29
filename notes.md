@@ -14,7 +14,7 @@
 - [ ] enemy attacks
 - [x] make enemy sprite shake when they get hit
 - [ ] prevent enemies from dying off screen where I spawn them
-- [ ] fix diagonal movement of the ship
+- [x] fix diagonal movement of the ship
     - https://www.youtube.com/watch?v=oBjZ1W50brM&list=PLea8cjCua_P1o-xiQRf_QzqS2pMVlGnse&index=5
 
 
@@ -200,3 +200,6 @@ characters are `3x5` pixels
 ## 07/09/2025
 - enemy shake
 - uncover movement problem with float speed (diagonal normalization !)
+## 27/09/2025
+## 28/09/2025
+- fix diagonal cobblestoning problem and normalize diagonal ship speed

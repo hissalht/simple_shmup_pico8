@@ -28,7 +28,6 @@ function draw_game()
 
     draw_asteroids()
     starfield()
-
     draw_ui()
 
     if invul <= 0 then
@@ -52,7 +51,7 @@ function draw_game()
             pal(11, 12)
             pal(10, 13)
         end
-        spr(en.spr, en.x + en.spx +shakx, en.y + en.spy + shaky, en.w, en.h)
+        spr(en.spr, en.x + en.spx + shakx, en.y + en.spy + shaky, en.w, en.h)
         -- draw_obj(en)
         pal(0)
     end
@@ -97,6 +96,16 @@ function draw_game()
     end
 
     draw_all_hitbox()
+
+    -- circle experimentation
+    x_circ = cos(ang) * 15 + 60
+    y_circ = sin(ang) * 15 + 60
+    pset(x_circ, y_circ, 13)
+    print(ang, 80,80)
+    ang += 0.001
+    if ang > 1 then
+        ang = 0
+    end
 end
 
 function draw_ui()
@@ -120,7 +129,7 @@ function draw_ui()
 
     draw_laser_meter()
 
-    print(t,5,26,4)
+    print(t, 5, 26, 4)
 end
 
 function draw_asteroids()
@@ -165,7 +174,7 @@ end
 function draw_all_hitbox()
     if show_hb_flag then
         draw_hb(ship)
-        print(ship.x.."  "..ship.y, 60,100)
+        print(ship.x .. "  " .. ship.y, 60, 100)
 
         if laser.on then
             draw_hb(laser)
