@@ -57,6 +57,7 @@ function draw_game()
     end
 
     draw_array(bullets)
+    draw_array(enemy_bullets)
 
     for bul in all(bullets) do
         draw_obj(bul)

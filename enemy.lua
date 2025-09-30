@@ -32,14 +32,14 @@ function load_enemy(enemy_table)
     local fire_prop = {}
     fire_prop.state = "fire"
     fire_prop.fire_rate = 30
-    fire_prop.delay_shot = en.fire_rate
+    fire_prop.delay_shot = fire_prop.fire_rate
     fire_prop.x_spawn = -2
     fire_prop.y_spawn = 4
     fire_prop.xb = 2
     fire_prop.yb = 2
     fire_prop.dmg = 1
     fire_prop.spx = 1
-    fire_prop.spy = -1
+    fire_prop.spy = 3
     fire_prop.spr = 0
     fire_prop.w = 1
     fire_prop.h = 1
@@ -131,8 +131,8 @@ function update_enemy_fire()
         if prop.state == "fire" then
             if prop.delay_shot <= 0 then
                 local bul = {}
-                bul.x = prop.x_spawn
-                bul.y = prop.y_spawn
+                bul.x = en.x + prop.x_spawn
+                bul.y = en.y + prop.y_spawn
                 bul.xb = prop.xb
                 bul.yb = prop.yb
                 bul.spx = prop.spx
@@ -142,6 +142,7 @@ function update_enemy_fire()
                 bul.w = prop.w
                 bul.h = prop.h
                 prop.delay_shot = prop.fire_rate
+                add(enemy_bullets,bul)
             else
                 prop.delay_shot -= 1
             end
