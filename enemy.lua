@@ -31,15 +31,22 @@ function load_enemy(enemy_table)
     -- attack state
     local fire_prop = {}
     fire_prop.state = "fire"
-    fire_prop.fire_rate = 30
+    fire_prop.fire_rate = 5
     fire_prop.delay_shot = fire_prop.fire_rate
-    fire_prop.x_spawn = -2
-    fire_prop.y_spawn = 4
+
+    fire_prop.thet_bul = 0.75
+    fire_prop.thet_speed = 0.04
+    fire_prop.radius = 14
+
+    -- fire_prop.x_spawn = fire_prop.radius * cos(fire_prop.thet_bul)
+    -- fire_prop.y_spawn = fire_prop.radius * sin(fire_prop.thet_bul)
+    fire_prop.x_spawn = 0
+    fire_prop.y_spawn = 2
+    fire_prop.spx = 0
+    fire_prop.spy = 1
     fire_prop.xb = 2
     fire_prop.yb = 2
     fire_prop.dmg = 1
-    fire_prop.spx = 1
-    fire_prop.spy = 3
     fire_prop.spr = 0
     fire_prop.w = 1
     fire_prop.h = 1
@@ -95,7 +102,6 @@ end
 
 function update_enemy()
     for en in all(enemies) do
-        -- filter out old enemies for now
         if en.i > en.seq_len then
             del(enemies, en)
         else
@@ -142,7 +148,22 @@ function update_enemy_fire()
                 bul.w = prop.w
                 bul.h = prop.h
                 prop.delay_shot = prop.fire_rate
-                add(enemy_bullets,bul)
+                g_yspwn = prop.y_spawn
+                g_xspwn = prop.x_spawn
+                atantruc = atan2(ship.x - bul.x, ship.y - bul.y )
+                prop.spx = cos(atantruc)
+                prop.spy = sin(atantruc)
+
+                -- prop.thet_bul += prop.thet_speed
+                -- if prop.thet_bul >= 1 then
+                --     prop.thet_speed *= -1
+                -- end
+                -- if prop.thet_bul <= 0.5 then
+                --     prop.thet_speed *= -1
+                -- end
+                -- prop.x_spawn = prop.radius * cos(prop.thet_bul)
+                -- prop.y_spawn = prop.radius * sin(prop.thet_bul)
+                add(enemy_bullets, bul)
             else
                 prop.delay_shot -= 1
             end

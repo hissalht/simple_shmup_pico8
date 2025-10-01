@@ -203,3 +203,5 @@ characters are `3x5` pixels
 ## 27/09/2025
 ## 28/09/2025
 - fix diagonal cobblestoning problem and normalize diagonal ship speed
+## 01/10/2025
+- work on enemy system

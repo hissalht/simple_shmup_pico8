@@ -107,6 +107,8 @@ function draw_game()
     if ang > 1 then
         ang = 0
     end
+    print(atantruc,50,120)
+
 end
 
 function draw_ui()
