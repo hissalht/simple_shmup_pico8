@@ -31,15 +31,13 @@ function load_enemy(enemy_table)
     -- attack state
     local fire_prop = {}
     fire_prop.state = "fire"
-    fire_prop.fire_rate = 5
+    fire_prop.fire_rate = 10
     fire_prop.delay_shot = fire_prop.fire_rate
 
     fire_prop.thet_bul = 0.75
     fire_prop.thet_speed = 0.04
     fire_prop.radius = 14
 
-    -- fire_prop.x_spawn = fire_prop.radius * cos(fire_prop.thet_bul)
-    -- fire_prop.y_spawn = fire_prop.radius * sin(fire_prop.thet_bul)
     fire_prop.x_spawn = 0
     fire_prop.y_spawn = 2
     fire_prop.spx = 0
@@ -50,6 +48,7 @@ function load_enemy(enemy_table)
     fire_prop.spr = 0
     fire_prop.w = 1
     fire_prop.h = 1
+    fire_prop.update_canon = update_popcorn_canon
     en.fire_prop = fire_prop
 
     if en.type == "popcorn" then
@@ -133,40 +132,34 @@ end
 
 function update_enemy_fire()
     for en in all(enemies) do
-        local prop = en.fire_prop
-        if prop.state == "fire" then
-            if prop.delay_shot <= 0 then
-                local bul = {}
-                bul.x = en.x + prop.x_spawn
-                bul.y = en.y + prop.y_spawn
-                bul.xb = prop.xb
-                bul.yb = prop.yb
-                bul.spx = prop.spx
-                bul.spy = prop.spy
-                bul.dmg = prop.dmg
-                bul.spr = prop.spr
-                bul.w = prop.w
-                bul.h = prop.h
-                prop.delay_shot = prop.fire_rate
-                g_yspwn = prop.y_spawn
-                g_xspwn = prop.x_spawn
-                atantruc = atan2(ship.x - bul.x, ship.y - bul.y )
-                prop.spx = cos(atantruc)
-                prop.spy = sin(atantruc)
+        en.update_canon(en)
+    end
+end
 
-                -- prop.thet_bul += prop.thet_speed
-                -- if prop.thet_bul >= 1 then
-                --     prop.thet_speed *= -1
-                -- end
-                -- if prop.thet_bul <= 0.5 then
-                --     prop.thet_speed *= -1
-                -- end
-                -- prop.x_spawn = prop.radius * cos(prop.thet_bul)
-                -- prop.y_spawn = prop.radius * sin(prop.thet_bul)
-                add(enemy_bullets, bul)
-            else
-                prop.delay_shot -= 1
-            end
+function update_popcorn_canon(en)
+    local prop = en.fire_prop
+    if prop.state == "fire" then
+        if prop.delay_shot <= 0 then
+            local bul = {}
+            bul.x = en.x + prop.x_spawn
+            bul.y = en.y + prop.y_spawn
+            bul.xb = prop.xb
+            bul.yb = prop.yb
+            bul.spx = prop.spx
+            bul.spy = prop.spy
+            bul.dmg = prop.dmg
+            bul.spr = prop.spr
+            bul.w = prop.w
+            bul.h = prop.h
+            prop.delay_shot = prop.fire_rate
+            g_yspwn = prop.y_spawn
+            g_xspwn = prop.x_spawn
+            atantruc = atan2(ship.x - bul.x, ship.y - bul.y)
+            prop.spx = cos(atantruc)
+            prop.spy = sin(atantruc)
+            add(enemy_bullets, bul)
+        else
+            prop.delay_shot -= 1
         end
     end
 end

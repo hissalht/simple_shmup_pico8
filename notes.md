@@ -104,6 +104,26 @@ characters are `3x5` pixels
     - attack type
     - movement speed
 
+###
+- one update function per enemy type for their shot and movement if necessary
+- store speed in enemy type
+
+### tracking shot concept
+```lua
+fire_prop.x_spawn = fire_prop.radius * cos(fire_prop.thet_bul)
+fire_prop.y_spawn = fire_prop.radius * sin(fire_prop.thet_bul)
+
+prop.thet_bul += prop.thet_speed
+if prop.thet_bul >= 1 then
+    prop.thet_speed *= -1
+end
+if prop.thet_bul <= 0.5 then
+    prop.thet_speed *= -1
+end
+prop.x_spawn = prop.radius * cos(prop.thet_bul)
+prop.y_spawn = prop.radius * sin(prop.thet_bul)
+```
+
 ## explosions DONE
 - varied particles in size colors
 - big center explosion ball that pops and shrinks ?
