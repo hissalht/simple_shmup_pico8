@@ -12,12 +12,9 @@
     - to be improved after enemies attacks
     - [ ] enemy types system
 - [ ] enemy attacks
-- [x] make enemy sprite shake when they get hit
+    - [ ] popcorn bullet sprite
+    - [ ] design 1 major enemy pattern
 - [ ] prevent enemies from dying off screen where I spawn them
-- [x] fix diagonal movement of the ship
-    - https://www.youtube.com/watch?v=oBjZ1W50brM&list=PLea8cjCua_P1o-xiQRf_QzqS2pMVlGnse&index=5
-
-
 - [ ] laser improvements
     - [x] build up in size
     - [x] stop on enemies
@@ -35,8 +32,8 @@
     - [x] normalize diagonal ship speed
 
 ## probably not ?
-- [ ] reduce ship speed when laser ??
-    - may be incompatible with a meter/resource gated laser
+- ~~ reduce ship speed when laser ??~~
+    - may be incompatible with a meter/resource gated laser, let’s keep this simple
 
 ## done
 - [x] change hit impact
@@ -69,6 +66,9 @@
 - [x] decide on a color palette with lizenn
 - [x] get lizenn to design a player shot
 - [x] teach lizenn git
+- [x] make enemy sprite shake when they get hit
+- [x] fix diagonal movement of the ship
+    - https://www.youtube.com/watch?v=oBjZ1W50brM&list=PLea8cjCua_P1o-xiQRf_QzqS2pMVlGnse&index=5
 
 ## polish
 - [ ] 2 frames turn animation for the ship
@@ -148,7 +148,6 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 ## I just want a big laser shot mannnn WIP
 - hit effect for laser shot ==> becomes huge/concentrated(bright, even white) at the impact point
 
-
 ## since the bar is the same color as the enemy could we design a system where you go and collect sth on them ?
 
 ## moonshot (next game/out of scope)
@@ -225,3 +224,5 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 - fix diagonal cobblestoning problem and normalize diagonal ship speed
 ## 01/10/2025
 - work on enemy system
+## 11/10/2025
+- continue enemy canon update functions

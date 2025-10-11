@@ -125,7 +125,7 @@ function update_collision_bullets()
         end
     end
 
-    if t == 600 then
+    if t == 9999 then
         next_wave()
     end
 

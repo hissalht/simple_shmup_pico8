@@ -99,15 +99,15 @@ function draw_game()
     draw_all_hitbox()
 
     -- circle experimentation
-    x_circ = cos(ang) * 15 + 60
-    y_circ = sin(ang) * 15 + 60
-    pset(x_circ, y_circ, 13)
-    print(ang, 80,80)
-    ang += 0.001
-    if ang > 1 then
-        ang = 0
-    end
-    print(atantruc,50,120)
+    -- x_circ = cos(ang) * 15 + 60
+    -- y_circ = sin(ang) * 15 + 60
+    -- pset(x_circ, y_circ, 13)
+    -- print(ang, 80,80)
+    -- ang += 0.001
+    -- if ang > 1 then
+    --     ang = 0
+    -- end
+    -- print(atantruc,50,120)
 
 end
 

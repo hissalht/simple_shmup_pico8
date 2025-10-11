@@ -1,19 +1,4 @@
 function spawn_wave()
-    for i = 1, 8 do
-        local en = {}
-        en.x = i * 10 + 5
-        en.y = 20
-        en.spx = 0
-        en.spy = 0
-        en.spr = 35 + flr(rnd(2))
-        en.w = 1
-        en.h = 1
-        en.hp = 10
-        en.xb = 8
-        en.yb = 8
-        en.flash = 0
-        add(enemies, en)
-    end
 end
 
 function load_enemy(enemy_table)
@@ -28,33 +13,26 @@ function load_enemy(enemy_table)
     en.i = 1
     en.seq_len = #enemy_table - 1
 
-    -- attack state
-    local fire_prop = {}
-    fire_prop.state = "fire"
-    fire_prop.fire_rate = 10
-    fire_prop.delay_shot = fire_prop.fire_rate
-
-    fire_prop.thet_bul = 0.75
-    fire_prop.thet_speed = 0.04
-    fire_prop.radius = 14
-
-    fire_prop.x_spawn = 0
-    fire_prop.y_spawn = 2
-    fire_prop.spx = 0
-    fire_prop.spy = 1
-    fire_prop.xb = 2
-    fire_prop.yb = 2
-    fire_prop.dmg = 1
-    fire_prop.spr = 0
-    fire_prop.w = 1
-    fire_prop.h = 1
-    fire_prop.update_canon = update_popcorn_canon
-    en.fire_prop = fire_prop
-
     if en.type == "popcorn" then
         en.spr = 35
         en.spx = 0
         en.spy = 0
+        en.spd = 0.4
+        en.w = 1
+        en.h = 1
+        en.hp = 20
+        en.xb = 8
+        en.yb = 8
+        en.delay_shot = 0
+        en.fire_state = "fire"
+        en.update_canon = update_popcorn_canon
+    end
+
+    if en.type == "tenta1" then
+        en.spr = 35
+        en.spx = 0
+        en.spy = 0
+        en.spd = 0.4
         en.w = 1
         en.h = 1
         en.hp = 20
@@ -69,7 +47,7 @@ function load_enemy(enemy_table)
         if action[1] == "mv" then
             local spx = (action[2] - en.x)
             local spy = (action[3] - en.y)
-            n_frame = flr(sqrt(spx * spx + spy + spy) / action[4])
+            n_frame = flr(sqrt(spx * spx + spy + spy) / en.spd)
             add(
                 seq, {
                     type = "move",
@@ -102,7 +80,8 @@ end
 function update_enemy()
     for en in all(enemies) do
         if en.i > en.seq_len then
-            del(enemies, en)
+            -- dont despawn enemy FOR TESTS
+            -- del(enemies, en)
         else
             action = en.seq[en.i]
             if action.type == "move" then
@@ -132,34 +111,12 @@ end
 
 function update_enemy_fire()
     for en in all(enemies) do
-        en.update_canon(en)
-    end
-end
-
-function update_popcorn_canon(en)
-    local prop = en.fire_prop
-    if prop.state == "fire" then
-        if prop.delay_shot <= 0 then
-            local bul = {}
-            bul.x = en.x + prop.x_spawn
-            bul.y = en.y + prop.y_spawn
-            bul.xb = prop.xb
-            bul.yb = prop.yb
-            bul.spx = prop.spx
-            bul.spy = prop.spy
-            bul.dmg = prop.dmg
-            bul.spr = prop.spr
-            bul.w = prop.w
-            bul.h = prop.h
-            prop.delay_shot = prop.fire_rate
-            g_yspwn = prop.y_spawn
-            g_xspwn = prop.x_spawn
-            atantruc = atan2(ship.x - bul.x, ship.y - bul.y)
-            prop.spx = cos(atantruc)
-            prop.spy = sin(atantruc)
-            add(enemy_bullets, bul)
-        else
-            prop.delay_shot -= 1
+        if en.fire_state == "fire" then
+            if en.delay_shot <= 0 then
+                en.update_canon(en)
+            else
+                en.delay_shot -= 1
+            end
         end
     end
 end
