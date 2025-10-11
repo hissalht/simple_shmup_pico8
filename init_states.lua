@@ -24,8 +24,8 @@ function start_game()
     ship.xspeed = 0
     ship.yspeed = 0
     ship.spr = 64
-    ship.spx = -3
-    ship.spy = -2
+    ship.spx = -6
+    ship.spy = -5
     ship.w = 2
     ship.h = 2
     ship.flame = 6
@@ -66,10 +66,12 @@ function start_game()
         -- { "popcorn, 20,-40,30", "mv,25,30,0.4", "st,1000" },
         { "popcorn, 40,-30,30", "mv,35,40", "st,1000" },
         { "popcorn, 60,-20,30", "mv,65,50", "st,1000" },
-        { "popcorn, 80,-10,30", "mv,85,60", "st,1000" },
-        { "popcorn, 40,-20,30", "mv,45,50", "st,1000" },
-        { "popcorn, 30,-30,30", "mv,35,40", "st,1000" },
-        { "popcorn, 20,-40,30", "mv,25,30", "st,1000" },
+        { "tenta1, 75,-20,60", "mv,75,30", "st,1000" },
+
+        -- { "popcorn, 80,-10,30", "mv,85,60", "st,1000" },
+        -- { "popcorn, 40,-20,30", "mv,45,50", "st,1000" },
+        -- { "popcorn, 30,-30,30", "mv,35,40", "st,1000" },
+        -- { "popcorn, 20,-40,30", "mv,25,30", "st,1000" },
     }
     spawn_list = {}
     for en_descr in all(smart_enemies) do

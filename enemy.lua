@@ -29,15 +29,18 @@ function load_enemy(enemy_table)
     end
 
     if en.type == "tenta1" then
-        en.spr = 35
+        en.spr = 37
         en.spx = 0
         en.spy = 0
-        en.spd = 0.4
-        en.w = 1
-        en.h = 1
+        en.spd = 0.3
+        en.w = 2
+        en.h = 2
         en.hp = 20
-        en.xb = 8
-        en.yb = 8
+        en.xb = 13
+        en.yb = 13
+        en.delay_shot = 0
+        en.fire_state = "fire"
+        en.update_canon = update_tenta1_canon
     end
 
     local seq = {}

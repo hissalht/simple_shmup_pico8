@@ -13,7 +13,10 @@
     - [ ] enemy types system
 - [ ] enemy attacks
     - [ ] popcorn bullet sprite
-    - [ ] design 1 major enemy pattern
+    - [x] design 1 major enemy pattern
+    - [ ] manage fire state evolution in time
+    - [ ] delay shot is attached to the whole enemy, pb for different file rates/patterns on one enemy
+    - [ ] add enemy bullet collisions
 - [ ] prevent enemies from dying off screen where I spawn them
 - [ ] laser improvements
     - [x] build up in size
@@ -103,12 +106,14 @@ characters are `3x5` pixels
     - hp
     - attack type
     - movement speed
-
 ###
 - one update function per enemy type for their shot and movement if necessary
 - store speed in enemy type
 
-### tracking shot concept
+## enemy design
+- snail shape shot for a boss ?
+
+### wave shaped shot shot concept
 ```lua
 fire_prop.x_spawn = fire_prop.radius * cos(fire_prop.thet_bul)
 fire_prop.y_spawn = fire_prop.radius * sin(fire_prop.thet_bul)
@@ -226,3 +231,5 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 - work on enemy system
 ## 11/10/2025
 - continue enemy canon update functions
+- implement base of enemy fire system
+- implement a big enemy
