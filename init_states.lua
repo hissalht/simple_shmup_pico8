@@ -64,7 +64,7 @@ function start_game()
 
     smart_enemies = {
         -- { "popcorn, 20,-40,30", "mv,25,30,0.4", "st,1000" },
-        { "popcorn, 40,-30,30", "mv,35,40", "st,1000" },
+        { "popcorn, 40,-30,30","fire,60", "mv,120,120", "st,1000" },
         { "popcorn, 60,-20,30", "mv,65,50", "st,1000" },
         { "tenta1, 75,-20,60", "mv,75,30", "st,1000" },
 

@@ -33,6 +33,8 @@
 - [ ] manage ship states with a state machine
     - [ ] lock main shot when laser
     - [x] normalize diagonal ship speed
+- [ ] load enemy sequence
+    - [ ] then sort it wrt to timer entry
 
 ## probably not ?
 - ~~ reduce ship speed when laser ??~~
@@ -233,3 +235,5 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 - continue enemy canon update functions
 - implement base of enemy fire system
 - implement a big enemy
+## 12/10/2025
+- separate state update with execution to allow changing fire state mid movement/hold
