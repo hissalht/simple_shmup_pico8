@@ -70,12 +70,12 @@ function load_enemy(enemy_table)
                     index_t = 1,
                     end_index = n_frame + 1,
                     start_time = current_t,
-                    func = update_move
+                    func = lerp_enemy
                 }
             )
             current_t += n_frame + 1
         elseif action[1] == "st" then
-            add(seq, { type = "standby", t = action[2], start_time = current_t, func = standby_enemy })
+            add(seq, { type = "standby", t = action[2], start_time = current_t, func = standby })
             current_t += action[2] + 1
         elseif action[1] == "fire" then
             add(
@@ -101,7 +101,7 @@ function load_enemy(enemy_table)
         }
     )
 
-    seq = qsort(seq, sort_seq)
+    qsort(seq, sort_seq)
 
     en.seq = seq
     add(spawn_list, en)
@@ -116,40 +116,48 @@ function check_spawns()
     end
 end
 
-function lerp_enemy()
-    if action.index_t == action.end_index then
-        en.i += 1
-    else
+function lerp_enemy(en, move_command)
+    if move_command.index_t != move_command.end_index then
         en.x = lerp(
-            action.start_x,
-            action.dest_x,
-            action.t[action.index_t]
+            move_command.start_x,
+            move_command.dest_x,
+            easeoutquad(move_command.t[move_command.index_t])
         )
         en.y = lerp(
-            action.start_y,
-            action.dest_y,
-            action.t[action.index_t]
+            move_command.start_y,
+            move_command.dest_y,
+            easeoutquad(move_command.t[move_command.index_t])
         )
-        action.index_t += 1
+        move_command.index_t += 1
     end
 end
 
-function standby()
+function standby(en)
 end
 
-function update_enemy()
+function update_enemy_states()
     for en in all(enemies) do
         next_t = en.seq[en.i]
         if t == next_t then
             en.i += 1
             if en.seq[en.i].type == "fire" then
                 en.fire_state = "fire"
-                en.i += 1
             elseif en.seq[en.i].type == "stop_fire" then
                 en.fire_state = "stop_fire"
-                en.i += 1
+            elseif en.seq[en.i].type == "move" then
+                en.state = "move"
+            elseif en.seq[en.i].type == "move" then
+                en.state = "move"
+            elseif en.seq[en.i].type == "stanby" then
+                en.state = "standby"
             end
         end
+    end
+end
+
+function enemy_routines()
+    for en in all(enemies) do
+
     end
 end
 

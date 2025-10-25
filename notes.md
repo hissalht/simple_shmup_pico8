@@ -168,6 +168,12 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
     - some number n (2 is fast)
     - this does not attain the exact target
     - snap them in position when they get close !
+
+# Resources
+- debug print method and helper with better output: https://www.lexaloffle.com/bbs/?tid=42367
+- easing functions : https://www.lexaloffle.com/bbs/?tid=40577
+
+
 # log
 ## 31/07/2025
 - implem lizenn sprite
