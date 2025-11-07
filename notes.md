@@ -243,3 +243,6 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 - implement a big enemy
 ## 12/10/2025
 - separate state update with execution to allow changing fire state mid movement/hold
+## 22/10/2025
+## 07/11/2025
+-

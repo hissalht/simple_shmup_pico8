@@ -24,8 +24,8 @@ function update_game()
         invul -= 1
     end
 
-    check_spawns()
-    update_enemy()
+    update_enemy_states()
+    enemy_routines()
     update_enemy_fire()
     update_enemy_bullets()
 

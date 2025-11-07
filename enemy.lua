@@ -7,6 +7,8 @@ function load_enemy(enemy_table)
 
     local seq = {}
     local current_t = spawn[4] + 1
+
+    add(seq, { type = "standby", t = spawn[4], start_time = 0, func = standby })
     add(
         seq,
         {
@@ -102,33 +104,25 @@ function load_enemy(enemy_table)
     )
 
     qsort(seq, sort_seq)
+    pq(seq)
 
     en.seq = seq
     add(spawn_list, en)
 end
 
-function check_spawns()
-    for en in all(spawn_list) do
-        if t >= en.spawn_timer then
-            add(enemies, en)
-            del(spawn_list, en)
-        end
-    end
-end
-
 function lerp_enemy(en, command)
-    if move_command.index_t != move_command.end_index then
+    if command.index_t != command.end_index then
         en.x = lerp(
-            move_command.start_x,
-            move_command.dest_x,
-            easeoutquad(move_command.t[move_command.index_t])
+            command.start_x,
+            command.dest_x,
+            easeoutquad(command.t[command.index_t])
         )
         en.y = lerp(
-            move_command.start_y,
-            move_command.dest_y,
-            easeoutquad(move_command.t[move_command.index_t])
+            command.start_y,
+            command.dest_y,
+            easeoutquad(command.t[command.index_t])
         )
-        move_command.index_t += 1
+        command.index_t += 1
     end
 end
 
@@ -138,6 +132,7 @@ end
 function update_enemy_states()
     for en in all(enemies) do
         next_t = en.seq[en.i]
+        -- pq(en.seq[en.i].type)
         if t == next_t then
             en.i += 1
             if en.seq[en.i].type == "fire" then
@@ -150,6 +145,8 @@ function update_enemy_states()
                 en.state = "move"
             elseif en.seq[en.i].type == "stanby" then
                 en.state = "standby"
+            elseif en.seq[en.i].type == "spawn" then
+                en.spawned = true
             end
         end
     end
