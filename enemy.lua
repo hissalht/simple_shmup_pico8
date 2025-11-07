@@ -116,7 +116,7 @@ function check_spawns()
     end
 end
 
-function lerp_enemy(en, move_command)
+function lerp_enemy(en, command)
     if move_command.index_t != move_command.end_index then
         en.x = lerp(
             move_command.start_x,
@@ -132,7 +132,7 @@ function lerp_enemy(en, move_command)
     end
 end
 
-function standby(en)
+function standby(en, command)
 end
 
 function update_enemy_states()
@@ -157,7 +157,7 @@ end
 
 function enemy_routines()
     for en in all(enemies) do
-
+        en.seq[en.i].func(en, en.seq[en.i])
     end
 end
 
