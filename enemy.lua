@@ -123,16 +123,20 @@ end
 
 function update_enemy_states()
     for en in all(enemies) do
-        next_t = en.seq[en.i].next_t
+        next_t = en.seq[en.i + 1].start_time
         -- pq(en.seq[en.i].type)
         pq(en.seq[en.i].type)
-        pq(en.seq[en.i].next_t)
-        if t == next_t then
+        pq(next_t)
+        if next_t == nil then
+            del(enemies, en)
+        elseif t == next_t then
             en.i += 1
             if en.seq[en.i].type == "fire" then
                 en.fire_state = "fire"
+                en.i += 1
             elseif en.seq[en.i].type == "stop_fire" then
                 en.fire_state = "stop_fire"
+                en.i += 1
             elseif en.seq[en.i].type == "move" then
                 en.state = "move"
             elseif en.seq[en.i].type == "move" then
@@ -146,6 +150,7 @@ end
 
 function enemy_routines()
     for en in all(enemies) do
+        pq(en.seq[en.i].type)
         en.seq[en.i].func(en, en.seq[en.i])
     end
 end
