@@ -24,8 +24,8 @@ function start_game()
     ship.xspeed = 0
     ship.yspeed = 0
     ship.spr = 64
-    ship.spx = -6
-    ship.spy = -5
+    ship.sprx = -6
+    ship.spry = -5
     ship.w = 2
     ship.h = 2
     ship.flame = 6
@@ -51,7 +51,7 @@ function start_game()
 
     asteroids = {}
     for i = 1, 3 do
-        local asteroid = { x = rnd(127), y = -30, spx = 0, spy = 0, w = 1, h = 1, speed = rnd(0.5) + 0.05, spr = 48 }
+        local asteroid = { x = rnd(127), y = -30, sprx = 0, spry = 0, w = 1, h = 1, speed = rnd(0.5) + 0.05, spr = 48 }
         add(asteroids, asteroid)
     end
 

@@ -19,8 +19,8 @@ function load_enemy(enemy_table)
 
     if en.type == "popcorn" then
         en.spr = 35
-        en.spx = 0
-        en.spy = 0
+        en.sprx = 0
+        en.spry = 0
         en.spd = 0.4
         en.w = 1
         en.h = 1
@@ -34,8 +34,8 @@ function load_enemy(enemy_table)
 
     if en.type == "tenta1" then
         en.spr = 37
-        en.spx = 0
-        en.spy = 0
+        en.sprx = 0
+        en.spry = 0
         en.spd = 0.3
         en.w = 2
         en.h = 2

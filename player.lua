@@ -4,8 +4,8 @@ function create_bullet(x, y, spr)
     bul.y = y
     bul.xb = 3
     bul.yb = 7
-    bul.spx = 0
-    bul.spy = 0
+    bul.sprx = 0
+    bul.spry = 0
     bul.w = 1
     bul.h = 1
     bul.spr = spr
@@ -144,6 +144,17 @@ function update_collision_ship()
             lives -= 1
             invul = 60
             del(enemies, enemy)
+        end
+    end
+end
+
+function update_collision_en_bullets()
+    for bul in all(enemy_bullets) do
+        if col(ship,bul)  and invul == 0 then
+            sfx(1)
+            lives -= 1
+            invul = 60
+            del(bul,enemy_bullets)
         end
     end
 end

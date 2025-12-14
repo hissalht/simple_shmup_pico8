@@ -1,5 +1,5 @@
 function draw_obj(obj)
-    spr(obj.spr, obj.x + obj.spx, obj.y + obj.spy, obj.w, obj.h)
+    spr(obj.spr, obj.x + obj.sprx, obj.y + obj.spry, obj.w, obj.h)
 end
 
 function draw_array(array)
@@ -8,8 +8,9 @@ function draw_array(array)
     end
 end
 
-function draw_hb(obj)
-    rect(obj.x, obj.y, obj.x + obj.xb, obj.y + obj.yb, 5)
+function draw_hb(obj,color)
+    color = color or 5
+    rect(obj.x, obj.y, obj.x + obj.xb, obj.y + obj.yb, color)
 end
 
 function mod(a, n, d)

@@ -35,6 +35,8 @@
     - [x] normalize diagonal ship speed
 - [ ] load enemy sequence
     - [ ] then sort it wrt to timer entry
+- [ ] delete enemy bullets offscreen
+
 
 ## probably not ?
 - ~~ reduce ship speed when laser ??~~
@@ -87,7 +89,7 @@
 # implementation information
 ## conventions
 ### sprite positioning
-`thing.spx` is the offset in pixel where to draw the sprite
+`thing.sprx` is the offset in pixel where to draw the sprite
 
 ### hitbox
 the hitbox always starts at `thing.x` `thing.y`
@@ -114,6 +116,10 @@ characters are `3x5` pixels
 
 ## enemy design
 - snail shape shot for a boss ?
+- to create emerging bullet patterns with openings appearing and disappearing we can play on
+    - spawn positions of the bullets
+    - funky trajectories
+    - **varied bullet speeds between rounds of fire !**
 
 ### wave shaped shot shot concept
 ```lua
@@ -248,5 +254,6 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 ## 17/11/2025
 ## 14/12/2025
 - fix enenmy sequencing system
--
+- animate enemy bullets
+- add enemy bullets collisions
 

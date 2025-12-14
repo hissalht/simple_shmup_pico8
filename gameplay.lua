@@ -28,11 +28,12 @@ function update_game()
     enemy_routines()
     update_enemy_fire()
     update_enemy_bullets()
+    update_collision_en_bullets()
 
     update_bullets()
     update_collision_laser()
 
-    -- update_collisions_edges()
+    update_collisions_edges()
     update_collision_ship()
 
     if mode == "game" then
@@ -117,8 +118,8 @@ function update_controls()
     end
     if btn(5) then
         if delay_next_shot <= 0 then
-            add(bullets, create_bullet(ship.x + ship.spx + 2, ship.y + ship.spy - 3, 0))
-            add(bullets, create_bullet(ship.x + ship.spx + 8, ship.y + ship.spy - 3, 1))
+            add(bullets, create_bullet(ship.x + ship.sprx + 2, ship.y + ship.spry - 3, 0))
+            add(bullets, create_bullet(ship.x + ship.sprx + 8, ship.y + ship.spry - 3, 1))
             sfx(0)
             delay_next_shot = fire_rate
         end

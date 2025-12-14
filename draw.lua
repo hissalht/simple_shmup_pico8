@@ -32,11 +32,11 @@ function draw_game()
 
     if invul <= 0 then
         draw_obj(ship)
-        spr(flr(ship.flame), ship.x + ship.spx + 4, ship.y + ship.spy + 10)
+        spr(flr(ship.flame), ship.x + ship.sprx + 4, ship.y + ship.spry + 10)
     else
         if sin(t / 10) < -0.2 then
             draw_obj(ship)
-            spr(flr(ship.flame), ship.x + ship.spx + 4, ship.y + ship.spy + 10)
+            spr(flr(ship.flame), ship.x + ship.sprx + 4, ship.y + ship.spry + 10)
         end
     end
 
@@ -51,7 +51,7 @@ function draw_game()
             pal(11, 12)
             pal(10, 13)
         end
-        spr(en.spr, en.x + en.spx + shakx, en.y + en.spy + shaky, en.w, en.h)
+        spr(en.spr, en.x + en.sprx + shakx, en.y + en.spry + shaky, en.w, en.h)
         -- draw_obj(en)
         pal(0)
     end
@@ -191,6 +191,9 @@ function draw_all_hitbox()
         end
         for b in all(bullets) do
             draw_hb(b)
+        end
+        for b in all(enemy_bullets)do
+            draw_hb(b,3)
         end
     end
 end
