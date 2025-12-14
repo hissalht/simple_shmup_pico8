@@ -246,5 +246,7 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 ## 22/10/2025
 ## 07/11/2025
 ## 17/11/2025
-- 
+## 14/12/2025
+- fix enenmy sequencing system
+-
 

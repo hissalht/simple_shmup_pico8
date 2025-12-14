@@ -5,7 +5,10 @@ function update_popcorn_canon(en)
     bul.xb = 1
     bul.yb = 1
     bul.dmg = 1
-    bul.spr = 0
+    bul.spr = 10
+    bul.ani = {10,11,12}
+    bul.frame = 1
+    bul.ani_spd = 0.3
     bul.w = 1
     bul.h = 1
     local atantruc = atan2(ship.x - bul.x, ship.y - bul.y)
@@ -26,7 +29,10 @@ function update_tenta1_canon(en)
             bul.xb = 1
             bul.yb = 1
             bul.dmg = 1
-            bul.spr = 0
+            bul.spr = 10
+            bul.ani = {10,11,12}
+            bul.frame = 1
+            bul.ani_spd = 0.3
             bul.w = 1
             bul.h = 1
             bul.spx = cos(theta) * 1
@@ -45,7 +51,10 @@ function update_tenta1_canon(en)
         bul.xb = 1
         bul.yb = 1
         bul.dmg = 1
-        bul.spr = 0
+        bul.spr = 10
+        bul.ani = {10,11,12}
+        bul.frame = 1
+        bul.ani_spd = 0.3
         bul.w = 1
         bul.h = 1
         local atantruc = atan2(ship.x - bul.x, ship.y - bul.y)

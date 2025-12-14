@@ -58,6 +58,9 @@ function draw_game()
 
     draw_array(bullets)
     draw_array(enemy_bullets)
+    for bul in all(enemy_bullets) do
+        animate(bul)
+    end
 
     for bul in all(bullets) do
         draw_obj(bul)
@@ -300,4 +303,12 @@ function draw_laser_meter()
     print(laser.meter, 12, 95, 13)
     local norm_meter = laser.meter / 100
     rectfill(5, 100 - norm_meter * 60, 10, 100, 13)
+end
+
+function animate(obj)
+    obj.frame += obj.ani_spd
+    if flr(obj.frame) > #obj.ani then
+        obj.frame = 1
+    end
+    obj.spr = obj.ani[flr(obj.frame)]
 end
