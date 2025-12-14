@@ -28,7 +28,7 @@ function load_enemy(enemy_table)
         en.xb = 8
         en.yb = 8
         en.delay_shot = 0
-        en.fire_state = "fire"
+        en.fire_state = "stop_fire"
         en.update_canon = update_popcorn_canon
     end
 
@@ -43,7 +43,7 @@ function load_enemy(enemy_table)
         en.xb = 13
         en.yb = 13
         en.delay_shot = 0
-        en.fire_state = "fire"
+        en.fire_state = "stop_fire"
         en.update_canon = update_tenta1_canon
     end
 
@@ -127,9 +127,7 @@ function update_enemy_states()
         -- pq(en.seq[en.i].type)
         pq(en.seq[en.i].type)
         pq(next_t)
-        if next_t == nil then
-            del(enemies, en)
-        elseif t == next_t then
+        if t == next_t then
             en.i += 1
             if en.seq[en.i].type == "fire" then
                 en.fire_state = "fire"
@@ -143,6 +141,8 @@ function update_enemy_states()
                 en.state = "move"
             elseif en.seq[en.i].type == "stanby" then
                 en.state = "standby"
+            elseif en.seq[en.i].type == "despawn" then
+                del(enemies, en)
             end
         end
     end
