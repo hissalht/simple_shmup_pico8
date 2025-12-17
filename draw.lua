@@ -294,11 +294,17 @@ function draw_laser()
         laser_spr_ind = mod(laser_spr_ind + 0.25, 4, 1)
         local floored = flr(laser_spr_ind)
         for i = 0, max_num_sprite - 1 do
-            spr(laser_spr_num[mod(floored + i, 4, 1)], laser.x - 3, laser.y + 8 * i, 3, 1)
+            spr(laser_spr_num[mod(floored + i, 4, 1)], laser.x - 3, laser.y + 8 * i, 2, 1)
         end
         clip(laser.x - 3, laser.y + 8 * max_num_sprite, 30, incomplete_sprite)
         spr(laser_spr_num[mod(floored + max_num_sprite, 4, 1)], laser.x - 3, laser.y + 8 * max_num_sprite, 2, 1)
         clip()
+
+        laser_start.x = ship.x
+        laser_start.y = ship.y
+        pq(laser_start.y)
+        draw_obj(laser_start)
+        animate(laser_start)
     end
 end
 

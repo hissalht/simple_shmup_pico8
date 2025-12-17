@@ -96,7 +96,6 @@ function load_enemy(enemy_table)
     )
 
     qsort(seq, sort_seq)
-    -- pq(seq)
 
     en.seq = seq
     add(enemies, en)
@@ -124,9 +123,6 @@ end
 function update_enemy_states()
     for en in all(enemies) do
         next_t = en.seq[en.i + 1].start_time
-        -- pq(en.seq[en.i].type)
-        pq(en.seq[en.i].type)
-        pq(next_t)
         if t == next_t then
             en.i += 1
             if en.seq[en.i].type == "fire" then
@@ -150,7 +146,6 @@ end
 
 function enemy_routines()
     for en in all(enemies) do
-        pq(en.seq[en.i].type)
         en.seq[en.i].func(en, en.seq[en.i])
     end
 end

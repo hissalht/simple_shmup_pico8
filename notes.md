@@ -256,4 +256,6 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 - fix enenmy sequencing system
 - animate enemy bullets
 - add enemy bullets collisions
-
+## 15/12/2025
+- draw frames start laser
+- implementation
