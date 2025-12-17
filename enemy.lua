@@ -39,7 +39,7 @@ function load_enemy(enemy_table)
         en.spd = 0.3
         en.w = 2
         en.h = 2
-        en.hp = 20
+        en.hp = 10000
         en.xb = 13
         en.yb = 13
         en.delay_shot = 0

@@ -302,9 +302,14 @@ function draw_laser()
 
         laser_start.x = ship.x
         laser_start.y = ship.y
-        pq(laser_start.y)
         draw_obj(laser_start)
         animate(laser_start)
+        if laser.collide then
+            laser_end.x = laser.x
+            laser_end.y = laser.y
+            draw_obj(laser_end)
+            animate(laser_end)
+          end
     end
 end
 

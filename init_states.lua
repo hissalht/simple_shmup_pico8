@@ -46,8 +46,21 @@ function start_game()
         ani_spd = 0.6,
         w = 3,
         h = 2
-
     }
+    laser_end = {
+        x = 0,
+        y= 0,
+        sprx = -6,
+        spry = -10,
+        spr = 130,
+        ani = {133,136},
+        frame = 1,
+        ani_spd = 0.6,
+        w = 3,
+        h = 3
+    }
+
+
 
     speed_bul = 5
 
