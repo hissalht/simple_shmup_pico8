@@ -29,10 +29,21 @@ function load_enemy(enemy_table)
         en.yb = 8
         en.delay_shot = 0
         en.fire_state = "stop_fire"
-        en.update_canon = update_popcorn_canon
-    end
-
-    if en.type == "tenta1" then
+        en.update_canon = nil
+    elseif en.type == "basic" then
+        en.spr = 36
+        en.sprx = 0
+        en.spry = 0
+        en.spd = 0.35
+        en.w = 1
+        en.h = 1
+        en.hp = 20
+        en.xb = 8
+        en.yb = 8
+        en.delay_shot = 0
+        en.fire_state = "stop_fire"
+        en.update_canon = update_basic_canon
+    elseif en.type == "tenta1" then
         en.spr = 37
         en.sprx = 0
         en.spry = 0
@@ -56,8 +67,8 @@ function load_enemy(enemy_table)
             add(
                 seq, {
                     type = "move",
-                    start_x = en.x,
-                    start_y = en.y,
+                    start_x = 0,
+                    start_y = 0,
                     dest_x = action[2],
                     dest_y = action[3],
                     t = linspace(n_frame),
@@ -71,6 +82,7 @@ function load_enemy(enemy_table)
         elseif action[1] == "st" then
             add(seq, { type = "standby", t = action[2], start_time = current_t, func = standby })
             current_t += action[2] + 1
+            -- fixme please ouingue
         elseif action[1] == "fire" then
             add(
                 seq, {
@@ -133,8 +145,8 @@ function update_enemy_states()
                 en.i += 1
             elseif en.seq[en.i].type == "move" then
                 en.state = "move"
-            elseif en.seq[en.i].type == "move" then
-                en.state = "move"
+                en.seq[en.i].start_x = en.x
+                en.seq[en.i].start_y = en.y
             elseif en.seq[en.i].type == "stanby" then
                 en.state = "standby"
             elseif en.seq[en.i].type == "despawn" then

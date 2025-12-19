@@ -1,4 +1,4 @@
-function update_popcorn_canon(en)
+function update_basic_canon(en)
     local bul = {}
     bul.x = en.x + 0
     bul.y = en.y + 1
@@ -6,6 +6,8 @@ function update_popcorn_canon(en)
     bul.yb = 1
     bul.dmg = 1
     bul.spr = 10
+    bul.sprx = 0
+    bul.spry = 0
     bul.ani = {10,11,12}
     bul.frame = 1
     bul.ani_spd = 0.3

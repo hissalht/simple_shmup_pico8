@@ -70,6 +70,16 @@ function update_collision_laser()
                 laser.collide = true
                 laser.height = ship.y - 8 - (en.y + en.yb)
 
+                local p = {}
+                p.x = laser.x
+                p.y = laser.y
+                p.sx = rnd(3) - 1.5
+                p.sy = rnd(3) - 3
+                p.age = 0
+                p.maxage = rnd(30)
+                p.color = 13
+                add(sparks, p)
+
                 if en.hp <= 0 then
                     del(enemies, en)
                     explode(en.x, en.y)
@@ -108,6 +118,7 @@ function update_collision_bullets()
                 p.sy = rnd(3) - 3
                 p.age = 0
                 p.maxage = rnd(30)
+                p.color = 4
                 add(sparks, p)
 
                 if en.hp <= 0 then
@@ -155,32 +166,6 @@ function update_collision_en_bullets()
             lives -= 1
             invul = 60
             del(bul,enemy_bullets)
-        end
-    end
-end
-
-function update_collision_laser()
-    laser.collide = false
-    if laser.on then
-        for en in all(enemies) do
-            if col(laser, en) then
-                en.hp -= laser.dmg
-                en.flash = 4
-
-                laser.collide = true
-                laser.height = ship.y - 8 - (en.y + en.yb)
-
-                if en.hp <= 0 then
-                    del(enemies, en)
-                    explode(en.x, en.y)
-                    score += 1
-                    sfx(1)
-                    sfx(2)
-                    sfx(3)
-                    laser.meter += 10
-                    laser.meter = min(laser.meter, 100)
-                end
-            end
         end
     end
 end

@@ -90,7 +90,7 @@ function draw_game()
     end
 
     for sp in all(sparks) do
-        pset(sp.x, sp.y, 4)
+        pset(sp.x, sp.y, sp.color)
         sp.x += sp.sx
         sp.y += sp.sy
         sp.age += 1
@@ -170,7 +170,7 @@ function create_stars()
         if star.speed > 0.15 and star.speed < 0.5 then
             color = 2
         elseif star.speed >= 0.5 then
-            color = 4
+            color = 15
         end
         star.color = color
         add(stars, star)
@@ -273,6 +273,7 @@ function explode(x, y)
         p.sy = rnd(4) - 2
         p.age = 0
         p.maxage = 10 + rnd(40)
+        p.color = 4
         add(sparks, p)
     end
 

@@ -10,15 +10,15 @@
     - first draft done
     - [ ] ease the spawn of a formation of enemy maybe ?
     - to be improved after enemies attacks
-    - [ ] enemy types system
+    - [x] enemy types system
 - [ ] enemy attacks
     - [ ] popcorn bullet sprite
     - [x] design 1 major enemy pattern
-    - [ ] manage fire state evolution in time
+    - [x] manage fire state evolution in time
     - [ ] delay shot is attached to the whole enemy, pb for different file rates/patterns on one enemy
-    - [ ] add enemy bullet collisions
+    - [x] add enemy bullet collisions
 - [ ] prevent enemies from dying off screen where I spawn them
-- [ ] laser improvements
+- [x] laser improvements
     - [x] build up in size
     - [x] stop on enemies
     - [x] concentrated laser at origin
@@ -26,15 +26,15 @@
     - [x] particle effect to give movement to the chunk of the laser
         - did an animated moving sprite column
     - tested lizenn ring laser and spiral, doesnt work in our technical limits
-    - [ ] particles/sprite at begining and end
+    - [x] particles/sprite at begining and end
 - [ ] fix : hit impact stop animating on wave screen
 - [ ] improve muzzle flash
     - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
 - [ ] manage ship states with a state machine
     - [ ] lock main shot when laser
     - [x] normalize diagonal ship speed
-- [ ] load enemy sequence
-    - [ ] then sort it wrt to timer entry
+- [x] load enemy sequence
+    - [x] then sort it wrt to timer entry
 - [ ] delete enemy bullets offscreen
 
 
@@ -259,3 +259,6 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 ## 15/12/2025
 - draw frames start laser
 - implementation
+## 19/12/2025
+- add hit sparks for laser
+- 2 basic enemies, one non shooting one shooting at players rapidly
