@@ -24,9 +24,30 @@ function update_game()
         invul -= 1
     end
 
-    update_enemy_states()
-    enemy_routines()
-    update_enemy_fire()
+    for en in all(enemies) do
+        if en.seq[en.i].func(en, en.seq[en.i]) then -- call state routine
+            en.t = 0
+            en.i += 1
+        else
+            en.t += 1
+        end
+
+        if en.fire_seq[en.i_fire] then
+            if en.fire_seq[en.i_fire].func(en, en.fire_seq[en.i_fire]) then
+                en.t_fire = 0
+                en.i_fire += 1
+            else
+                en.t_fire += 1
+            end
+        end
+        if en.fire_state == "fire" then
+            if en.delay_shot <= 0 then
+                en.update_canon(en)
+            else
+                en.delay_shot -= 1
+            end
+        end
+    end
     update_enemy_bullets()
     update_collision_en_bullets()
 

@@ -3,19 +3,24 @@ end
 
 function load_enemy(enemy_table)
     local en = {}
-    local spawn = split(enemy_table[1])
+    local action_table = enemy_table[1]
+    local fire_table = enemy_table[2]
+    local spawn = split(action_table[1])
 
     local seq = {}
-    local current_t = spawn[4] + 1
+    local fire_seq = {}
 
-    add(seq, { type = "standby", t = spawn[4], start_time = 0, func = standby })
+    add(seq, { type = "standby", duration = spawn[4], func = standby })
     en.type = spawn[1]
     en.x = spawn[2]
     en.y = spawn[3]
     en.spawn_timer = spawn[4]
     en.flash = 0
     en.i = 1
-    en.seq_len = #enemy_table - 1
+    en.t = 0
+    en.seq_len = #action_table - 1
+    en.t_fire = 0
+    en.i_fire = 1
 
     if en.type == "popcorn" then
         en.spr = 35
@@ -58,8 +63,8 @@ function load_enemy(enemy_table)
         en.update_canon = update_tenta1_canon
     end
 
-    for i = 2, #enemy_table do
-        local action = split(enemy_table[i])
+    for i = 2, #action_table do
+        local action = split(action_table[i])
         if action[1] == "mv" then
             local spx = (action[2] - en.x)
             local spy = (action[3] - en.y)
@@ -72,106 +77,86 @@ function load_enemy(enemy_table)
                     dest_x = action[2],
                     dest_y = action[3],
                     t = linspace(n_frame),
-                    index_t = 1,
-                    end_index = n_frame + 1,
-                    start_time = current_t,
+                    last_t = n_frame,
                     func = lerp_enemy
                 }
             )
-            current_t += n_frame + 1
         elseif action[1] == "st" then
-            add(seq, { type = "standby", t = action[2], start_time = current_t, func = standby })
-            current_t += action[2] + 1
-            -- fixme please ouingue
-        elseif action[1] == "fire" then
-            add(
-                seq, {
-                    type = "fire",
-                    start_time = action[2]
-                }
-            )
-        elseif action[1] == "stop_fire" then
-            add(
-                seq, {
-                    type = "stop_fire",
-                    start_time = action[2]
-                }
-            )
+            add(seq, { type = "standby", duration = action[2] - 1, func = standby })
+
         end
     end
-
     add(
         seq, {
             type = "despawn",
-            start_time = current_t
+            func = despawn_enemy
         }
     )
 
-    qsort(seq, sort_seq)
+    for i = 1, #fire_table do
+        local action = split(fire_table[i])
+        if action[1] == "st" then
+            add(fire_seq, { type = "standby", duration = action[2] - 1, func = standby_fire })
+        elseif action[1] == "fire" or action[1] == "stop_fire" then
+            add(
+                fire_seq, {
+                    fire_state = action[1],
+                    func = change_fire_state
+                }
+            )
+            add(fire_seq, { type = "standby", duration = action[2] - 1, func = standby_fire })
+        end
+    end
 
     en.seq = seq
+    en.fire_seq = fire_seq
     add(enemies, en)
 end
 
 function lerp_enemy(en, command)
-    if command.index_t != command.end_index then
+    if en.t == 0 then
+        command.start_x = en.x
+        command.start_y = en.y
+    end
+    if en.t < command.last_t then
         en.x = lerp(
             command.start_x,
             command.dest_x,
-            easeoutquad(command.t[command.index_t])
+            easeoutquad(command.t[en.t + 1])
         )
         en.y = lerp(
             command.start_y,
             command.dest_y,
-            easeoutquad(command.t[command.index_t])
+            easeoutquad(command.t[en.t + 1])
         )
-        command.index_t += 1
+    else
+        return true
     end
+    return false
 end
 
 function standby(en, command)
+    return standby_helper(en.t, command.duration)
 end
 
-function update_enemy_states()
-    for en in all(enemies) do
-        next_t = en.seq[en.i + 1].start_time
-        if t == next_t then
-            en.i += 1
-            if en.seq[en.i].type == "fire" then
-                en.fire_state = "fire"
-                en.i += 1
-            elseif en.seq[en.i].type == "stop_fire" then
-                en.fire_state = "stop_fire"
-                en.i += 1
-            elseif en.seq[en.i].type == "move" then
-                en.state = "move"
-                en.seq[en.i].start_x = en.x
-                en.seq[en.i].start_y = en.y
-            elseif en.seq[en.i].type == "stanby" then
-                en.state = "standby"
-            elseif en.seq[en.i].type == "despawn" then
-                del(enemies, en)
-            end
-        end
-    end
+function standby_fire(en,command)
+    return standby_helper(en.t_fire, command.duration)
 end
 
-function enemy_routines()
-    for en in all(enemies) do
-        en.seq[en.i].func(en, en.seq[en.i])
+function standby_helper(t, duration)
+    if t == duration then
+        return true
     end
+    return false
 end
 
-function update_enemy_fire()
-    for en in all(enemies) do
-        if en.fire_state == "fire" then
-            if en.delay_shot <= 0 then
-                en.update_canon(en)
-            else
-                en.delay_shot -= 1
-            end
-        end
-    end
+function change_fire_state(en, command)
+    en.fire_state = command.fire_state
+    return true
+end
+
+function despawn_enemy(en, command)
+    del(enemies, en)
 end
 
 function update_enemy_bullets()

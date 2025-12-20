@@ -37,11 +37,11 @@ function start_game()
     laser_spr_num = { 128, 144, 160, 176 }
     laser_start = {
         x = 0,
-        y= 0,
+        y = 0,
         sprx = -12,
         spry = -18,
         spr = 130,
-        ani = {130,162},
+        ani = { 130, 162 },
         frame = 1,
         ani_spd = 0.6,
         w = 3,
@@ -49,18 +49,16 @@ function start_game()
     }
     laser_end = {
         x = 0,
-        y= 0,
+        y = 0,
         sprx = -6,
         spry = -10,
         spr = 130,
-        ani = {133,136},
+        ani = { 133, 136 },
         frame = 1,
         ani_spd = 0.6,
         w = 3,
         h = 3
     }
-
-
 
     speed_bul = 5
 
@@ -91,8 +89,8 @@ function start_game()
     smart_enemies = {
         -- { "popcorn, 20,-40,30", "mv,25,30,0.4", "st,1000" },
         -- { "popcorn, 40,-30,30","fire,60", "mv,120,120", "st,100" },
-        { "popcorn, 20,-20,30", "mv,65,50", "st,1000" },
-        { "basic, 30, -20,30", "mv,55,50","mv, 100,50","fire,60", "st,1000" },
+        {{ "basic, 20,30,30", "mv,65,50", "st,100","mv, 120,120" },{"st,60", "fire,400", "stop_fire,100"}}
+        -- { "basic, 30, -20,30", "mv,55,50","mv, 100,50","fire,60", "st,1000" },
         -- { "tenta1, 75,-20,60","fire,30", "mv,75,30", "st,1000" },
 
         -- { "popcorn, 80,-10,30", "mv,85,60", "st,1000" },

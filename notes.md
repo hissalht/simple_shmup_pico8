@@ -1,45 +1,41 @@
 # todo
-- [ ] vertical UI
-    - [x] ui feedback : I feel health is not legible
-    - remaining space on top of the bar for the rest of infos
-        - score
-        - wave counter
-    - [x] implement ui prototype (functionnal)
-    - [ ] implement ui skin
+[ ] have movement defined by a timer rather than speed to guarantee you know the enemy will arrive at some point
 - [x] conceive enemy management system
     - first draft done
-    - [ ] ease the spawn of a formation of enemy maybe ?
+    - [ ] ~~ease the spawn of a formation of enemy maybe ?~~
     - to be improved after enemies attacks
     - [x] enemy types system
+    - [ ] fix system
+        - each state routine is responsible for state transition, time is local to a state and not local
 - [ ] enemy attacks
-    - [ ] popcorn bullet sprite
+    - [x] popcorn bullet sprite
     - [x] design 1 major enemy pattern
     - [x] manage fire state evolution in time
     - [ ] delay shot is attached to the whole enemy, pb for different file rates/patterns on one enemy
     - [x] add enemy bullet collisions
-- [ ] prevent enemies from dying off screen where I spawn them
-- [x] laser improvements
-    - [x] build up in size
-    - [x] stop on enemies
-    - [x] concentrated laser at origin
-        - [x] and end
-    - [x] particle effect to give movement to the chunk of the laser
-        - did an animated moving sprite column
-    - tested lizenn ring laser and spiral, doesnt work in our technical limits
-    - [x] particles/sprite at begining and end
-- [ ] fix : hit impact stop animating on wave screen
-- [ ] improve muzzle flash
-    - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
-- [ ] manage ship states with a state machine
+- [ ] add big laser hitbox with higher damage at start
+- [ ] fix hit impact stop animating on wave screen
+- [ ] manage player ship states with a state machine
     - [ ] lock main shot when laser
     - [x] normalize diagonal ship speed
-- [x] load enemy sequence
-    - [x] then sort it wrt to timer entry
+- [ ] prevent enemies from dying off screen where I spawn them
+    - despawn player bullet offscreen (check if it’s already done ?)
 - [ ] delete enemy bullets offscreen
 
+## polish
+- [ ] implement ui skin
+- [ ] 2 frames turn animation for the ship
+    - [ ] in game implementation
+- [ ] animate flame for backward and forward motions (longer and shorter)
+- [ ] flame tweak ?
+    - https://saint11.art/img/pixel-tutorials/RocketTrail.gif
+- [ ] awkward flame on turns
+- [ ] program particles for ship engine
+- [ ] improve muzzle flash
+    - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
 
 ## probably not ?
-- ~~ reduce ship speed when laser ??~~
+- ~~reduce ship speed when laser ??~~
     - may be incompatible with a meter/resource gated laser, let’s keep this simple
 
 ## done
@@ -76,14 +72,23 @@
 - [x] make enemy sprite shake when they get hit
 - [x] fix diagonal movement of the ship
     - https://www.youtube.com/watch?v=oBjZ1W50brM&list=PLea8cjCua_P1o-xiQRf_QzqS2pMVlGnse&index=5
-
-## polish
-- [ ] 2 frames turn animation for the ship
-- [ ] animate flame for backward and forward motions (longer and shorter)
-- [ ] flame tweak ?
-    - https://saint11.art/img/pixel-tutorials/RocketTrail.gif
-- [ ] awkward flame on turns
-- [ ] program particles for ship engine
+- [x] laser improvements
+    - [x] build up in size
+    - [x] stop on enemies
+    - [x] concentrated laser at origin
+        - [x] and end
+    - [x] particle effect to give movement to the chunk of the laser
+        - did an animated moving sprite column
+    - tested lizenn ring laser and spiral, doesnt work in our technical limits
+    - [x] particles/sprite at begining and end
+- [x] load enemy sequence
+    - [x] then sort it wrt to timer entry
+- [x] vertical UI
+    - [x] ui feedback : I feel health is not legible
+    - remaining space on top of the bar for the rest of infos
+        - score
+        - wave counter
+    - [x] implement ui prototype (functionnal)
 
 
 # implementation information
@@ -158,8 +163,8 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 - x shape ?
 - [x] I need to know the impact bullet enemy position to place properly my hit effect wrt to the bullet
 
-## I just want a big laser shot mannnn WIP
-- hit effect for laser shot ==> becomes huge/concentrated(bright, even white) at the impact point
+## I just want a big laser shot mannnn
+- hit effect for laser shot ==> becomes huge/concentrated(bright, even white) at the impact point DONE
 
 ## since the bar is the same color as the enemy could we design a system where you go and collect sth on them ?
 
@@ -262,3 +267,6 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 ## 19/12/2025
 - add hit sparks for laser
 - 2 basic enemies, one non shooting one shooting at players rapidly
+- draw in between frame ship turn
+- state machine is still broken, think of fix
+- add separate timeline for fire
