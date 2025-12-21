@@ -1,6 +1,6 @@
 function draw_obj(obj)
     for setting in all(obj.spr_settings) do
-        spr(setting.spr, obj.x + setting.sprx, obj.y + setting.spry, setting.w, setting.h)
+        spr(setting.spr, obj.x + setting.sprx, obj.y + setting.spry, setting.w, setting.h, setting.flip_x, setting.flip_y)
     end
 end
 

@@ -1,8 +1,6 @@
 bul_spr_settings = {
     frames = { 10, 11, 12 },
-    flips = { false, false, false },
     frame = 1,
-    flip = false,
     start = 1,
     stop = 3,
     speed = 0.3,
@@ -43,7 +41,7 @@ function update_tenta1_canon(en)
             bul.spr = 10
             bul.sprx = -1
             bul.spry = -1
-            add(bul, bul_ani)
+            add(bul, bul_spr_settings)
             bul.w = 1
             bul.h = 1
             bul.spx = cos(theta) * 1
@@ -62,12 +60,7 @@ function update_tenta1_canon(en)
         bul.xb = 3
         bul.yb = 3
         bul.dmg = 1
-        bul.spr = 10
-        bul.sprx = -1
-        bul.spry = -1
-        add(bul, bul_ani)
-        bul.w = 1
-        bul.h = 1
+        add(bul, bul_spr_settings)
         local atantruc = atan2(ship.x - bul.x, ship.y - bul.y)
         bul.spx = cos(atantruc + offset_theta[j]) * 1
         bul.spy = sin(atantruc + offset_theta[j]) * 1

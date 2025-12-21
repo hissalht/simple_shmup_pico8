@@ -23,18 +23,27 @@ function load_enemy(enemy_table)
     en.i_fire = 1
 
     if en.type == "popcorn" then
-        en.spr = 35
-        en.sprx = 0
-        en.spry = 0
         en.spd = 0.15
-        en.w = 1
-        en.h = 1
         en.hp = 20
         en.xb = 8
         en.yb = 8
         en.delay_shot = 0
         en.fire_state = "stop_fire"
         en.update_canon = nil
+        spr_settings = {
+            {
+                spr = 35,
+                frames = { 35},
+                flips = { false },
+                frame = 1,
+                flip = false,
+                sprx = 0,
+                spry = 0,
+                speed = 0.6,
+                w = 1,
+                h = 1
+            }
+        }
     elseif en.type == "basic" then
         en.spr = 36
         en.sprx = 0

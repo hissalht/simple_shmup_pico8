@@ -31,7 +31,7 @@ function draw_game()
     draw_ui()
 
     if invul <= 0 then
-        spr(ship.spr, ship.x + ship.sprx, ship.y + ship.spry, ship.w, ship.h, ship.spr_flipx)
+        draw_obj(ship)
 
         spr(flr(ship.flame), ship.x + ship.sprx + 4, ship.y + ship.spry + 10)
     else
@@ -55,6 +55,7 @@ function draw_game()
             pal(10, 13)
         end
         spr(en.spr, en.x + en.sprx + shakx, en.y + en.spry + shaky, en.w, en.h)
+        -- TODO: integrate shakx and shaky to sprx/spry and use generic draw
         -- draw_obj(en)
         pal(0)
     end
@@ -329,8 +330,16 @@ function animate(setting)
             setting.frame = #setting.frames
         end
     end
+
     setting.spr = setting.frames[flr(setting.frame)]
-    setting.flip = setting.flips[flr(setting.frame)]
+
+    if setting.flips_x then
+        setting.flip_x = setting.flips_x[flr(setting.frame)]
+    end
+    if setting.flips_y then
+        setting.flip_y = setting.flips_y[flr(setting.frame)]
+    end
+
 end
 
 function animate_obj(obj)
