@@ -31,7 +31,8 @@ function draw_game()
     draw_ui()
 
     if invul <= 0 then
-        draw_obj(ship)
+        spr(ship.spr, ship.x + ship.sprx, ship.y + ship.spry, ship.w, ship.h, ship.spr_flipx)
+
         spr(flr(ship.flame), ship.x + ship.sprx + 4, ship.y + ship.spry + 10)
     else
         if sin(t / 10) < -0.2 then
@@ -39,6 +40,8 @@ function draw_game()
             spr(flr(ship.flame), ship.x + ship.sprx + 4, ship.y + ship.spry + 10)
         end
     end
+    animate(ship.ani)
+    animate(ship.flame)
 
     for en in all(enemies) do
         local shakx = 0
@@ -111,7 +114,6 @@ function draw_game()
     --     ang = 0
     -- end
     -- print(atantruc,50,120)
-
 end
 
 function draw_ui()
@@ -192,8 +194,8 @@ function draw_all_hitbox()
         for b in all(bullets) do
             draw_hb(b)
         end
-        for b in all(enemy_bullets)do
-            draw_hb(b,3)
+        for b in all(enemy_bullets) do
+            draw_hb(b, 3)
         end
     end
 end
@@ -306,11 +308,9 @@ function draw_laser()
         draw_obj(laser_start)
         animate(laser_start)
         if laser.collide then
-            laser_end.x = laser.x
-            laser_end.y = laser.y
-            draw_obj(laser_end)
-            animate(laser_end)
-          end
+            draw_obj(laser)
+            animate(laser)
+        end
     end
 end
 
@@ -320,10 +320,21 @@ function draw_laser_meter()
     rectfill(5, 100 - norm_meter * 60, 10, 100, 13)
 end
 
-function animate(obj)
-    obj.frame += obj.ani_spd
-    if flr(obj.frame) > #obj.ani then
-        obj.frame = 1
+function animate(setting)
+    setting.frame += setting.ani_spd * setting.dir
+    if flr(setting.frame) > #setting.frames then
+        if setting.loop then
+            setting.frame = setting.start
+        else
+            setting.frame = #setting.frames
+        end
     end
-    obj.spr = obj.ani[flr(obj.frame)]
+    setting.spr = setting.frames[flr(setting.frame)]
+    setting.flip = setting.flips[flr(setting.frame)]
+end
+
+function animate_obj(obj)
+    for setting in all(obj.settings) do
+        animate(setting)
+    end
 end

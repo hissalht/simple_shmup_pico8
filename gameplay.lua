@@ -1,11 +1,19 @@
 function update_game()
+
     t += 1
     blinkt += 1
     laser.off_timer -= 1
 
     ship.xspeed = 0
     ship.yspeed = 0
-    ship.spr = 64
+
+    ship.ani.start = ship.ani.frame
+    ship.ani.stop = 3
+    if ship.ani.start > 3 then
+        ship.ani.dir = 1
+    else
+        ship.ani.dir -= 1
+    end
 
     if delay_next_shot > 0 then
         delay_next_shot -= 1
@@ -18,14 +26,15 @@ function update_game()
     update_controls()
 
     update_ship_position()
-    ship.flame = mod(ship.flame + 0.12, 3, 6)
+
 
     if invul > 0 then
         invul -= 1
     end
 
     for en in all(enemies) do
-        if en.seq[en.i].func(en, en.seq[en.i]) then -- call state routine
+        if en.seq[en.i].func(en, en.seq[en.i]) then
+            -- call state routine
             en.t = 0
             en.i += 1
         else
@@ -110,11 +119,17 @@ function update_controls()
 
     if btn(0) then
         ship.xspeed = -1.41
-        ship.spr = 68
+
+        ship.ani.start = ship.ani.frame
+        ship.ani.stop = 1
+        ship.ani.dir = -1
     end
     if btn(1) then
         ship.xspeed = 1.41
-        ship.spr = 66
+
+        ship.ani.start = ship.ani.frame
+        ship.ani.stop = 5
+        ship.ani.dir = 1
     end
     if btn(2) then
         ship.yspeed = -1.41

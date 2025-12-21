@@ -23,41 +23,86 @@ function start_game()
     ship.y = 50
     ship.xspeed = 0
     ship.yspeed = 0
-    ship.spr = 64
-    ship.sprx = -6
-    ship.spry = -5
-    ship.w = 2
-    ship.h = 2
-    ship.flame = 6
+    ship.spr_settings = {
+        ship = {
+            frames = { 68, 66, 64, 66, 68 },
+            flips = { false, false, false, true, true },
+            frame = 3,
+            flip = false,
+            start = 3,
+            stop = 3,
+            speed = 0.35,
+            loop = false,
+            dir = 1,
+            spr = 64,
+            sprx = -6,
+            spry = -5,
+            w = 2,
+            h = 2
+        },
+        flame = {
+            frames = { 5, 6, 7, 8 },
+            flips = { false, false, false, false },
+            frame = 1,
+            flip = false,
+            loop = true,
+            speed = 0.12,
+            spr = 5,
+            sprx = 4 - 6,
+            spry = 10 - 5,
+            w = 1,
+            h = 1,
+            dir = 1
+        }
+    }
     ship.xb = 2
     ship.yb = 2
 
-    laser = { on = false, x = 0, y = ship.y, xb = 0, yb = 0, dmg = 0.4, height = 0, off_timer = 0, collide = false, meter = 100 }
+    laser = {
+        on = false,
+        x = 0,
+        y = ship.y,
+        xb = 0,
+        yb = 0,
+        dmg = 0.5,
+        height = 0,
+        off_timer = 0,
+        collide = false,
+        meter = 100,
+        spr_settings = {
+            laser_end = {
+                spr = 133,
+                frames = { 133, 136 },
+                flips = { false, false },
+                frame = 1,
+                flip = false,
+                dir = 1,
+                speed = 0.6,
+                loop = true,
+                sprx = -6,
+                spry = -10,
+                w = 3,
+                h = 3
+            }
+        }
+    }
     laser_spr_ind = 0
     laser_spr_num = { 128, 144, 160, 176 }
     laser_start = {
         x = 0,
         y = 0,
-        sprx = -12,
-        spry = -18,
-        spr = 130,
-        ani = { 130, 162 },
-        frame = 1,
-        ani_spd = 0.6,
-        w = 3,
-        h = 2
-    }
-    laser_end = {
-        x = 0,
-        y = 0,
-        sprx = -6,
-        spry = -10,
-        spr = 130,
-        ani = { 133, 136 },
-        frame = 1,
-        ani_spd = 0.6,
-        w = 3,
-        h = 3
+        spr_settings = {
+            spr = 130,
+            frames = { 130, 162 },
+            flips = { false, false },
+            frame = 1,
+            flip = false,
+            sprx = -12,
+            spry = -18,
+            speed = 0.6,
+            w = 3,
+            h = 2
+        }
     }
 
     speed_bul = 5
@@ -87,16 +132,16 @@ function start_game()
     enemy_bullets = {}
 
     smart_enemies = {
-        -- { "popcorn, 20,-40,30", "mv,25,30,0.4", "st,1000" },
-        -- { "popcorn, 40,-30,30","fire,60", "mv,120,120", "st,100" },
-        {{ "basic, 20,30,30", "mv,65,50", "st,100","mv, 120,120" },{"st,60", "fire,400", "stop_fire,100"}}
-        -- { "basic, 30, -20,30", "mv,55,50","mv, 100,50","fire,60", "st,1000" },
-        -- { "tenta1, 75,-20,60","fire,30", "mv,75,30", "st,1000" },
+        { { "basic, 20,-30,30", "mv,20,40", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 25,-30,30", "mv,30,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 25,-30,30", "mv,40,60", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 30,-30,30", "mv,50,70", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "tenta1, 100,-30,150", "fire,30", "mv,100,30", "st,2000" }, { "st, 60", "fire, 0" } },
 
-        -- { "popcorn, 80,-10,30", "mv,85,60", "st,1000" },
-        -- { "popcorn, 40,-20,30", "mv,45,50", "st,1000" },
-        -- { "popcorn, 30,-30,30", "mv,35,40", "st,1000" },
-        -- { "popcorn, 20,-40,30", "mv,25,30", "st,1000" },
+        { { "basic, 130,-30,220", "mv,80,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,70,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,60,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,50,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } }
     }
     spawn_list = {}
     for en_descr in all(smart_enemies) do

@@ -1,18 +1,27 @@
+bul_spr_settings = {
+    frames = { 10, 11, 12 },
+    flips = { false, false, false },
+    frame = 1,
+    flip = false,
+    start = 1,
+    stop = 3,
+    speed = 0.3,
+    loop = true,
+    dir = 1,
+    w = 1,
+    h = 1
+}
+
 function update_basic_canon(en)
-    local bul = {}
-    bul.x = en.x + 0
-    bul.y = en.y + 1
-    bul.xb = 1
-    bul.yb = 1
-    bul.dmg = 1
-    bul.spr = 10
-    bul.sprx = 0
-    bul.spry = 0
-    bul.ani = {10,11,12}
-    bul.frame = 1
-    bul.ani_spd = 0.3
-    bul.w = 1
-    bul.h = 1
+    local bul = {
+        x = en.x,
+        y = en.y + 1,
+        xb = 1,
+        yb = 1,
+        dmg = 1,
+        spr_settings = {}
+    }
+    add(bul.spr_settings, bul_spr_settings)
     local atantruc = atan2(ship.x - bul.x, ship.y - bul.y)
     bul.spx = cos(atantruc) * 1.5
     bul.spy = sin(atantruc) * 1.5
@@ -34,9 +43,7 @@ function update_tenta1_canon(en)
             bul.spr = 10
             bul.sprx = -1
             bul.spry = -1
-            bul.ani = {10,11,12}
-            bul.frame = 1
-            bul.ani_spd = 0.3
+            add(bul, bul_ani)
             bul.w = 1
             bul.h = 1
             bul.spx = cos(theta) * 1
@@ -44,7 +51,7 @@ function update_tenta1_canon(en)
             add(enemy_bullets, bul)
         end
     end
-    en.delay_shot = 120
+    en.delay_shot = 100
 
     -- target player double shot
     local offset_theta = { 0.025, -0.025 }
@@ -58,9 +65,7 @@ function update_tenta1_canon(en)
         bul.spr = 10
         bul.sprx = -1
         bul.spry = -1
-        bul.ani = {10,11,12}
-        bul.frame = 1
-        bul.ani_spd = 0.3
+        add(bul, bul_ani)
         bul.w = 1
         bul.h = 1
         local atantruc = atan2(ship.x - bul.x, ship.y - bul.y)

@@ -26,7 +26,7 @@ function load_enemy(enemy_table)
         en.spr = 35
         en.sprx = 0
         en.spry = 0
-        en.spd = 0.4
+        en.spd = 0.15
         en.w = 1
         en.h = 1
         en.hp = 20
@@ -39,10 +39,10 @@ function load_enemy(enemy_table)
         en.spr = 36
         en.sprx = 0
         en.spry = 0
-        en.spd = 0.35
+        en.spd = 0.20
         en.w = 1
         en.h = 1
-        en.hp = 20
+        en.hp = 10
         en.xb = 8
         en.yb = 8
         en.delay_shot = 0
@@ -52,10 +52,10 @@ function load_enemy(enemy_table)
         en.spr = 37
         en.sprx = 0
         en.spry = 0
-        en.spd = 0.3
+        en.spd = 0.08
         en.w = 2
         en.h = 2
-        en.hp = 10000
+        en.hp = 40
         en.xb = 13
         en.yb = 13
         en.delay_shot = 0
@@ -83,7 +83,6 @@ function load_enemy(enemy_table)
             )
         elseif action[1] == "st" then
             add(seq, { type = "standby", duration = action[2] - 1, func = standby })
-
         end
     end
     add(
@@ -139,7 +138,7 @@ function standby(en, command)
     return standby_helper(en.t, command.duration)
 end
 
-function standby_fire(en,command)
+function standby_fire(en, command)
     return standby_helper(en.t_fire, command.duration)
 end
 
@@ -163,5 +162,9 @@ function update_enemy_bullets()
     for en_bul in all(enemy_bullets) do
         en_bul.x += en_bul.spx
         en_bul.y += en_bul.spy
+
+        if en_bul.x < 0 or en_bul.x > 135 or en_bul.y < 0 or en_bul.y > 135 then
+            del(enemy_bullets, en_bul)
+        end
     end
 end
