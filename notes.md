@@ -1,12 +1,5 @@
 # todo
 [ ] have movement defined by a timer rather than speed to guarantee you know the enemy will arrive at some point
-- [x] conceive enemy management system
-    - first draft done
-    - [ ] ~~ease the spawn of a formation of enemy maybe ?~~
-    - to be improved after enemies attacks
-    - [x] enemy types system
-    - [ ] fix system
-        - each state routine is responsible for state transition, time is local to a state and not local
 - [ ] enemy attacks
     - [x] popcorn bullet sprite
     - [x] design 1 major enemy pattern
@@ -18,19 +11,18 @@
 - [ ] manage player ship states with a state machine
     - [ ] lock main shot when laser
     - [x] normalize diagonal ship speed
-- [ ] prevent enemies from dying off screen where I spawn them
-    - despawn player bullet offscreen (check if it’s already done ?)
-- [ ] delete enemy bullets offscreen
 - [ ] on hit blink of ship should be palette swap instead of disappearing
+- [ ] fix order of drawing for the elements (ui on top, etc...)
 
 ## polish
 - [ ] implement ui skin
-- [ ] 2 frames turn animation for the ship
-    - [ ] in game implementation
+- [x] 2 frames turn animation for the ship
+    - [x] in game implementation
 - [ ] animate flame for backward and forward motions (longer and shorter)
 - [ ] flame tweak ?
     - https://saint11.art/img/pixel-tutorials/RocketTrail.gif
 - [ ] awkward flame on turns
+    - [ ] awkmard ship on turns (linked)
 - [ ] program particles for ship engine
 - [ ] improve muzzle flash
     - see lizenn proposal, I can maybe program sth similar with a bunch of shrinking ovals
@@ -90,6 +82,16 @@
         - score
         - wave counter
     - [x] implement ui prototype (functionnal)
+- [x] conceive enemy management system
+    - first draft done
+    - [ ] ~~ease the spawn of a formation of enemy maybe ?~~
+    - to be improved after enemies attacks
+    - [x] enemy types system
+    - [x] fix system
+        - each state routine is responsible for state transition, time is local to a state and not local
+- [x] prevent enemies from dying off screen where I spawn them
+    - despawn player bullet offscreen (check if it’s already done ?)
+- [x] delete enemy bullets offscreen
 
 
 # implementation information
@@ -273,3 +275,4 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 - add separate timeline for fire
 ## 21/12/2025
 - rewrite all sprite drawing and animation
+- state machine fixed
