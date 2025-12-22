@@ -1,14 +1,4 @@
-function draw_obj(obj)
-    for setting in all(obj.spr_settings) do
-        spr(setting.spr, obj.x + setting.sprx, obj.y + setting.spry, setting.w, setting.h, setting.flip_x, setting.flip_y)
-    end
-end
 
-function draw_array(array)
-    for obj in all(array) do
-        draw_obj(obj)
-    end
-end
 
 function draw_hb(obj, color)
     color = color or 5

@@ -21,54 +21,60 @@ function load_enemy(enemy_table)
     en.seq_len = #action_table - 1
     en.t_fire = 0
     en.i_fire = 1
+    en.delay_shot = 0
+    en.fire_state = "stop_fire"
 
     if en.type == "popcorn" then
         en.spd = 0.15
         en.hp = 20
         en.xb = 8
         en.yb = 8
-        en.delay_shot = 0
-        en.fire_state = "stop_fire"
         en.update_canon = nil
-        spr_settings = {
+        en.spr_settings = {
             {
                 spr = 35,
-                frames = { 35},
-                flips = { false },
-                frame = 1,
-                flip = false,
-                sprx = 0,
-                spry = 0,
                 speed = 0.6,
                 w = 1,
-                h = 1
+                h = 1,
+                sprx = 0,
+                spry = 0
             }
         }
     elseif en.type == "basic" then
-        en.spr = 36
-        en.sprx = 0
-        en.spry = 0
+        en.spr_settings = {
+            {
+                spr = 36,
+                frame = 1,
+                speed = 0.6,
+                w = 1,
+                h = 1,
+                sprx = 0,
+                spry = 0
+            }
+        }
         en.spd = 0.20
-        en.w = 1
-        en.h = 1
         en.hp = 10
         en.xb = 8
         en.yb = 8
-        en.delay_shot = 0
-        en.fire_state = "stop_fire"
         en.update_canon = update_basic_canon
     elseif en.type == "tenta1" then
-        en.spr = 37
-        en.sprx = 0
-        en.spry = 0
+        en.spr_settings = {
+            {
+                spr = 37,
+                frame = 1,
+                sprx = 0,
+                spry = 0,
+                speed = 0.6,
+                w = 2,
+                h = 2,
+                sprx = 0,
+                spry = 0
+            }
+        }
         en.spd = 0.08
-        en.w = 2
-        en.h = 2
         en.hp = 40
         en.xb = 13
         en.yb = 13
-        en.delay_shot = 0
-        en.fire_state = "stop_fire"
         en.update_canon = update_tenta1_canon
     end
 

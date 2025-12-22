@@ -21,6 +21,8 @@ function start_game()
     ship = {}
     ship.x = 50
     ship.y = 50
+    ship.xb = 2
+    ship.yb = 2
     ship.xspeed = 0
     ship.yspeed = 0
     ship.spr_settings = {
@@ -31,10 +33,9 @@ function start_game()
             frame = 3,
             start = 3,
             stop = 3,
-            speed = 0.35,
+            speed = 0.20,
             loop = false,
             dir = 1,
-            spr = 64,
             sprx = -6,
             spry = -5,
             w = 2,
@@ -43,9 +44,11 @@ function start_game()
         flame = {
             frames = { 5, 6, 7, 8 },
             frame = 1,
+            start = 1,
+            stop = 4,
+            frame = 1,
             loop = true,
             speed = 0.12,
-            spr = 5,
             sprx = 4 - 6,
             spry = 10 - 5,
             w = 1,
@@ -53,8 +56,7 @@ function start_game()
             dir = 1
         }
     }
-    ship.xb = 2
-    ship.yb = 2
+
 
     laser = {
         on = false,
@@ -69,8 +71,10 @@ function start_game()
         meter = 100,
         spr_settings = {
             laser_end = {
-                spr = 133,
                 frames = { 133, 136 },
+                frame = 1,
+                start = 1,
+                stop = 2,
                 frame = 1,
                 dir = 1,
                 speed = 0.6,
@@ -92,9 +96,13 @@ function start_game()
                 spr = 130,
                 frames = { 130, 162 },
                 frame = 1,
+                start = 1,
+                stop = 2,
+                dir  = 1,
                 sprx = -12,
                 spry = -18,
                 speed = 0.6,
+                loop = true,
                 w = 3,
                 h = 2
             }
@@ -129,15 +137,15 @@ function start_game()
 
     smart_enemies = {
         { { "popcorn, 20,-30,30", "mv,20,40", "st,500", "mv, 20,-20" }, { "st,60", "st,0" } },
-        -- { { "basic, 25,-30,30", "mv,30,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "basic, 25,-30,30", "mv,40,60", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "basic, 30,-30,30", "mv,50,70", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "tenta1, 100,-30,150", "fire,30", "mv,100,30", "st,2000" }, { "st, 60", "fire, 0" } },
+        { { "basic, 25,-30,30", "mv,30,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 25,-30,30", "mv,40,60", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 30,-30,30", "mv,50,70", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "tenta1, 100,-30,150", "fire,30", "mv,100,30", "st,2000" }, { "st, 60", "fire, 0" } },
 
-        -- { { "basic, 130,-30,220", "mv,80,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "basic, 130,-30,220", "mv,70,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "basic, 130,-30,220", "mv,60,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "basic, 130,-30,220", "mv,50,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } }
+        { { "basic, 130,-30,220", "mv,80,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,70,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,60,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,50,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } }
     }
     spawn_list = {}
     for en_descr in all(smart_enemies) do

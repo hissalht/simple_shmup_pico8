@@ -1,5 +1,4 @@
 function update_game()
-
     t += 1
     blinkt += 1
     laser.off_timer -= 1
@@ -7,12 +6,12 @@ function update_game()
     ship.xspeed = 0
     ship.yspeed = 0
 
-    ship.ani.start = ship.ani.frame
-    ship.ani.stop = 3
-    if ship.ani.start > 3 then
-        ship.ani.dir = 1
+    ship.spr_settings.ship.start = ship.spr_settings.ship.frame
+    ship.spr_settings.ship.stop = 3
+    if ship.spr_settings.ship.start > 3 then
+        ship.spr_settings.ship.dir = -1
     else
-        ship.ani.dir -= 1
+        ship.spr_settings.ship.dir = 1
     end
 
     if delay_next_shot > 0 then
@@ -26,7 +25,6 @@ function update_game()
     update_controls()
 
     update_ship_position()
-
 
     if invul > 0 then
         invul -= 1
@@ -120,16 +118,16 @@ function update_controls()
     if btn(0) then
         ship.xspeed = -1.41
 
-        ship.ani.start = ship.ani.frame
-        ship.ani.stop = 1
-        ship.ani.dir = -1
+        ship.spr_settings.ship.start = ship.spr_settings.ship.frame
+        ship.spr_settings.ship.stop = 1
+        ship.spr_settings.ship.dir = -1
     end
     if btn(1) then
         ship.xspeed = 1.41
 
-        ship.ani.start = ship.ani.frame
-        ship.ani.stop = 5
-        ship.ani.dir = 1
+        ship.spr_settings.ship.start = ship.spr_settings.ship.frame
+        ship.spr_settings.ship.stop = 5
+        ship.spr_settings.ship.dir = 1
     end
     if btn(2) then
         ship.yspeed = -1.41
@@ -154,8 +152,8 @@ function update_controls()
     end
     if btn(5) then
         if delay_next_shot <= 0 then
-            add(bullets, create_bullet(ship.x + ship.sprx + 2, ship.y + ship.spry - 3, 0))
-            add(bullets, create_bullet(ship.x + ship.sprx + 8, ship.y + ship.spry - 3, 1))
+            add(bullets, create_player_bullet(ship.x - 4, ship.y - 8, 0))
+            add(bullets, create_player_bullet(ship.x + 2, ship.y - 8, 1))
             sfx(0)
             delay_next_shot = fire_rate
         end

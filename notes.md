@@ -21,6 +21,7 @@
 - [ ] prevent enemies from dying off screen where I spawn them
     - despawn player bullet offscreen (check if it’s already done ?)
 - [ ] delete enemy bullets offscreen
+- [ ] on hit blink of ship should be palette swap instead of disappearing
 
 ## polish
 - [ ] implement ui skin
@@ -270,3 +271,5 @@ prop.y_spawn = prop.radius * sin(prop.thet_bul)
 - draw in between frame ship turn
 - state machine is still broken, think of fix
 - add separate timeline for fire
+## 21/12/2025
+- rewrite all sprite drawing and animation

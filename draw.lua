@@ -30,18 +30,14 @@ function draw_game()
     starfield()
     draw_ui()
 
+    animate_obj(ship)
     if invul <= 0 then
         draw_obj(ship)
-
-        spr(flr(ship.flame), ship.x + ship.sprx + 4, ship.y + ship.spry + 10)
     else
         if sin(t / 10) < -0.2 then
             draw_obj(ship)
-            spr(flr(ship.flame), ship.x + ship.sprx + 4, ship.y + ship.spry + 10)
         end
     end
-    animate(ship.ani)
-    animate(ship.flame)
 
     for en in all(enemies) do
         local shakx = 0
@@ -54,16 +50,19 @@ function draw_game()
             pal(11, 12)
             pal(10, 13)
         end
-        spr(en.spr, en.x + en.sprx + shakx, en.y + en.spry + shaky, en.w, en.h)
-        -- TODO: integrate shakx and shaky to sprx/spry and use generic draw
-        -- draw_obj(en)
+
+        en.spr_settings[1].sprx += shakx
+        en.spr_settings[1].spry += shaky
+        draw_obj(en)
+        en.spr_settings[1].sprx -= shakx
+        en.spr_settings[1].spry -= shaky
+
         pal(0)
     end
 
-    draw_array(bullets)
-    draw_array(enemy_bullets)
-    for bul in all(enemy_bullets) do
-        animate(bul)
+    for en_bul in all(enemy_bullets) do
+        animate_obj(en_bul)
+        draw_obj(en_bul)
     end
 
     for bul in all(bullets) do
@@ -306,11 +305,11 @@ function draw_laser()
 
         laser_start.x = ship.x
         laser_start.y = ship.y
+        animate_obj(laser_start)
         draw_obj(laser_start)
-        animate(laser_start)
         if laser.collide then
+            animate_obj(laser)
             draw_obj(laser)
-            animate(laser)
         end
     end
 end
@@ -322,28 +321,50 @@ function draw_laser_meter()
 end
 
 function animate(setting)
-    setting.frame += setting.ani_spd * setting.dir
-    if flr(setting.frame) > #setting.frames then
-        if setting.loop then
-            setting.frame = setting.start
+    if setting.frames then
+        pq(setting)
+        setting.frame += setting.speed * setting.dir
+        local stop_cond
+        if setting.dir == 1 then
+            stop_cond = flr(setting.frame) > setting.stop
         else
-            setting.frame = #setting.frames
+            stop_cond = flr(setting.frame) < setting.stop
+        end
+        if stop_cond then
+            if setting.loop then
+                setting.frame = setting.start
+            else
+                setting.frame = setting.stop
+            end
+        end
+
+        setting.spr = setting.frames[flr(setting.frame)]
+
+        if setting.flips_x then
+            setting.flip_x = setting.flips_x[flr(setting.frame)]
+        end
+        if setting.flips_y then
+            setting.flip_y = setting.flips_y[flr(setting.frame)]
         end
     end
-
-    setting.spr = setting.frames[flr(setting.frame)]
-
-    if setting.flips_x then
-        setting.flip_x = setting.flips_x[flr(setting.frame)]
-    end
-    if setting.flips_y then
-        setting.flip_y = setting.flips_y[flr(setting.frame)]
-    end
-
 end
 
 function animate_obj(obj)
-    for setting in all(obj.settings) do
+    for key,setting in pairs(obj.spr_settings) do
         animate(setting)
+    end
+end
+
+function draw_obj(obj)
+    for key, setting in pairs(obj.spr_settings) do
+        spr(
+            setting.spr,
+            obj.x + (setting.sprx or 0),
+            obj.y + (setting.spry or 0),
+            setting.w,
+            setting.h,
+            setting.flip_x,
+            setting.flip_y
+        )
     end
 end
