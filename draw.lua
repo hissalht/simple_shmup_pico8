@@ -322,7 +322,6 @@ end
 
 function animate(setting)
     if setting.frames then
-        pq(setting)
         setting.frame += setting.speed * setting.dir
         local stop_cond
         if setting.dir == 1 then

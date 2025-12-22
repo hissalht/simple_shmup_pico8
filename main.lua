@@ -16,7 +16,6 @@ function _update60()
         update_game()
     elseif mode == "start" then
         update_start()
-        pq("START")
     elseif mode == "wave_text" then
         update_wave_text()
     elseif mode == "win" then
