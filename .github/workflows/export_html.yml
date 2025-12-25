@@ -1,5 +1,5 @@
 
-name: Deploy HTML export to Netlify
+name: Build and deploy game
 
 on:
   # Allows you to run this workflow manually from the Actions tab
