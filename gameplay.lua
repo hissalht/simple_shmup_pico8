@@ -138,7 +138,7 @@ function update_controls()
     if btn(4) then
         if laser.meter >= 0 then
             laser.on = true
-            -- laser.meter -= 1
+            laser.meter -= 1
             laser.x = ship.x - 2
             laser.xb = 6
             if laser.collide == false then
