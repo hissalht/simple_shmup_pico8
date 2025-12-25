@@ -1,4 +1,5 @@
-
+truth_rnd = {true,false}
+expl_particle_colors = {8,9}
 
 function draw_hb(obj, color)
     color = color or 5

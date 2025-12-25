@@ -12,9 +12,10 @@
 - [ ] manage player ship states with a state machine
     - [ ] lock main shot when laser
 - [ ] on hit blink of ship should be palette swap instead of disappearing
-- [ ] fix asteroid init (not drawn rn)
-- [ ] bigger particle for laser impact
-- [ ] add a parameter for explosion size linked to enemy size
+- [x] fix asteroid init (not drawn rn)
+- [x] bigger particle for laser impact
+- [x] add a parameter for explosion size linked to enemy size
+- [ ] implement player tracking pop corn (kamikaze)
 
 ## polish
 - [ ] animate flame for backward and forward motions (longer and shorter) ?

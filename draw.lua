@@ -26,7 +26,10 @@ end
 function draw_game()
     cls(0)
 
-    draw_asteroids()
+    for asteroid in all(asteroids) do
+        draw_obj(asteroid)
+    end
+
     starfield()
 
     animate_obj(ship)
@@ -59,6 +62,7 @@ function draw_game()
         pal(0)
     end
 
+    update_expl()
     -- draw particles
     for p in all(particles) do
         circfill(p.x, p.y, p.size, p.color)
@@ -77,7 +81,11 @@ function draw_game()
     end
 
     for sp in all(sparks) do
-        pset(sp.x, sp.y, sp.color)
+        if sp.size then
+            circfill(sp.x, sp.y, sp.size, sp.color)
+        else
+            pset(sp.x, sp.y, sp.color)
+        end
         sp.x += sp.sx
         sp.y += sp.sy
         sp.age += 1
@@ -168,10 +176,9 @@ function draw_ui()
     line(0, 14, 0, 18, 1)
     line(0, 19, 2, 21, 1)
 
-    -- laser meter
     -- laser meter debug
     print(laser.meter, 115, 2, 13)
-
+    -- laser meter
     local norm_meter = laser.meter / 100
     pq(99 + norm_meter * 60)
     line(6, 99, 6, 99 - norm_meter * 60, 4)
@@ -189,7 +196,7 @@ function draw_ui()
 
     rectfill(5, 103, 8, 123, 2)
     line(5, 100, 8, 103, 2)
-    line(5,101,7,103,2)
+    line(5, 101, 7, 103, 2)
 
     line(5, 99, 8, 102, 1)
     line(9, 103, 9, 123, 1)
@@ -202,23 +209,17 @@ function draw_ui()
         if lives > 2 - i then
             pal(1, 10)
         end
-            spr(9, 5, i * 7 + 103)
-            pal(0)
+        spr(9, 5, i * 7 + 103)
+        pal(0)
     end
 
     if bombs == 1 then
-        line(10,113,16,113,1)
-        line(10,122,16,122,1)
-        line(17,114,17,121,1)
-        rectfill(10,114,16,121,2)
+        line(10, 113, 16, 113, 1)
+        line(10, 122, 16, 122, 1)
+        line(17, 114, 17, 121, 1)
+        rectfill(10, 114, 16, 121, 2)
         circ(13, 118, 2, 1)
         circfill(13, 117, 2, 6)
-    end
-end
-
-function draw_asteroids()
-    for asteroid in all(asteroids) do
-        draw_obj(asteroid)
     end
 end
 
@@ -293,55 +294,25 @@ function update_asteroids()
     end
 end
 
-function update_expl()
-    for p in all(particles) do
-        p.x += p.sx
-        p.y += p.sy
-        p.age += 1
-
-        local newsize = p.size - p.rate
-        if p.fission >= 3 and p.size >= p.fission and newsize <= p.fission then
-            for i = 1, 8 do
-                local pc = create_p(p.x, p.y)
-                pc.size = rnd(p.size)
-                pc.rate = 0.05 + rnd(0.2)
-                pc.fission = pc.size / 1.5
-                pc.color = 1
-                add(particles, pc)
-            end
-        end
-
-        p.size = newsize
-        if p.age > p.maxage or p.size < 1 then
-            del(particles, p)
-        end
-    end
-end
-
-function create_p(x, y)
-    local p = {}
-    p.x = x + rnd(10) - 5
-    p.y = y + rnd(10) - 5
-    p.sx = rnd(1) - 0.5
-    p.sy = rnd(1) - 0.5
-    p.size = 5 + rnd(10)
-    p.rate = 0.15 + rnd(0.25)
-    p.age = 0
-    p.maxage = 20 + rnd(60)
+function create_expl_particle(x, y, base_size)
+    local p = {
+        x = x + rnd(10) - 5,
+        y = y + rnd(10) - 5,
+        sx = rnd(1) - 0.5,
+        sy = rnd(1) - 0.5,
+        size = base_size + rnd(1.5 * base_size),
+        rate = 0.15 + rnd(0.25),
+        age = 0,
+        maxage = 20 + rnd(60),
+        color = rnd(expl_particle_colors)
+    }
     p.fission = p.size / 2
-    rndc = rnd(2)
-    if rndc < 1 then
-        p.color = 9
-    else
-        p.color = 8
-    end
-
     return p
 end
 
-function explode(x, y)
+function explode(x, y, base_size)
     for i = 1, 4 do
-        add(particles, create_p(x, y))
+        add(particles, create_expl_particle(x, y, base_size))
     end
     for i = 1, 20 do
         local p = {}
@@ -386,6 +357,31 @@ function draw_laser()
         if laser.collide then
             animate_obj(laser)
             draw_obj(laser)
+        end
+    end
+end
+
+function update_expl()
+    for p in all(particles) do
+        p.x += p.sx
+        p.y += p.sy
+        p.age += 1
+
+        local newsize = p.size - p.rate
+        if p.fission >= 3 and p.size >= p.fission and newsize <= p.fission then
+            for i = 1, 8 do
+                local pc = create_expl_particle(p.x, p.y, 0)
+                pc.size = rnd(p.size)
+                pc.rate = 0.05 + rnd(0.2)
+                pc.fission = pc.size / 1.5
+                pc.color = 1
+                add(particles, pc)
+            end
+        end
+
+        p.size = newsize
+        if p.age > p.maxage or p.size < 1 then
+            del(particles, p)
         end
     end
 end

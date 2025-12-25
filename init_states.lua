@@ -57,7 +57,6 @@ function start_game()
         }
     }
 
-
     laser = {
         on = false,
         x = 0,
@@ -98,7 +97,7 @@ function start_game()
                 frame = 1,
                 start = 1,
                 stop = 2,
-                dir  = 1,
+                dir = 1,
                 sprx = -12,
                 spry = -18,
                 speed = 0.6,
@@ -124,7 +123,20 @@ function start_game()
 
     asteroids = {}
     for i = 1, 3 do
-        local asteroid = { x = rnd(127), y = -30, sprx = 0, spry = 0, w = 1, h = 1, speed = rnd(0.5) + 0.05, spr = 48 }
+        local asteroid = {
+            x = rnd(127),
+            y = -30,
+            spr_settings = {
+                {
+                    spr = 48,
+                    w = 1,
+                    h = 1,
+                    flip_x = rnd(truth_rnd),
+                    flip_y = rnd(truth_rnd)
+                }
+            },
+            speed = rnd(0.5) + 0.05
+        }
         add(asteroids, asteroid)
     end
 
@@ -137,10 +149,10 @@ function start_game()
 
     smart_enemies = {
         -- { { "popcorn, 20,-30,30", "mv,20,40", "st,500", "mv, 20,-20" }, { "st,60", "st,0" } },
-        -- { { "basic, 25,-30,30", "mv,30,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "basic, 25,-30,30", "mv,40,60", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "basic, 30,-30,30", "mv,50,70", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
-        -- { { "tenta1, 100,-30,150", "fire,30", "mv,100,30", "st,2000" }, { "st, 60", "fire, 0" } },
+        { { "basic, 25,-30,30", "mv,30,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 25,-30,30", "mv,40,60", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 30,-30,30", "mv,50,70", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "tenta1, 100,-30,150", "fire,30", "mv,100,30", "st,2000" }, { "st, 60", "fire, 0" } },
 
         -- { { "basic, 130,-30,220", "mv,80,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
         -- { { "basic, 130,-30,220", "mv,70,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },

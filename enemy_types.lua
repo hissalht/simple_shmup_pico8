@@ -1,9 +1,10 @@
 bul_spr_settings = {
-    frames = { 10, 11, 12 },
+    frames = { 10, 10},
+    flips_x = {false,true},
     frame = 10,
     start = 1,
-    stop = 3,
-    speed = 0.3,
+    stop = 2,
+    speed = 0.2,
     loop = true,
     dir = 1,
     w = 1,
