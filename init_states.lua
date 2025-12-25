@@ -16,24 +16,98 @@ function start_game()
     max_num_wave = 4
     next_wave()
 
+    ang = 0
+
     ship = {}
-    ship.x = 64
-    ship.y = 64
-    ship.xspeed = 0
-    ship.yspeed = 0
-    ship.spr = 64
-    ship.spx = -6
-    ship.spy = -5
-    ship.w = 2
-    ship.h = 2
-    ship.flame = 6
+    ship.x = 50
+    ship.y = 50
     ship.xb = 2
     ship.yb = 2
+    ship.xspeed = 0
+    ship.yspeed = 0
+    ship.spr_settings = {
+        ship = {
+            frames = { 68, 66, 64, 66, 68 },
+            flips_x = { false, false, false, true, true },
+            flip_x = false,
+            frame = 3,
+            start = 3,
+            stop = 3,
+            speed = 0.20,
+            loop = false,
+            dir = 1,
+            sprx = -6,
+            spry = -5,
+            w = 2,
+            h = 2
+        },
+        flame = {
+            frames = { 5, 6, 7, 8 },
+            frame = 1,
+            start = 1,
+            stop = 4,
+            frame = 1,
+            loop = true,
+            speed = 0.12,
+            sprx = 4 - 6,
+            spry = 10 - 5,
+            w = 1,
+            h = 1,
+            dir = 1
+        }
+    }
 
-    laser = { on = false, x = 0, y = ship.y, xb = 0, yb = 0, dmg = 0.4, height = 0, off_timer = 0, collide = false, meter=100}
+
+    laser = {
+        on = false,
+        x = 0,
+        y = ship.y,
+        xb = 0,
+        yb = 0,
+        dmg = 0.5,
+        height = 0,
+        off_timer = 0,
+        collide = false,
+        meter = 100,
+        spr_settings = {
+            laser_end = {
+                frames = { 133, 136 },
+                frame = 1,
+                start = 1,
+                stop = 2,
+                frame = 1,
+                dir = 1,
+                speed = 0.6,
+                loop = true,
+                sprx = -6,
+                spry = -10,
+                w = 3,
+                h = 3
+            }
+        }
+    }
     laser_spr_ind = 0
     laser_spr_num = { 128, 144, 160, 176 }
-
+    laser_start = {
+        x = 0,
+        y = 0,
+        spr_settings = {
+            {
+                spr = 130,
+                frames = { 130, 162 },
+                frame = 1,
+                start = 1,
+                stop = 2,
+                dir  = 1,
+                sprx = -12,
+                spry = -18,
+                speed = 0.6,
+                loop = true,
+                w = 3,
+                h = 2
+            }
+        }
+    }
 
     speed_bul = 5
 
@@ -50,7 +124,7 @@ function start_game()
 
     asteroids = {}
     for i = 1, 3 do
-        local asteroid = { x = rnd(127), y = -30, spx = 0, spy = 0, w = 1, h = 1, speed = rnd(0.5) + 0.05, spr = 48 }
+        local asteroid = { x = rnd(127), y = -30, sprx = 0, spry = 0, w = 1, h = 1, speed = rnd(0.5) + 0.05, spr = 48 }
         add(asteroids, asteroid)
     end
 
@@ -59,6 +133,24 @@ function start_game()
     delay_next_shot = 0
 
     enemies = {}
+    enemy_bullets = {}
+
+    smart_enemies = {
+        { { "popcorn, 20,-30,30", "mv,20,40", "st,500", "mv, 20,-20" }, { "st,60", "st,0" } },
+        { { "basic, 25,-30,30", "mv,30,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 25,-30,30", "mv,40,60", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 30,-30,30", "mv,50,70", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "tenta1, 100,-30,150", "fire,30", "mv,100,30", "st,2000" }, { "st, 60", "fire, 0" } },
+
+        { { "basic, 130,-30,220", "mv,80,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,70,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,60,50", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } },
+        { { "basic, 130,-30,220", "mv,50,55", "st,500", "mv, 20,-20" }, { "st,60", "fire,0" } }
+    }
+    spawn_list = {}
+    for en_descr in all(smart_enemies) do
+        load_enemy(en_descr)
+    end
 
     particles = {}
     shocks = {}

@@ -28,36 +28,49 @@ function draw_game()
 
     draw_asteroids()
     starfield()
+    draw_ui()
 
+    animate_obj(ship)
     if invul <= 0 then
         draw_obj(ship)
-        spr(flr(ship.flame), ship.x + ship.spx + 4, ship.y + ship.spy + 10)
     else
         if sin(t / 10) < -0.2 then
             draw_obj(ship)
-            spr(flr(ship.flame), ship.x + ship.spx + 4, ship.y + ship.spy + 10)
         end
     end
 
     for en in all(enemies) do
+        local shakx = 0
+        local shaky = 0
         if en.flash > 0 then
+            shakx = rnd(2) - 1
+            shaky = rnd(2) - 1
             en.flash -= 1
             pal(7, 6)
             pal(11, 12)
             pal(10, 13)
         end
+
+        en.spr_settings[1].sprx += shakx
+        en.spr_settings[1].spry += shaky
         draw_obj(en)
+        en.spr_settings[1].sprx -= shakx
+        en.spr_settings[1].spry -= shaky
+
         pal(0)
     end
 
-    draw_array(bullets)
+    for en_bul in all(enemy_bullets) do
+        animate_obj(en_bul)
+        draw_obj(en_bul)
+    end
 
     for bul in all(bullets) do
         draw_obj(bul)
         if bul.muz_flash > 0 then
             circfill(bul.muz_x, bul.muz_y, bul.muz_flash, 8)
         end
-        bul.muz_flash -= 1
+        bul.muz_flash -= 1.4
     end
 
     draw_laser()
@@ -76,18 +89,11 @@ function draw_game()
     end
 
     for imp in all(impacts) do
-        if imp.age < 3 then
-            oval(imp.x, imp.y, imp.x1, imp.y1, 9)
-        elseif imp.age < 4 then
-            oval(imp.x, imp.y, imp.x1, imp.y1, 9)
-            oval(imp.x - 1, imp.y - 1, imp.x1 + 1, imp.y1 - 1, 10)
-        else
-            oval(imp.x - 1, imp.y - 1, imp.x1 + 1, imp.y1 - 1, 10)
-        end
+        circ(imp.x, imp.y, imp.rad - 1, 3)
     end
 
     for sp in all(sparks) do
-        pset(sp.x, sp.y, 4)
+        pset(sp.x, sp.y, sp.color)
         sp.x += sp.sx
         sp.y += sp.sy
         sp.age += 1
@@ -96,14 +102,28 @@ function draw_game()
         end
     end
 
-    -- UI
-    print(score, 5 , 5, 3)
+    draw_all_hitbox()
 
-    print(wave.."/"..max_num_wave-1,5,15,11)
+    -- circle experimentation
+    -- x_circ = cos(ang) * 15 + 60
+    -- y_circ = sin(ang) * 15 + 60
+    -- pset(x_circ, y_circ, 13)
+    -- print(ang, 80,80)
+    -- ang += 0.001
+    -- if ang > 1 then
+    --     ang = 0
+    -- end
+    -- print(atantruc,50,120)
+end
+
+function draw_ui()
+    print(score, 5, 5, 3)
+
+    print(wave .. "/" .. max_num_wave - 1, 5, 15, 11)
 
     for i = 0, 2 do
         if lives > 2 - i then
-            pal(1,10)
+            pal(1, 10)
             spr(9, 5, i * 6 + 105)
             pal(0)
         else
@@ -111,13 +131,13 @@ function draw_game()
         end
     end
 
-    if bombs==1 then
-        spr(25,12, 110)
+    if bombs == 1 then
+        spr(25, 12, 110)
     end
 
     draw_laser_meter()
 
-    draw_all_hitbox()
+    print(t, 5, 26, 4)
 end
 
 function draw_asteroids()
@@ -128,7 +148,7 @@ end
 
 function starfield()
     for star in all(stars) do
-        if star.speed < 1.8 then
+        if star.speed < 0.9 then
             pset(star.x, star.y, star.color)
         else
             line(star.x, star.y, star.x, star.y - 2, star.color)
@@ -144,15 +164,15 @@ function create_stars()
 
         star.x = flr(rnd(128))
         star.y = flr(rnd(128))
-        star.speed = rnd(2)
+        star.speed = rnd(1)
 
-        if star.speed <= 0.3 then
+        if star.speed <= 0.15 then
             color = 1
         end
-        if star.speed > 0.3 and star.speed < 1 then
+        if star.speed > 0.15 and star.speed < 0.5 then
             color = 2
-        elseif star.speed >= 1 then
-            color = 4
+        elseif star.speed >= 0.5 then
+            color = 15
         end
         star.color = color
         add(stars, star)
@@ -162,6 +182,7 @@ end
 function draw_all_hitbox()
     if show_hb_flag then
         draw_hb(ship)
+        print(ship.x .. "  " .. ship.y, 60, 100)
 
         if laser.on then
             draw_hb(laser)
@@ -172,6 +193,9 @@ function draw_all_hitbox()
         end
         for b in all(bullets) do
             draw_hb(b)
+        end
+        for b in all(enemy_bullets) do
+            draw_hb(b, 3)
         end
     end
 end
@@ -204,7 +228,7 @@ function update_expl()
             for i = 1, 8 do
                 local pc = create_p(p.x, p.y)
                 pc.size = rnd(p.size)
-                pc.rate = 0.1 + rnd(0.4)
+                pc.rate = 0.05 + rnd(0.2)
                 pc.fission = pc.size / 1.5
                 pc.color = 1
                 add(particles, pc)
@@ -225,9 +249,9 @@ function create_p(x, y)
     p.sx = rnd(1) - 0.5
     p.sy = rnd(1) - 0.5
     p.size = 5 + rnd(10)
-    p.rate = 0.3 + rnd(0.5)
+    p.rate = 0.15 + rnd(0.25)
     p.age = 0
-    p.maxage = 10 + rnd(30)
+    p.maxage = 20 + rnd(60)
     p.fission = p.size / 2
     rndc = rnd(2)
     if rndc < 1 then
@@ -250,7 +274,8 @@ function explode(x, y)
         p.sx = rnd(4) - 2
         p.sy = rnd(4) - 2
         p.age = 0
-        p.maxage = 5 + rnd(20)
+        p.maxage = 10 + rnd(40)
+        p.color = 4
         add(sparks, p)
     end
 
@@ -260,7 +285,7 @@ function explode(x, y)
     s.size = 0
     s.age = 0
     s.maxage = 10 + rnd(20)
-    s.rate = 0.5 + rnd(0.5)
+    s.rate = 0.25 + rnd(0.25)
     add(shocks, s)
 end
 
@@ -269,7 +294,7 @@ function draw_laser()
         max_num_sprite = flr(laser.height / 8)
         incomplete_sprite = laser.height % 8
 
-        laser_spr_ind = mod(laser_spr_ind + 0.5, 4, 1)
+        laser_spr_ind = mod(laser_spr_ind + 0.25, 4, 1)
         local floored = flr(laser_spr_ind)
         for i = 0, max_num_sprite - 1 do
             spr(laser_spr_num[mod(floored + i, 4, 1)], laser.x - 3, laser.y + 8 * i, 2, 1)
@@ -277,6 +302,15 @@ function draw_laser()
         clip(laser.x - 3, laser.y + 8 * max_num_sprite, 30, incomplete_sprite)
         spr(laser_spr_num[mod(floored + max_num_sprite, 4, 1)], laser.x - 3, laser.y + 8 * max_num_sprite, 2, 1)
         clip()
+
+        laser_start.x = ship.x
+        laser_start.y = ship.y
+        animate_obj(laser_start)
+        draw_obj(laser_start)
+        if laser.collide then
+            animate_obj(laser)
+            draw_obj(laser)
+        end
     end
 end
 
@@ -284,4 +318,52 @@ function draw_laser_meter()
     print(laser.meter, 12, 95, 13)
     local norm_meter = laser.meter / 100
     rectfill(5, 100 - norm_meter * 60, 10, 100, 13)
+end
+
+function animate(setting)
+    if setting.frames then
+        setting.frame += setting.speed * setting.dir
+        local stop_cond
+        if setting.dir == 1 then
+            stop_cond = flr(setting.frame) > setting.stop
+        else
+            stop_cond = flr(setting.frame) < setting.stop
+        end
+        if stop_cond then
+            if setting.loop then
+                setting.frame = setting.start
+            else
+                setting.frame = setting.stop
+            end
+        end
+
+        setting.spr = setting.frames[flr(setting.frame)]
+
+        if setting.flips_x then
+            setting.flip_x = setting.flips_x[flr(setting.frame)]
+        end
+        if setting.flips_y then
+            setting.flip_y = setting.flips_y[flr(setting.frame)]
+        end
+    end
+end
+
+function animate_obj(obj)
+    for key,setting in pairs(obj.spr_settings) do
+        animate(setting)
+    end
+end
+
+function draw_obj(obj)
+    for key, setting in pairs(obj.spr_settings) do
+        spr(
+            setting.spr,
+            obj.x + (setting.sprx or 0),
+            obj.y + (setting.spry or 0),
+            setting.w,
+            setting.h,
+            setting.flip_x,
+            setting.flip_y
+        )
+    end
 end

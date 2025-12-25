@@ -1,24 +1,16 @@
-function draw_obj(obj)
-    spr(obj.spr,obj.x + obj.spx, obj.y+obj.spy, obj.w, obj.h)
+
+
+function draw_hb(obj, color)
+    color = color or 5
+    rect(obj.x, obj.y, obj.x + obj.xb, obj.y + obj.yb, color)
 end
 
-function draw_array(array)
-    for obj in all(array) do
-        draw_obj(obj)
-    end
+function mod(a, n, d)
+    -- a modulo n offset d
+    return a - n * flr((a - d) / n)
 end
 
-function draw_hb(obj)
-	rect(obj.x, obj.y, obj.x+obj.xb, obj.y+obj.yb,5)
-end
-
-function mod(a,n,d)
--- a modulo n offset d
-    return a - n * flr((a-d)/n)
-end
-
-
-function col(a,b)
+function col(a, b)
     local a_left = a.x
     local a_right = a.x + a.xb
     local a_top = a.y
@@ -38,9 +30,51 @@ function col(a,b)
 end
 
 function blink()
-    local banim={3,3,3,3,3,3,3,3,3,3,3,2,2,1,1,2,2,3}
-    if blinkt>#banim then
-        blinkt=1
+    local banim = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1, 1, 2, 2, 3 }
+    if blinkt > #banim then
+        blinkt = 1
     end
     return banim[blinkt]
+end
+
+function lerp(a, b, t)
+    local ret
+    if t == 1 then
+        ret = b
+    else
+        ret = a + (b - a) * t
+    end
+    return ret
+end
+
+function linspace(num_points)
+    local array = {}
+    for i = 1, num_points do
+        array[i] = i / num_points
+    end
+    -- fixme doesnt start at 0
+    return array
+end
+
+function easeoutquad(t)
+    t -= 1
+    return 1 - t * t
+end
+
+-- pq by pancelor: lexaloffle.com/bbs/?tid=42367
+function pq(...) printh(qq(...)) return ... end
+function qq(...)
+    local r = ""
+    for i = 1, select("#", ...) do
+        r ..= _q(select(i, ...), 4) .. " "
+    end
+    return r
+end
+function _q(t, d)
+    if (type(t) ~= "table" or d <= 0) return tostr(t)
+    local r = "{"
+    for k, v in next, t do
+        r ..= tostr(k) .. "=" .. _q(v, d - 1) .. ","
+    end
+    return r .. "}"
 end

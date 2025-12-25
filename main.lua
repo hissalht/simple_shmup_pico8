@@ -1,4 +1,4 @@
-show_hb_flag = False
+show_hb_flag = false
 
 function _init()
     -- code to change palette
@@ -11,7 +11,7 @@ function _init()
     mode = "start"
 end
 
-function _update()
+function _update60()
     if mode == "game" then
         update_game()
     elseif mode == "start" then

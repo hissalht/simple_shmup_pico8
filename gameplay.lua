@@ -5,7 +5,14 @@ function update_game()
 
     ship.xspeed = 0
     ship.yspeed = 0
-    ship.spr = 64
+
+    ship.spr_settings.ship.start = ship.spr_settings.ship.frame
+    ship.spr_settings.ship.stop = 3
+    if ship.spr_settings.ship.start > 3 then
+        ship.spr_settings.ship.dir = -1
+    else
+        ship.spr_settings.ship.dir = 1
+    end
 
     if delay_next_shot > 0 then
         delay_next_shot -= 1
@@ -18,13 +25,38 @@ function update_game()
     update_controls()
 
     update_ship_position()
-    ship.flame = mod(ship.flame + 0.35, 3, 6)
 
     if invul > 0 then
         invul -= 1
     end
 
-    update_enemies()
+    for en in all(enemies) do
+        if en.seq[en.i].func(en, en.seq[en.i]) then
+            -- call state routine
+            en.t = 0
+            en.i += 1
+        else
+            en.t += 1
+        end
+
+        if en.fire_seq[en.i_fire] then
+            if en.fire_seq[en.i_fire].func(en, en.fire_seq[en.i_fire]) then
+                en.t_fire = 0
+                en.i_fire += 1
+            else
+                en.t_fire += 1
+            end
+        end
+        if en.fire_state == "fire" then
+            if en.delay_shot <= 0 then
+                en.update_canon(en)
+            else
+                en.delay_shot -= 1
+            end
+        end
+    end
+    update_enemy_bullets()
+    update_collision_en_bullets()
 
     update_bullets()
     update_collision_laser()
@@ -50,7 +82,8 @@ function update_wave_text()
     wave_time -= 1
     if wave_time <= 0 then
         mode = "game"
-        spawn_wave()
+        t = 0
+        -- spawn_wave()
     end
 end
 
@@ -76,201 +109,55 @@ function next_wave()
 end
 
 function update_controls()
+    local dir_button = btn() & 0b1111
+    if (dir_button & 0b0011) * (dir_button & 0b1100) != 0 and last_dir_button != dir_button then
+        ship.x = flr(ship.x)
+        ship.y = flr(ship.y)
+    end
+
     if btn(0) then
-        ship.xspeed = -2
-        ship.spr = 68
+        ship.xspeed = -1.41
+
+        ship.spr_settings.ship.start = ship.spr_settings.ship.frame
+        ship.spr_settings.ship.stop = 1
+        ship.spr_settings.ship.dir = -1
     end
     if btn(1) then
-        ship.xspeed = 2
-        ship.spr = 66
+        ship.xspeed = 1.41
+
+        ship.spr_settings.ship.start = ship.spr_settings.ship.frame
+        ship.spr_settings.ship.stop = 5
+        ship.spr_settings.ship.dir = 1
     end
     if btn(2) then
-        ship.yspeed = -2
+        ship.yspeed = -1.41
     end
     if btn(3) then
-        ship.yspeed = 2
+        ship.yspeed = 1.41
     end
     if btn(4) then
         if laser.meter >= 0 then
             laser.on = true
-            laser.meter -= 1
+            -- laser.meter -= 1
             laser.x = ship.x - 2
             laser.xb = 6
             if laser.collide == false then
-                laser.height += 7
+                laser.height += 3
             end
             laser.yb = laser.height
             laser.y = ship.y - 8 - laser.height
-            laser.off_timer = 2
+            laser.off_timer = 8
             sfx(4)
         end
     end
     if btn(5) then
-        if delay_next_shot == 0 then
-            add(bullets, create_bullet(ship.x + ship.spx + 1, ship.y + ship.spy - 3, 0))
-            add(bullets, create_bullet(ship.x + ship.spx + 6, ship.y + ship.spy - 3, 1))
+        if delay_next_shot <= 0 then
+            add(bullets, create_player_bullet(ship.x - 4, ship.y - 8, 0))
+            add(bullets, create_player_bullet(ship.x + 2, ship.y - 8, 1))
             sfx(0)
             delay_next_shot = fire_rate
         end
     end
-end
 
-function create_bullet(x, y, spr)
-    local bul = {}
-    bul.x = x
-    bul.y = y
-    bul.xb = 3
-    bul.yb = 7
-    bul.spx = 0
-    bul.spy = 0
-    bul.w = 1
-    bul.h = 1
-    bul.spr = spr
-    bul.muz_x = x + 2
-    bul.muz_y = y
-    bul.muz_flash = 4
-    bul.dmg = 1
-    return bul
-end
-
-function update_bullets()
-    for bullet in all(bullets) do
-        bullet.y = bullet.y - speed_bul
-        if bullet.y < -20 then
-            del(bullets, bullet)
-        end
-    end
-end
-
-function update_ship_position()
-    ship.x = ship.x + ship.xspeed
-    ship.y = ship.y + ship.yspeed
-end
-
-function update_collisions_edges()
-    if ship.x > 120 then
-        ship.x = 120
-    end
-    if ship.x < 0 then
-        ship.x = 0
-    end
-    if ship.y > 120 then
-        ship.y = 120
-    end
-    if ship.y < 0 then
-        ship.y = 0
-    end
-end
-
-function update_enemies()
-    for enemy in all(enemies) do
-        -- enemy.y += 0.4
-        -- enemy.spr = mod(enemy.spr + 0.1, 3, 32)
-    end
-end
-
-function update_collision_ship()
-    for enemy in all(enemies) do
-        if col(ship, enemy) and invul == 0 then
-            sfx(1)
-            lives -= 1
-            invul = 60
-            del(enemies, enemy)
-        end
-    end
-end
-
-function update_collision_laser()
-    laser.collide = false
-    if laser.on then
-        for en in all(enemies) do
-            if col(laser, en) then
-                en.hp -= laser.dmg
-                en.flash = 2
-
-                laser.collide = true
-                laser.height = ship.y - 8 - (en.y + en.yb)
-
-                if en.hp <= 0 then
-                    del(enemies, en)
-                    explode(en.x, en.y)
-                    score += 1
-                    sfx(1)
-                    sfx(2)
-                    sfx(3)
-                    laser.meter += 10
-                    laser.meter = min(laser.meter,100)
-                end
-            end
-        end
-    end
-end
-
-function update_collision_bullets()
-    for bul in all(bullets) do
-        for en in all(enemies) do
-            if col(bul, en) then
-                en.hp -= bul.dmg
-
-                en.flash = 5
-                local imp = {}
-                imp.x = bul.x
-                imp.y = bul.y
-                imp.x1 = imp.x + 5
-                imp.y1 = imp.y + 2
-                imp.age = 0
-                add(impacts, imp)
-
-                local p = {}
-                p.x = bul.x
-                p.y = bul.y
-                p.sx = rnd(3) - 1.5
-                p.sy = rnd(3) - 3
-                p.age = 0
-                p.maxage = rnd(30)
-                add(sparks, p)
-
-                if en.hp <= 0 then
-                    del(enemies, en)
-                    explode(en.x, en.y)
-                    laser.meter += 10
-                    laser.meter = min(laser.meter,100)
-                    score += 1
-                    sfx(1)
-                    sfx(2)
-                    sfx(3)
-                end
-                del(bullets, bul)
-            end
-        end
-    end
-
-    if #enemies == 0 then
-        next_wave()
-    end
-
-    for imp in all(impacts) do
-        imp.age += 1
-        if imp.age > 10 then
-            del(impacts, imp)
-        end
-    end
-end
-
-function spawn_wave()
-    for i = 1, 8 do
-        local en = {}
-        en.x = i * 10 + 5
-        en.y = 20
-        en.spx = 0
-        en.spy = 0
-        en.spr = 35 + flr(rnd(2))
-        en.w = 1
-        en.h = 1
-        en.hp = 10
-        en.xb = 8
-        en.yb = 8
-        en.flash = 0
-        add(enemies, en)
-    end
+    last_dir_button = dir_button
 end
